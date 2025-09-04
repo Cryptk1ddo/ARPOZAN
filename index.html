@@ -363,7 +363,7 @@
                         </div>
                         <div class="flex items-center justify-center md:justify-start space-x-4 mb-4">
                             <span class="text-gray-400 text-sm">Разовая покупка</span>
-                            <label for="subscription-toggle" class="relative inline-flex items-center cursor-pointer">
+                            <label for="subscription-toggle" class="""relative inline-flex items-center cursor-pointer group focus:outline-none" title="""Подписка: ежемесячная доставка, -10%" role="switch" aria-label="""Подписка — скидка 10%" aria-checked="true" onclick="setTimeout(()=>this.setAttribute('aria-checked', document.getElementById('subscription-toggle').checked),0)" onkeydown="""if(event.key==='Enter'||event.key===' '){event.preventDefault(); document.getElementById('subscription-toggle').click(); setTimeout(()="">this.setAttribute('aria-checked', document.getElementById('subscription-toggle').checked),0)}">
                                 <input type="checkbox" id="subscription-toggle" class="sr-only peer" checked>
                                 <div class="relative w-16 h-8 bg-gray-600 rounded-full peer-checked:bg-amber-500 transition-colors duration-300">
                                     <span class="absolute left-2 top-1/2 -translate-y-1/2 toggle-icon opacity-100 peer-checked:opacity-0 peer-checked:-rotate-90">
