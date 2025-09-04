@@ -478,7 +478,51 @@
     </main>
 
     <!-- Order Modal -->
-    <div id="orderModal" class="modal-container fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden opacity-0"><div id="modalContent" class="modal-content glass-card rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-95 opacity-0"><h3 class="text-2xl font-bold text-white mb-2 font-heading">Отличный выбор!</h3><p class="text-gray-400 mb-6">Вы будете перенаправлены на страницу оформления заказа.</p><div class="w-12 h-12 mx-auto border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-6"></div><button id="closeModalBtn" class="text-sm text-gray-500 hover:text-white transition-colors">Закрыть</button></div></div>
+    <div id="orderModal" class="modal-container fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden opacity-0">
+        <div id="modalContent" class="modal-content glass-card rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-95 opacity-0">
+            <h3 class="text-2xl font-bold text-white mb-2 font-heading">Отличный выбор!</h3>
+            <p class="text-gray-400 mb-6">Вы будете перенаправлены на страницу оформления заказа.</p>
+            <div class="w-12 h-12 mx-auto border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+            <button id="closeModalBtn" class="text-sm text-gray-500 hover:text-white transition-colors">Закрыть</button>
+            <button id="orderRedirectBtn" class="glow-button text-black font-bold py-3 px-8 rounded-lg mt-4">Оформить заказ</button>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Find all order buttons and set product page for redirect
+        let lastOrderProduct = null;
+        document.querySelectorAll('.order-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Find product name or type from button context
+                const card = btn.closest('.catalog-card');
+                if (card) {
+                    const name = card.querySelector('h3')?.textContent?.trim();
+                    if (name?.includes('Maca')) lastOrderProduct = 'maca.html';
+                    else if (name?.includes('Tongkat')) lastOrderProduct = 'Long-jack.html';
+                    else if (name?.includes('Yohimbe')) lastOrderProduct = '#catalog';
+                    else if (name?.includes('Zinc')) lastOrderProduct = '#catalog';
+                    else lastOrderProduct = '#pricing';
+                } else {
+                    // If not from catalog, check if it's from pricing section
+                    if (btn.closest('#pricing')) lastOrderProduct = '#pricing';
+                    else lastOrderProduct = '#catalog';
+                }
+            });
+        });
+        // Redirect on modal button click
+        document.getElementById('orderRedirectBtn').addEventListener('click', () => {
+            if (lastOrderProduct) {
+                if (lastOrderProduct.startsWith('#')) {
+                    document.querySelector(lastOrderProduct)?.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    window.location.href = lastOrderProduct;
+                }
+            } else {
+                window.location.href = '#pricing';
+            }
+        });
+    });
+    </script>
     
     <!-- Lead Capture Modal -->
     <div id="leadModal" class="modal-container fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden opacity-0"><div id="leadModalContent" class="modal-content glass-card rounded-2xl shadow-2xl p-8 max-w-md w-full text-center transform scale-95 opacity-0 relative"><button id="closeLeadModalBtn" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><h3 class="text-2xl font-bold text-white mb-2 font-heading gradient-text">Добро пожаловать!</h3><p class="text-gray-300 mb-4">Присоединяйтесь к сообществу ARPOZAN и получите <span class="text-amber-400 font-bold">скидку 10%</span> на ваш первый заказ.</p><p class="text-xs text-gray-500 mb-6">Введите свой email, чтобы закрепить скидку и получать эксклюзивные предложения.</p><form id="leadForm"><input type="email" placeholder="Ваш E-mail" required class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-400 mb-4"><button type="submit" class="glow-button w-full text-black font-bold py-3 rounded-lg">Получить скидку</button></form></div></div>
@@ -729,7 +773,7 @@
             const productRecommendations = {
                 energy: { name: 'ARPOZAN Yohimbe', image: 'assets/imgs/Yohimbe.jpg', description: 'Адреналиновый заряд для ваших самых амбициозных целей.', link: '#catalog' },
                 libido: { name: 'ARPOZAN Maca', image: 'assets/imgs/Maca.jpg', description: 'Природный бустер либидо и сексуальной энергии.', link: 'maca.html' },
-                testosterone: { name: 'ARPOZAN Tongkat Ali', image: 'assets/imgs/Tongkat.jpg', description: 'Природный стимулятор тестостерона и мышечного роста.', link: '#catalog' }
+                testosterone: { name: 'ARPOZAN Tongkat Ali', image: 'assets/imgs/Tongkat.jpg', description: 'Природный стимулятор тестостерона и мышечного роста.', link: 'Long-jack.html' }
             };
 
             const openQuizModal = () => { quizModal.classList.remove('hidden'); setTimeout(() => { quizModal.classList.remove('opacity-0'); quizModalContent.classList.remove('scale-95', 'opacity-0'); }, 10); };

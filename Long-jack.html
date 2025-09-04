@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тонгкат Али | ARPOZAN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+
+    <style>
+        :root {
+            --glow-color: rgba(245, 166, 35, 0.4);
+            --glow-color-hover: rgba(245, 166, 35, 0.6);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #050505;
+            color: #E5E7EB;
+            overflow-x: hidden;
+        }
+        #background-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        h1, h2, h3, button, .font-heading { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(90deg, #ffdDAA, #F5A623);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; text-fill-color: transparent;
+        }
+        .glow-button {
+            background: linear-gradient(90deg, #F5A623, #FFC53D);
+            box-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color);
+            transition: all 0.3s ease-in-out;
+            color: #111;
+        }
+        .glow-button:hover:not(:disabled) {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--glow-color-hover), 0 0 45px var(--glow-color-hover);
+        }
+        .glass-card {
+            background: rgba(16, 16, 16, 0.6); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative; overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .glass-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border: 2px solid transparent; border-radius: 0.5rem; /* Match rounded-lg */
+            background: linear-gradient(120deg, transparent, rgba(245, 166, 35, 0.5), transparent) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out; mask-composite: exclude;
+            opacity: 0; transition: opacity 0.4s ease-in-out; pointer-events: none;
+        }
+        .glass-card:hover::before { opacity: 1; }
+        .reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.6, 0.01, 0.05, 0.95), transform 1s cubic-bezier(0.6, 0.01, 0.05, 0.95);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .product-image-container { perspective: 1500px; }
+        #main-product-image { transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-in-out; }
+        .animated-gradient-hero {
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 166, 35, 0.15), transparent);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+        }
+        /* Custom Accordion Style */
+        details summary { list-style: none; }
+        details summary::-webkit-details-marker { display: none; }
+        details summary .accordion-icon { transition: transform 0.3s ease; }
+        details[open] summary .accordion-icon { transform: rotate(180deg); }
+
+        #sticky-cta.visible { transform: translateY(0); }
+        
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: visibility 0.5s, opacity 0.5s, transform 0.5s;
+        }
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Social Proof Notification */
+        #social-proof {
+            opacity: 0;
+            transform: translateX(-100%);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        #social-proof.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Cart Modal */
+        #cart-modal-container.hidden {
+            display: none;
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        }
+        #mobile-menu.hidden {
+            opacity: 0;
+            transform: translateY(-10%);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="text-gray-200">
+    <canvas id="background-particles"></canvas>
+    
+    <header class="sticky top-0 z-50 bg-black/50 backdrop-blur-lg border-b border-white/10">
+        <div class="container mx-auto px-4 lg:px-8 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</a>
+            
+            <nav class="hidden md:flex space-x-8 items-center text-sm font-semibold">
+                <a href="#product" class="text-gray-300 hover:text-yellow-400 transition-colors">Продукт</a>
+                <a href="#components" class="text-gray-300 hover:text-yellow-400 transition-colors">Компоненты</a>
+                <a href="#faq" class="text-gray-300 hover:text-yellow-400 transition-colors">FAQ</a>
+            </nav>
+            
+            <div class="hidden md:flex items-center space-x-4">
+                 <button id="cart-button" class="text-gray-300 hover:text-yellow-400 transition-colors relative">
+                    <i data-lucide="shopping-cart"></i>
+                    <span class="cart-count-display absolute -top-2 -right-2 bg-yellow-500 text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                </button>
+                <a href="#product" class="glow-button text-black font-bold uppercase px-6 py-2 rounded-lg text-sm tracking-wider">Заказать</a>
+            </div>
+            
+            <div class="md:hidden flex items-center space-x-4">
+                 <button id="cart-button-mobile" class="text-gray-300 hover:text-yellow-400 transition-colors relative">
+                    <i data-lucide="shopping-cart"></i>
+                    <span class="cart-count-display absolute -top-2 -right-2 bg-yellow-500 text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                </button>
+                <button id="menu-btn" class="z-50 text-white">
+                    <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden absolute top-full left-0 w-full bg-black/90 backdrop-blur-lg">
+            <nav class="flex flex-col items-center space-y-6 py-8">
+                <a href="#product" class="text-gray-300 hover:text-yellow-400 transition-colors text-lg">Продукт</a>
+                <a href="#components" class="text-gray-300 hover:text-yellow-400 transition-colors text-lg">Компоненты</a>
+                <a href="#faq" class="text-gray-300 hover:text-yellow-400 transition-colors text-lg">FAQ</a>
+                <a href="#product" class="glow-button mt-4 text-black font-bold uppercase px-8 py-3 rounded-lg text-base tracking-wider">Заказать</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container mx-auto px-4 lg:px-8 relative">
+            <div class="animated-gradient-hero"></div>
+            <section id="product" class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start py-12 lg:py-16">
+                
+                <!-- LEFT: Image Gallery -->
+                <div class="lg:sticky top-24">
+                    <div class="relative product-image-container reveal">
+                        <img id="main-product-image" src="https://placehold.co/600x600/1a1a1a/F5A623?text=Тонгкат+Али" alt="Изображение продукта Тонгкат Али" class="w-full h-auto object-cover rounded-lg glass-card p-2">
+                        <button id="prev-image" class="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors z-10"><i data-lucide="chevron-left"></i></button>
+                        <button id="next-image" class="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors z-10"><i data-lucide="chevron-right"></i></button>
+                    </div>
+                    <div id="pagination-dots" class="flex justify-center space-x-2 mt-4">
+                        <!-- Dots will be generated by JS -->
+                    </div>
+                </div>
+
+                <!-- RIGHT: Product Form & Details -->
+                <div class="flex flex-col reveal" id="purchase-section">
+                    <div class="flex items-center gap-2">
+                        <div class="flex text-yellow-500">
+                            <i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-400">1,450 отзывов</span>
+                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-extrabold gradient-text mt-2">Тонгкат Али</h1>
+                    <p class="mt-2 text-gray-400 text-lg">Природный стимулятор тестостерона и либидо</p>
+                    
+                    <p class="mt-4 text-gray-400">Тонгкат Али (он же LongJack) — растение из Юго-Восточной Азии, известное своими мощными эффектами для мужского организма. Это натуральное средство для поддержки вашей мужской силы.</p>
+                    
+                    <!-- Benefits Explorer -->
+                    <div class="mt-6">
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="benefits-tabs">
+                            <button data-benefit="testosterone" class="benefit-tab-btn bg-yellow-500/10 text-yellow-300 p-3 rounded-lg text-sm font-semibold border-2 border-yellow-500/30 flex flex-col items-center gap-2 transition"><i data-lucide="shield-half"></i>Тестостерон</button>
+                            <button data-benefit="libido" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="heart-pulse"></i>Либидо</button>
+                            <button data-benefit="muscle" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="dumbbell"></i>Мышцы</button>
+                            <button data-benefit="system" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="shield-check"></i>Система</button>
+                        </div>
+                        <div class="mt-4 text-gray-400 text-sm min-h-[60px]" id="benefits-content">
+                            <!-- Content will be injected by JS -->
+                        </div>
+                    </div>
+
+                    <form id="product-form" class="mt-6 space-y-6">
+                        <fieldset>
+                            <legend class="font-semibold text-lg mb-3">Выберите ваш план</legend>
+                            
+                            <!-- One-time purchase option -->
+                            <div class="p-4 glass-card rounded-lg mb-3 border border-gray-700 has-[:checked]:border-yellow-500/50 has-[:checked]:ring-2 has-[:checked]:ring-yellow-500/20">
+                                 <div class="flex items-center">
+                                    <input type="radio" name="purchase_type" value="2990" id="one-time" class="h-4 w-4 bg-transparent border-gray-600 text-yellow-500 focus:ring-yellow-600" checked>
+                                    <label for="one-time" class="ml-3 flex-grow flex justify-between items-center cursor-pointer">
+                                        <div>
+                                            <p class="font-semibold text-gray-200">Разовая покупка</p>
+                                            <p class="text-sm text-gray-400">60 капсул</p>
+                                        </div>
+                                        <div class="text-lg font-bold text-gray-200">2.990 ₽</div>
+                                    </label>
+                                </div>
+                            </div>
+                    
+                            <!-- Subscription option -->
+                            <div class="glass-card rounded-lg border border-gray-700 has-[:checked]:border-yellow-500/50 has-[:checked]:ring-2 has-[:checked]:ring-yellow-500/20">
+                                <div class="bg-yellow-500/10 px-4 py-1 text-center text-sm font-semibold text-yellow-400 rounded-t-lg">
+                                    <p>Экономьте 10% на каждой доставке</p>
+                                </div>
+                                <div class="p-4">
+                                     <div class="flex items-center">
+                                        <input type="radio" name="purchase_type" value="2691" id="subscribe" class="h-4 w-4 bg-transparent border-gray-600 text-yellow-500 focus:ring-yellow-600">
+                                        <label for="subscribe" class="ml-3 flex-grow flex justify-between items-center cursor-pointer">
+                                            <div>
+                                                <p class="font-semibold text-gray-200">Подписка и скидка 10%</p>
+                                                <p class="text-sm text-gray-400">60 капсул</p>
+                                            </div>
+                                            <div class="text-right">
+                                                 <p class="text-lg font-bold text-white">2.691 ₽</p>
+                                                 <p class="text-sm line-through text-gray-500">2.990 ₽</p>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div class="mt-4 pl-7 border-t border-gray-700/50 pt-4">
+                                         <p class="text-sm font-semibold text-gray-300 mb-3">Доставка каждые:</p>
+                                         <div class="grid grid-cols-3 gap-2 text-sm">
+                                            <div>
+                                                <input type="radio" id="freq4" name="frequency" value="4" class="hidden peer">
+                                                <label for="freq4" class="block text-center py-2 px-3 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">4 недели</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" id="freq6" name="frequency" value="6" class="hidden peer" checked>
+                                                <label for="freq6" class="block text-center py-2 px-3 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">6 недель</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" id="freq8" name="frequency" value="8" class="hidden peer">
+                                                <label for="freq8" class="block text-center py-2 px-3 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">8 недель</label>
+                                            </div>
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                        
+                        <div class="flex items-end gap-4">
+                        <div>
+                            <label for="quantity-input" class="block text-sm font-medium text-gray-400 mb-1">Количество</label>
+                            <div class="relative flex items-center max-w-[8rem]">
+                                <button type="button" id="decrement-button" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-l-lg p-3 h-11 focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    <i data-lucide="minus" class="w-3 h-3 text-gray-400"></i>
+                                </button>
+                                <input type="text" id="quantity-input" class="bg-gray-900 border-t border-b border-gray-600 h-11 text-center text-gray-200 text-sm focus:ring-yellow-500 focus:border-yellow-500 block w-full py-2.5" value="1" required>
+                                <button type="button" id="increment-button" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg p-3 h-11 focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                    <i data-lucide="plus" class="w-3 h-3 text-gray-400"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full glow-button font-bold px-6 rounded-lg text-lg shadow-lg h-11 flex-grow flex items-center justify-center">Добавить в корзину</button>
+                    </div>
+                </form>
+                <div class="mt-4 text-center text-sm text-gray-400 flex items-center justify-center gap-2">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-green-500"></i>
+                    <span>30-дневная гарантия возврата денег</span>
+                </div>
+                <div class="mt-4 flex justify-center items-center gap-x-4">
+                   <svg aria-describedby="visa-title" width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title id="visa-title">Visa</title><rect x="0.5" y="0.5" width="33" height="23" rx="3.5" fill="#141414" stroke="#444"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M10.751 15.8579H8.69129L7.14674 9.79198C7.07343 9.51295 6.91776 9.26627 6.68879 9.15001C6.11737 8.85784 5.4877 8.62531 4.80078 8.50804V8.2745H8.11886C8.57681 8.2745 8.92026 8.62531 8.97751 9.03274L9.77891 13.4083L11.8376 8.2745H13.8401L10.751 15.8579ZM14.985 15.8579H13.0398L14.6415 8.2745H16.5868L14.985 15.8579ZM19.1035 10.3753C19.1607 9.96689 19.5042 9.73335 19.9049 9.73335C20.5346 9.67471 21.2205 9.79199 21.7929 10.0831L22.1364 8.45042C21.5639 8.21688 20.9343 8.09961 20.3628 8.09961C18.4748 8.09961 17.101 9.15002 17.101 10.6078C17.101 11.7169 18.0741 12.2992 18.761 12.65C19.5042 12.9998 19.7904 13.2334 19.7332 13.5832C19.7332 14.1079 19.1607 14.3414 18.5893 14.3414C17.9024 14.3414 17.2155 14.1665 16.5868 13.8743L16.2433 15.5081C16.9303 15.7992 17.6734 15.9165 18.3603 15.9165C20.4773 15.9741 21.7929 14.9247 21.7929 13.3496C21.7929 11.3661 19.1035 11.2498 19.1035 10.3753V10.3753ZM28.6008 15.8579L27.0562 8.2745H25.3972C25.0537 8.2745 24.7103 8.50804 24.5958 8.85784L21.7356 15.8579H23.7381L24.1378 14.7498H26.5983L26.8273 15.8579H28.6008ZM25.6834 10.3167L26.2548 13.1747H24.653L25.6834 10.3167Z" fill="#8896a3"></path></svg>
+                       <svg aria-describedby="mastercard-title" width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title id="mastercard-title">Mastercard</title><rect x="0.5" y="0.5" width="33" height="23" rx="3.5" fill="#141414" stroke="#444"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M17.179 16.8288C15.9949 17.8268 14.459 18.4293 12.7807 18.4293C9.03582 18.4293 6 15.4296 6 11.7293C6 8.02899 9.03582 5.0293 12.7807 5.0293C14.459 5.0293 15.9949 5.63179 17.179 6.62984C18.363 5.63179 19.8989 5.0293 21.5773 5.0293C25.3221 5.0293 28.358 8.02899 28.358 11.7293C28.358 15.4296 25.3221 18.4293 21.5773 18.4293C19.8989 18.4293 18.363 17.8268 17.179 16.8288Z" fill="#ED0006"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M17.1797 16.8288C18.6376 15.5999 19.5621 13.7713 19.5621 11.7293C19.5621 9.68734 18.6376 7.85874 17.1797 6.62984C18.3637 5.63179 19.8996 5.0293 21.578 5.0293C25.3228 5.0293 28.3587 8.02899 28.3587 11.7293C28.3587 15.4296 25.3228 18.4293 21.578 18.4293C19.8996 18.4293 18.3637 17.8268 17.1797 16.8288Z" fill="#F9A000"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M17.1793 16.8278C18.6372 15.5989 19.5616 13.7703 19.5616 11.7283C19.5616 9.6864 18.6372 7.85781 17.1793 6.62891C15.7213 7.85781 14.7969 9.6864 14.7969 11.7283C14.7969 13.7703 15.7213 15.5989 17.1793 16.8278Z" fill="#FF5E00"></path></svg>
+                       <svg aria-describedby="apple-pay-title" width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title id="apple-pay-title">Apple Pay</title><rect x="0.5" y="0.5" width="33" height="23" rx="3.5" fill="#141414" stroke="#444"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M9.44921 8.34316C9.16382 8.69506 8.70721 8.97261 8.2506 8.93296C8.19353 8.45715 8.41707 7.95161 8.67867 7.63936C8.96406 7.27755 9.46348 7.01983 9.86777 7C9.91533 7.49563 9.72983 7.98135 9.44921 8.34316ZM9.86297 9.02712C9.46071 9.003 9.09366 9.15319 8.79718 9.2745C8.60639 9.35256 8.44483 9.41867 8.32191 9.41867C8.18397 9.41867 8.01574 9.34903 7.82685 9.27084L7.82685 9.27084C7.57935 9.16838 7.29638 9.05124 6.99964 9.05686C6.31948 9.06677 5.68688 9.46823 5.33967 10.1076C4.62621 11.3863 5.15417 13.2796 5.84384 14.3205C6.18155 14.8359 6.58584 15.4009 7.11855 15.3811C7.35291 15.3719 7.5215 15.2973 7.69597 15.2202C7.89683 15.1314 8.10549 15.0391 8.43131 15.0391C8.74582 15.0391 8.94536 15.129 9.1369 15.2152C9.31903 15.2973 9.49393 15.376 9.75358 15.3712C10.3053 15.3613 10.6525 14.8557 10.9902 14.3403C11.3547 13.7871 11.5148 13.2471 11.5391 13.1652L11.542 13.1557C11.5414 13.1551 11.5369 13.153 11.5289 13.1492C11.4071 13.0911 10.476 12.6469 10.467 11.4557C10.4581 10.4559 11.2056 9.94935 11.3233 9.86961L11.3233 9.8696C11.3304 9.86476 11.3353 9.86149 11.3374 9.85978C10.8618 9.12625 10.1198 9.04695 9.86297 9.02712ZM13.6824 15.3167V7.5898H16.4649C17.9013 7.5898 18.9049 8.62071 18.9049 10.1274C18.9049 11.6341 17.8822 12.675 16.4268 12.675H14.8334V15.3167H13.6824ZM14.8333 8.60088H16.1603C17.1592 8.60088 17.7299 9.15599 17.7299 10.1324C17.7299 11.1088 17.1592 11.6688 16.1556 11.6688H14.8333V8.60088ZM22.7053 14.3898C22.4009 14.9945 21.7302 15.3761 21.0072 15.3761C19.9371 15.3761 19.1903 14.712 19.1903 13.7108C19.1903 12.7196 19.9133 12.1496 21.2498 12.0653L22.6862 11.9761V11.5499C22.6862 10.9204 22.2915 10.5784 21.5875 10.5784C21.0072 10.5784 20.5839 10.8907 20.4983 11.3665H19.4614C19.4947 10.3653 20.3984 9.63675 21.6208 9.63675C22.9383 9.63675 23.7945 10.3554 23.7945 11.4706V15.3167H22.729V14.3898H22.7053ZM21.3163 14.4592C20.7027 14.4592 20.3127 14.1519 20.3127 13.6811C20.3127 13.1954 20.6885 12.9129 21.4067 12.8683L22.6861 12.784V13.2202C22.6861 13.9438 22.0964 14.4592 21.3163 14.4592ZM27.3284 15.619C26.867 16.9721 26.3391 17.4181 25.2166 17.4181C25.131 17.4181 24.8456 17.4082 24.779 17.3884V16.4616C24.8503 16.4715 25.0263 16.4814 25.1167 16.4814C25.6256 16.4814 25.911 16.2584 26.087 15.6785L26.1916 15.3365L24.2415 9.7111H25.4449L26.8004 14.2759H26.8242L28.1798 9.7111H29.3499L27.3284 15.619Z" fill="#8896a3"></path></svg>
+                    </div>
+                    <div class="mt-2 text-center text-xs text-gray-500">✍🏼 По вопросам приобретения пишите</div>
+                </div>
+            </section>
+        </div>
+
+        <div class="container mx-auto px-4 lg:px-8">
+            <!-- Key Components Section -->
+            <section id="components" class="my-16 py-12 reveal">
+                <div class="container mx-auto px-6 lg:px-12 text-center">
+                    <h2 class="text-3xl font-extrabold gradient-text">Ключевые компоненты силы</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Узнайте, что делает наш Тонгкат Али таким эффективным.</p>
+                    <div class="mt-12 max-w-4xl mx-auto">
+                        <div id="component-tabs" class="flex flex-col md:flex-row gap-4 justify-center mb-8">
+                            <button data-target="maca-content" class="component-tab-btn glow-button font-bold py-3 px-6 rounded-lg text-lg flex-grow">Эврикоманон</button>
+                            <button data-target="amino-content" class="component-tab-btn bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg text-lg flex-grow transition">Квассиноиды</button>
+                            <button data-target="vitamins-content" class="component-tab-btn bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg text-lg flex-grow transition">Сапонины</button>
+                        </div>
+                        <div id="component-content" class="glass-card rounded-lg p-8 text-left min-h-[200px]">
+                        <div id="maca-content" class="component-content-panel">
+                            <h3 class="text-2xl font-bold text-yellow-400">Эврикоманон</h3>
+                            <p class="mt-4 text-gray-300">Главное действующее вещество Тонгкат Али. Он стимулирует выработку лютеинизирующего гормона, который, в свою очередь, дает сигнал яичкам производить больше собственного тестостерона. Это естественный и безопасный путь к повышению мужской силы.</p>
+                        </div>
+                             <div id="amino-content" class="component-content-panel hidden">
+                                <h3 class="text-2xl font-bold text-yellow-400">Квассиноиды</h3>
+                                <p class="mt-4 text-gray-300">Эти соединения обладают мощными антиоксидантными и противовоспалительными свойствами. Они помогают организму бороться со стрессом и улучшают общее самочувствие, что также положительно сказывается на либидо.</p>
+                            </div>
+                             <div id="vitamins-content" class="component-content-panel hidden">
+                                <h3 class="text-2xl font-bold text-yellow-400">Сапонины</h3>
+                                <p class="mt-4 text-gray-300">Способствуют лучшему усвоению питательных веществ и других активных компонентов Тонгкат Али. Они также поддерживают здоровье сердечно-сосудистой системы и повышают общий тонус организма.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Comparison Section -->
+            <section class="my-16 py-12 reveal">
+                <div class="container mx-auto px-6 lg:px-12 text-center">
+                     <h2 class="text-3xl font-extrabold gradient-text">Преимущество ARPOZAN</h2>
+                     <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Мы предлагаем не просто добавку, а гарантированное качество и эффективность.</p>
+                     <div class="mt-12 max-w-4xl mx-auto">
+                        <div class="grid grid-cols-3 gap-px bg-gray-700 rounded-lg overflow-hidden glass-card border-0">
+                            <div class="bg-black/50 p-4 font-bold">Параметр</div>
+                            <div class="bg-black/50 p-4 font-bold gradient-text">ARPOZAN Тонгкат Али</div>
+                            <div class="bg-black/50 p-4 font-bold text-gray-400">Синтетические бустеры</div>
+                            
+                            <div class="p-4 text-left font-semibold bg-black/30">Действие</div>
+                            <div class="p-4 bg-black/30 flex items-center justify-center"><i data-lucide="check" class="w-6 h-6 text-green-500"></i><span class="ml-2">Стимуляция своего Т.</span></div>
+                            <div class="p-4 bg-black/30 flex items-center justify-center"><i data-lucide="x" class="w-6 h-6 text-red-500"></i><span class="ml-2">Замещение гормонами</span></div>
+
+                            <div class="p-4 text-left font-semibold bg-black/40">Безопасность</div>
+                            <div class="p-4 bg-black/40 flex items-center justify-center"><i data-lucide="check" class="w-6 h-6 text-green-500"></i><span class="ml-2">Натуральный состав</span></div>
+                            <div class="p-4 bg-black/40 flex items-center justify-center"><i data-lucide="x" class="w-6 h-6 text-red-500"></i><span class="ml-2">Риск побочных эффектов</span></div>
+
+                            <div class="p-4 text-left font-semibold bg-black/30">Эффект после курса</div>
+                            <div class="p-4 bg-black/30 flex items-center justify-center"><i data-lucide="check" class="w-6 h-6 text-green-500"></i><span class="ml-2">Сохраняется</span></div>
+                            <div class="p-4 bg-black/30 flex items-center justify-center"><i data-lucide="x" class="w-6 h-6 text-red-500"></i><span class="ml-2">"Откат"</span></div>
+                            
+                            <div class="p-4 text-left font-semibold bg-black/40">Гарантия</div>
+                            <div class="p-4 bg-black/40 flex items-center justify-center"><i data-lucide="check" class="w-6 h-6 text-green-500"></i><span class="ml-2">30 дней на возврат</span></div>
+                            <div class="p-4 bg-black/40 flex items-center justify-center"><i data-lucide="x" class="w-6 h-6 text-red-500"></i><span class="ml-2">Нет</span></div>
+                        </div>
+                     </div>
+                </div>
+            </section>
+
+             <section class="mb-16 text-center reveal">
+                <h2 class="text-3xl font-extrabold gradient-text">Как принимать</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-4xl mx-auto">
+                    <div class="flex flex-col items-center p-6 glass-card rounded-lg"><div class="bg-yellow-900 bg-opacity-30 rounded-full p-4 mb-4"><span class="text-2xl font-bold text-yellow-400">1</span></div><h3 class="text-xl font-bold">1–2 капсулы в день</h3><p class="text-gray-400 mt-2">Принимайте во время еды, запивая водой.</p></div>
+                    <div class="flex flex-col items-center p-6 glass-card rounded-lg"><div class="bg-yellow-900 bg-opacity-30 rounded-full p-4 mb-4"><span class="text-2xl font-bold text-yellow-400">2</span></div><h3 class="text-xl font-bold">Курсовой приём</h3><p class="text-gray-400 mt-2">Для лучшего эффекта рекомендуется принимать курсами.</p></div>
+                    <div class="flex flex-col items-center p-6 glass-card rounded-lg"><div class="bg-yellow-900 bg-opacity-30 rounded-full p-4 mb-4"><span class="text-2xl font-bold text-yellow-400">3</span></div><h3 class="text-xl font-bold">Почувствуйте эффект</h3><p class="text-gray-400 mt-2">Наслаждайтесь ростом силы и либидо.</p></div>
+                </div>
+            </section>
+            
+            <!-- Science Section -->
+            <section class="my-16 py-12 reveal">
+                 <div class="container mx-auto px-6 lg:px-12">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div class="glass-card rounded-lg p-4">
+                            <img src="https://placehold.co/500x500/101010/F5A623?text=Наука" alt="Научное исследование Тонгкат Али" class="rounded-md w-full">
+                        </div>
+                        <div>
+                            <h2 class="text-3xl font-extrabold gradient-text">Научный подход к вашей силе</h2>
+                            <p class="mt-4 text-lg text-gray-400">Исследования показывают, что активные компоненты Тонгкат Али, в частности эврикоманон, могут повышать уровень свободного тестостерона, снижая концентрацию глобулина, связывающего половые гормоны (ГСПГ).</p>
+                            <p class="mt-4 text-gray-400">Это означает, что больше вашего собственного тестостерона становится доступным для использования организмом, что естественным образом приводит к усилению либидо, улучшению эректильной функции и росту мышечной массы без вмешательства в естественную работу гормональной системы.</p>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section id="faq" class="my-16 py-12 reveal">
+                 <div class="container mx-auto px-6 lg:px-12 max-w-3xl">
+                    <h2 class="text-3xl font-extrabold gradient-text text-center mb-12">Часто задаваемые вопросы</h2>
+                    <div class="space-y-4">
+                        <details class="glass-card rounded-lg p-4">
+                            <summary class="flex justify-between items-center cursor-pointer font-semibold text-lg">
+                                Есть ли противопоказания?
+                                <i data-lucide="chevron-down" class="accordion-icon"></i>
+                            </summary>
+                            <div class="mt-3 text-gray-400">
+                               <p>Не рекомендуется принимать при индивидуальной непереносимости, серьезных заболеваниях сердца или простаты. Перед применением рекомендуется проконсультироваться с врачом.</p>
+                            </div>
+                        </details>
+                        <details class="glass-card rounded-lg p-4">
+                            <summary class="flex justify-between items-center cursor-pointer font-semibold text-lg">
+                                Как долго можно принимать Тонгкат Али?
+                                <i data-lucide="chevron-down" class="accordion-icon"></i>
+                            </summary>
+                            <div class="mt-3 text-gray-400">
+                               <p>Рекомендуется принимать курсами, например, 5 дней приема, 2 дня перерыв, или 4 недели приема и 1 неделя перерыв. Это помогает поддерживать чувствительность рецепторов и максимальную эффективность.</p>
+                            </div>
+                        </details>
+                         <details class="glass-card rounded-lg p-4">
+                            <summary class="flex justify-between items-center cursor-pointer font-semibold text-lg">
+                               Когда я увижу эффект?
+                                <i data-lucide="chevron-down" class="accordion-icon"></i>
+                            </summary>
+                            <div class="mt-3 text-gray-400">
+                               <p>Эффект от Тонгкат Али накопительный. Первые улучшения в либидо и уровне энергии обычно заметны через 1-2 недели регулярного приёма.</p>
+                            </div>
+                        </details>
+                    </div>
+                 </div>
+            </section>
+        </div>
+
+    </main>
+
+    <!-- Cart Modal -->
+    <div id="cart-modal-container" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center hidden">
+        <div id="cart-modal" class="glass-card rounded-lg w-full max-w-lg m-4 flex flex-col">
+            <div class="p-4 border-b border-gray-700 flex justify-between items-center">
+                <h3 class="text-xl font-bold">Корзина</h3>
+                <button id="close-cart-button" class="text-gray-400 hover:text-white"><i data-lucide="x"></i></button>
+            </div>
+            <div id="cart-items-container" class="p-4 space-y-4 overflow-y-auto max-h-[60vh]">
+                <!-- Cart items will be injected here -->
+                <p id="empty-cart-message" class="text-center text-gray-400 py-8">Ваша корзина пуста.</p>
+            </div>
+            <div class="p-4 border-t border-gray-700">
+                <div class="flex justify-between items-center font-bold text-lg">
+                    <span>Итого:</span>
+                    <span id="cart-total">0 ₽</span>
+                </div>
+                <button class="w-full glow-button font-bold py-3 px-6 rounded-lg mt-4">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Sticky CTA Bar -->
+    <div id="sticky-cta" class="fixed bottom-0 left-0 right-0 bg-black bg-opacity-70 backdrop-blur-md p-4 border-t border-gray-800 transform translate-y-full transition-transform duration-500 ease-in-out z-40">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="https://placehold.co/50x50/1a1a1a/F5A623?text=Т" alt="Тонгкат Али" class="rounded-md">
+                <div>
+                    <h4 class="font-bold">Тонгкат Али</h4>
+                    <p id="sticky-cta-price" class="text-sm text-yellow-500 font-semibold">2.990 ₽</p>
+                </div>
+            </div>
+            <button id="sticky-cta-button" class="glow-button font-bold py-2 px-6 rounded-lg text-md">В корзину</button>
+        </div>
+    </div>
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-gray-800 text-white py-3 px-5 rounded-lg shadow-lg flex items-center gap-3 border border-gray-700 z-50">
+        <i data-lucide="check-circle" class="text-green-500"></i>
+        <span>Товар добавлен в корзину!</span>
+    </div>
+
+    <!-- Social Proof Notification -->
+    <div id="social-proof" class="fixed bottom-5 left-5 glass-card rounded-lg shadow-lg p-3 flex items-center gap-3 border border-gray-700 z-50">
+        <div class="bg-yellow-500/20 p-2 rounded-full">
+            <i data-lucide="shopping-bag" class="text-yellow-400 w-5 h-5"></i>
+        </div>
+        <div class="text-sm">
+            <p class="font-semibold text-gray-200" id="social-proof-name">Кто-то из г. Москва</p>
+            <p class="text-gray-400" id="social-proof-product">только что купил(а) Тонгкат Али!</p>
+        </div>
+    </div>
+
+
+    <footer class="bg-black bg-opacity-20 border-t border-gray-800">
+        <div class="container mx-auto px-4 lg:px-8 py-12 text-gray-400">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</h3>
+                    <p class="mt-4 text-sm">Природные решения для вашей силы и здоровья.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white">Навигация</h4>
+                    <ul class="mt-4 space-y-2 text-sm">
+                        <li><a href="#product" class="hover:text-yellow-400 transition-colors">Продукт</a></li>
+                        <li><a href="#components" class="hover:text-yellow-400 transition-colors">Компоненты</a></li>
+                        <li><a href="#faq" class="hover:text-yellow-400 transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white">Поддержка</h4>
+                    <ul class="mt-4 space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Связаться с нами</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Политика возврата</a></li>
+                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Доставка</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white">Соцсети</h4>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="hover:text-yellow-400 transition-colors"><i data-lucide="instagram"></i></a>
+                        <a href="#" class="hover:text-yellow-400 transition-colors"><i data-lucide="send"></i></a>
+                        <a href="#" class="hover:text-yellow-400 transition-colors"><i data-lucide="facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
+                 <p>&copy; 2024 ARPOZAN. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            
+            // --- Mobile Menu ---
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
+
+            if (menuBtn) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    menuOpenIcon.classList.toggle('hidden');
+                    menuCloseIcon.classList.toggle('hidden');
+                });
+            }
+
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuOpenIcon.classList.remove('hidden');
+                    menuCloseIcon.classList.add('hidden');
+                });
+            });
+
+
+            // --- Image Carousel Logic ---
+            const images = [
+                "https://placehold.co/600x600/1a1a1a/F5A623?text=Тонгкат+Али",
+                "https://placehold.co/600x600/101010/cccccc?text=Состав",
+                "https://placehold.co/600x600/1a1a1a/F5A623?text=Эффект",
+                "https://placehold.co/600x600/101010/cccccc?text=Польза",
+                "https://placehold.co/600x600/1a1a1a/F5A623?text=Наука",
+                "https://placehold.co/600x600/101010/cccccc?text=Отзывы"
+            ];
+            let currentIndex = 0;
+            const mainImage = document.getElementById('main-product-image');
+            const prevButton = document.getElementById('prev-image');
+            const nextButton = document.getElementById('next-image');
+            const dotsContainer = document.getElementById('pagination-dots');
+
+            function updateCarousel() {
+                if (!mainImage) return;
+                mainImage.style.opacity = '0';
+                setTimeout(() => {
+                    mainImage.src = images[currentIndex];
+                    mainImage.style.opacity = '1';
+                }, 150);
+
+                document.querySelectorAll('.pagination-dot').forEach((dot, index) => {
+                    dot.classList.toggle('bg-yellow-500', index === currentIndex);
+                    dot.classList.toggle('bg-gray-700', index !== currentIndex);
+                });
+            }
+            
+            images.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.classList.add('pagination-dot', 'w-2', 'h-2', 'rounded-full', 'transition-colors');
+                if (index === 0) dot.classList.add('bg-yellow-500');
+                else dot.classList.add('bg-gray-700');
+                dot.addEventListener('click', () => {
+                    currentIndex = index;
+                    updateCarousel();
+                });
+                if(dotsContainer) dotsContainer.appendChild(dot);
+            });
+
+            if(prevButton) prevButton.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                updateCarousel();
+            });
+            if(nextButton) nextButton.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % images.length;
+                updateCarousel();
+            });
+            
+            // --- Benefits Explorer ---
+            const benefits = {
+                testosterone: "Естественным образом повышает уровень свободного тестостерона.",
+                libido: "Усиливает половое влечение, эрекцию и качество интимной жизни.",
+                muscle: "Способствует росту сухой мышечной массы и силовых показателей.",
+                system: "Укрепляет мужскую половую систему и общее состояние организма."
+            };
+            const benefitTabs = document.querySelectorAll('.benefit-tab-btn');
+            const benefitContent = document.getElementById('benefits-content');
+
+            function updateBenefitContent(benefit) {
+                benefitContent.innerHTML = `<p>${benefits[benefit]}</p>`;
+            }
+            
+            benefitTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    benefitTabs.forEach(t => {
+                        t.classList.remove('bg-yellow-500/10', 'text-yellow-300', 'border-yellow-500/30');
+                        t.classList.add('bg-gray-800/50', 'text-gray-300', 'border-transparent');
+                    });
+                    tab.classList.add('bg-yellow-500/10', 'text-yellow-300', 'border-yellow-500/30');
+                    tab.classList.remove('bg-gray-800/50', 'text-gray-300', 'border-transparent');
+                    updateBenefitContent(tab.dataset.benefit);
+                });
+            });
+            // Initial call for benefits
+            updateBenefitContent('testosterone');
+
+
+            // --- Component Tabs ---
+            const tabButtons = document.querySelectorAll('.component-tab-btn');
+            const contentPanels = document.querySelectorAll('.component-content-panel');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('glow-button');
+                        btn.classList.add('bg-gray-800', 'hover:bg-gray-700', 'text-white');
+                    });
+                    button.classList.add('glow-button');
+                    button.classList.remove('bg-gray-800', 'hover:bg-gray-700', 'text-white');
+                    
+                    const targetId = button.dataset.target;
+                    contentPanels.forEach(panel => {
+                        if (panel.id === targetId) {
+                            panel.classList.remove('hidden');
+                        } else {
+                            panel.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+
+            // --- Quantity & Price Logic ---
+            const decrementButton = document.getElementById('decrement-button');
+            const incrementButton = document.getElementById('increment-button');
+            const quantityInput = document.getElementById('quantity-input');
+            const productForm = document.getElementById('product-form');
+            const stickyCtaPrice = document.getElementById('sticky-cta-price');
+            
+            function updatePrice() {
+                const selectedPlan = document.querySelector('input[name="purchase_type"]:checked');
+                if (selectedPlan && stickyCtaPrice) {
+                    stickyCtaPrice.textContent = `${selectedPlan.value} ₽`;
+                }
+            }
+
+            if(decrementButton) decrementButton.addEventListener('click', () => {
+                let currentValue = parseInt(quantityInput.value, 10);
+                if (currentValue > 1) quantityInput.value = currentValue - 1;
+            });
+            if(incrementButton) incrementButton.addEventListener('click', () => {
+                let currentValue = parseInt(quantityInput.value, 10);
+                quantityInput.value = currentValue + 1;
+            });
+            if(productForm) {
+                productForm.addEventListener('change', updatePrice);
+            }
+            
+            // --- Cart Logic & Toast & Modal ---
+            const cartButton = document.getElementById('cart-button');
+            const cartButtonMobile = document.getElementById('cart-button-mobile');
+            const cartModalContainer = document.getElementById('cart-modal-container');
+            const closeModalButton = document.getElementById('close-cart-button');
+            const cartItemsContainer = document.getElementById('cart-items-container');
+            const emptyCartMessage = document.getElementById('empty-cart-message');
+            const cartTotalElement = document.getElementById('cart-total');
+            const cartCountElements = document.querySelectorAll('.cart-count-display');
+            const toastElement = document.getElementById('toast');
+            
+            let cart = [];
+            let toastTimeout;
+            
+            function showToast() {
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastElement.classList.add('show');
+                toastTimeout = setTimeout(() => {
+                    toastElement.classList.remove('show');
+                }, 3000);
+            }
+
+            function renderCart() {
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                let totalItems = 0;
+
+                if (cart.length === 0) {
+                     if(emptyCartMessage) {
+                        cartItemsContainer.appendChild(emptyCartMessage);
+                        emptyCartMessage.style.display = 'block';
+                     }
+                } else {
+                    if(emptyCartMessage) emptyCartMessage.style.display = 'none';
+                    cart.forEach(item => {
+                        const itemTotal = item.price * item.quantity;
+                        total += itemTotal;
+                        totalItems += item.quantity;
+                        const itemElement = document.createElement('div');
+                        itemElement.className = 'flex items-center gap-4';
+                        itemElement.innerHTML = `
+                            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-md object-cover">
+                            <div class="flex-grow">
+                                <p class="font-semibold">${item.name}</p>
+                                <p class="text-sm text-gray-400">${item.price} ₽</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button data-id="${item.id}" class="cart-quantity-decrease p-1 hover:bg-gray-700 rounded-full"><i data-lucide="minus" class="w-4 h-4"></i></button>
+                                <span>${item.quantity}</span>
+                                <button data-id="${item.id}" class="cart-quantity-increase p-1 hover:bg-gray-700 rounded-full"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                            </div>
+                            <div class="font-semibold">${itemTotal} ₽</div>
+                            <button data-id="${item.id}" class="cart-item-remove text-gray-500 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        `;
+                        cartItemsContainer.appendChild(itemElement);
+                    });
+                }
+
+                cartTotalElement.textContent = `${total} ₽`;
+                cartCountElements.forEach(el => {
+                    if(totalItems > 0) {
+                        el.textContent = totalItems;
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                });
+                lucide.createIcons(); // Re-render icons
+            }
+            
+            if(cartItemsContainer) cartItemsContainer.addEventListener('click', (e) => {
+                const target = e.target.closest('button');
+                if (!target) return;
+
+                const id = target.dataset.id;
+                const item = cart.find(i => i.id === id);
+
+                if (target.classList.contains('cart-quantity-increase')) {
+                    item.quantity++;
+                }
+                if (target.classList.contains('cart-quantity-decrease')) {
+                    if (item.quantity > 1) item.quantity--;
+                    else cart = cart.filter(i => i.id !== id);
+                }
+                if (target.classList.contains('cart-item-remove')) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+                renderCart();
+            });
+
+            function addToCart() {
+                const selectedPlan = document.querySelector('input[name="purchase_type"]:checked');
+                const quantity = parseInt(quantityInput.value, 10);
+                const productId = selectedPlan.id;
+
+                const existingItem = cart.find(item => item.id === productId);
+
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({
+                        id: productId,
+                        name: selectedPlan.id === 'subscribe' ? 'Тонгкат Али (Подписка)' : 'Тонгкат Али (Разовая)',
+                        price: parseInt(selectedPlan.value, 10),
+                        quantity: quantity,
+                        image: 'https://placehold.co/64x64/1a1a1a/F5A623?text=Т'
+                    });
+                }
+                renderCart();
+                showToast();
+            }
+
+            if(productForm) productForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                addToCart();
+            });
+            
+            const stickyCtaButton = document.getElementById('sticky-cta-button');
+            if(stickyCtaButton) stickyCtaButton.addEventListener('click', addToCart);
+
+            const openCart = () => cartModalContainer.classList.remove('hidden');
+            if(cartButton) cartButton.addEventListener('click', openCart);
+            if(cartButtonMobile) cartButtonMobile.addEventListener('click', openCart);
+            if(closeModalButton) closeModalButton.addEventListener('click', () => cartModalContainer.classList.add('hidden'));
+            if(cartModalContainer) cartModalContainer.addEventListener('click', (e) => {
+                if(e.target === cartModalContainer) cartModalContainer.classList.add('hidden');
+            });
+
+
+            // --- Sticky CTA Logic ---
+            const stickyCta = document.getElementById('sticky-cta');
+            const purchaseSection = document.getElementById('purchase-section');
+
+            const ctaObserver = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        stickyCta.classList.add('visible');
+                    } else {
+                        stickyCta.classList.remove('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: "-100px 0px 0px 0px" });
+
+            if(purchaseSection) ctaObserver.observe(purchaseSection);
+
+            
+            const canvas = document.getElementById('background-particles');
+            if(canvas) {
+                const ctx = canvas.getContext('2d');
+                let particlesArray;
+                const setCanvasSize = () => {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                };
+                class Particle {
+                    constructor(x, y, dX, dY, size) { this.x = x; this.y = y; this.dX = dX; this.dY = dY; this.size = size; }
+                    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = 'rgba(245, 166, 35, 0.1)'; ctx.fill(); }
+                    update() {
+                        if (this.x > canvas.width || this.x < 0) this.dX = -this.dX;
+                        if (this.y > canvas.height || this.y < 0) this.dY = -this.dY;
+                        this.x += this.dX; this.y += this.dY; this.draw();
+                    }
+                }
+                const initParticles = () => {
+                    particlesArray = [];
+                    let num = (canvas.height * canvas.width) / 9000;
+                    for (let i = 0; i < num; i++) {
+                        let size = (Math.random() * 2) + 1;
+                        let x = Math.random() * (innerWidth - size * 2) + size * 2;
+                        let y = Math.random() * (innerHeight - size * 2) + size * 2;
+                        let dX = (Math.random() * 0.4) - 0.2;
+                        let dY = (Math.random() * 0.4) - 0.2;
+                        particlesArray.push(new Particle(x, y, dX, dY, size));
+                    }
+                };
+                const animateParticles = () => {
+                    requestAnimationFrame(animateParticles);
+                    ctx.clearRect(0, 0, innerWidth, innerHeight);
+                    particlesArray.forEach(p => p.update());
+                };
+                setCanvasSize(); initParticles(); animateParticles();
+                window.addEventListener('resize', () => { setCanvasSize(); initParticles(); });
+            }
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            
+            const container = document.querySelector('.product-image-container');
+            const mainProductImage = document.getElementById('main-product-image');
+            if (container && mainProductImage) {
+                container.addEventListener('mousemove', (e) => {
+                    const { left, top, width, height } = container.getBoundingClientRect();
+                    const x = (e.clientX - left) / width - 0.5;
+                    const y = (e.clientY - top) / height - 0.5;
+                    mainProductImage.style.transform = `rotateX(${-y * 10}deg) rotateY(${x * 10}deg) scale3d(1.05, 1.05, 1.05)`;
+                });
+                container.addEventListener('mouseleave', () => mainProductImage.style.transform = 'none');
+            }
+
+            // --- Social Proof Logic ---
+            const socialProof = document.getElementById('social-proof');
+            const socialProofName = document.getElementById('social-proof-name');
+            const socialProofProduct = document.getElementById('social-proof-product');
+            const names = ["Алексей", "Дмитрий", "Сергей", "Андрей", "Иван", "Михаил"];
+            const cities = ["Москвы", "Санкт-Петербурга", "Сочи", "Казани", "Новосибирска", "Екатеринбурга"];
+
+            function showSocialProof() {
+                const randomName = names[Math.floor(Math.random() * names.length)];
+                const randomCity = cities[Math.floor(Math.random() * cities.length)];
+                socialProofName.textContent = `${randomName} из г. ${randomCity}`;
+                socialProofProduct.textContent = `только что купил(а) Тонгкат Али!`;
+                socialProof.classList.add('show');
+                setTimeout(() => {
+                    socialProof.classList.remove('show');
+                }, 4000);
+            }
+
+            (function loop() {
+                const rand = Math.round(Math.random() * (12000 - 5000)) + 5000;
+                setTimeout(function() {
+                        showSocialProof();
+                        loop();  
+                }, rand);
+            }());
+
+            // Initial call
+            renderCart();
+            updatePrice();
+        });
+    </script>
+</body>
+</html>
+
