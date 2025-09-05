@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARPOZAN - Энергия для победителей</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Manrope:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #050505;
+            color: #E5E7EB;
+            overflow-x: hidden;
+        }
+        #background-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        h1, h2, h3, button, .font-heading { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(90deg, #ffdDAA, #F5A623);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text; text-fill-color: transparent;
+        }
+        .glow-button {
+            background: linear-gradient(90deg, #F5A623, #FFC53D);
+            box-shadow: 0 0 20px rgba(245, 166, 35, 0.4), 0 0 30px rgba(245, 166, 35, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+        .glow-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(245, 166, 35, 0.6), 0 0 45px rgba(245, 166, 35, 0.3);
+        }
+        .glass-card {
+            background: rgba(16, 16, 16, 0.6); backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .glass-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border: 2px solid transparent; border-radius: 1rem;
+            background: linear-gradient(120deg, transparent, rgba(245, 166, 35, 0.5), transparent) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out; mask-composite: exclude;
+            opacity: 0; transition: opacity 0.4s ease-in-out; pointer-events: none;
+        }
+        .glass-card:hover::before { opacity: 1; }
+        .reveal {
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.6, 0.01, 0.05, 0.95), transform 1s cubic-bezier(0.6, 0.01, 0.05, 0.95);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .product-image-container { perspective: 1500px; }
+        #productImage { transition: transform 0.2s ease-out; }
+        .animated-gradient-hero {
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 166, 35, 0.15), transparent);
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+        }
+        .faq-item .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
+        .faq-item.open .faq-answer { max-height: 200px; }
+        .faq-item.open .faq-icon { transform: rotate(180deg); }
+        .faq-icon { transition: transform 0.3s ease-in-out; }
+        .modal-container { transition: opacity 0.3s ease-in-out; }
+        .modal-content { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        .catalog-card .details-btn { opacity: 1; transform: translateY(0); transition: all 0.3s ease; }
+        .catalog-card .add-to-cart-btn { opacity: 0; transform: translateY(10px); transition: all 0.3s ease; position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem; }
+        .catalog-card:hover .details-btn { opacity: 0; transform: translateY(-10px); }
+        .catalog-card:hover .add-to-cart-btn { opacity: 1; transform: translateY(0); }
+        .carousel-container { touch-action: pan-y; }
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: .9; } }
+        .toggle-handle { transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+        .toggle-icon { transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+        
+        /* Navigation Link Hover Animation */
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: #F5A623;
+            transition: width 0.3s ease-in-out;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Menu Cascade Animation */
+        #mobile-menu {
+            transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        #mobile-menu .mobile-link {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        #mobile-menu.active .mobile-link {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        #mobile-menu.active .mobile-link:nth-child(1) { transition-delay: 0.1s; }
+        #mobile-menu.active .mobile-link:nth-child(2) { transition-delay: 0.15s; }
+        #mobile-menu.active .mobile-link:nth-child(3) { transition-delay: 0.2s; }
+        #mobile-menu.active .mobile-link:nth-child(4) { transition-delay: 0.25s; }
+        #mobile-menu.active .mobile-link:nth-child(5) { transition-delay: 0.3s; }
+        #mobile-menu.active .mobile-link:nth-child(6) { transition-delay: 0.35s; }
+        #mobile-menu.active .mobile-link:nth-child(7) { transition-delay: 0.4s; }
+    </style>
+</head>
+<body class="antialiased">
+    <canvas id="background-particles"></canvas>
+    
+    <div class="animated-gradient-hero"></div>
+    
+    <header id="main-header" class="sticky top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Left Side: Logo -->
+            <div class="flex-1 flex justify-start">
+                <a href="#" class="text-xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</a>
+            </div>
+
+            <!-- Centered Nav Links (Desktop) -->
+            <nav class="hidden md:flex justify-center">
+                <div class="flex space-x-8 text-sm">
+                    <a href="#science" class="nav-link text-gray-300 hover:text-amber-400 transition-colors">Наука</a>
+                    <a href="#how-it-works" class="nav-link text-gray-300 hover:text-amber-400 transition-colors">Как это работает</a>
+                    <a href="#catalog" class="nav-link text-gray-300 hover:text-amber-400 transition-colors">Каталог</a>
+                    <a href="#pricing" class="nav-link text-gray-300 hover:text-amber-400 transition-colors">Цены</a>
+                    <a href="#faq" class="nav-link text-gray-300 hover:text-amber-400 transition-colors">FAQ</a>
+                </div>
+            </nav>
+
+            <!-- Right Side: Action Buttons (Desktop) -->
+            <div class="flex-1 hidden md:flex justify-end items-center space-x-4">
+                 <button id="open-quiz-btn-desktop" class="bg-white/10 text-white font-bold py-2 px-4 rounded-lg hover:bg-white/20 transition-colors whitespace-nowrap">Подобрать продукт</button>
+                 <a href="#pricing" class="glow-button text-black font-bold uppercase px-6 py-2 rounded-lg text-sm tracking-wider order-btn">Заказать</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex items-center">
+                <button id="menu-btn" class="z-50">
+                    <svg id="menu-open-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    <svg id="menu-close-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col items-end justify-center bg-black/95 backdrop-blur-xl text-white opacity-0 invisible scale-95 transition-all duration-500 pr-8">
+        <div class="flex flex-col items-end space-y-6 text-right">
+            <a href="#science" class="mobile-link text-2xl">Наука</a>
+            <a href="#how-it-works" class="mobile-link text-2xl">Как это работает</a>
+            <a href="#catalog" class="mobile-link text-2xl">Каталог</a>
+            <a href="#pricing" class="mobile-link text-2xl">Цены</a>
+            <a href="#faq" class="mobile-link text-2xl">FAQ</a>
+            <button id="open-quiz-btn-mobile" class="mobile-link bg-white/10 text-white font-bold py-3 px-6 rounded-lg text-lg">Подобрать продукт</button>
+            <a href="#pricing" class="mobile-link glow-button text-black font-bold uppercase px-8 py-3 rounded-lg text-lg tracking-wider mt-4 order-btn">Заказать</a>
+        </div>
+    </div>
+
+    <main class="relative overflow-hidden">
+        <section id="hero" class="container mx-auto px-6 pt-24 pb-12">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="text-center md:text-left">
+                    <div class="flex items-center justify-center md:justify-start gap-2 mb-4 reveal">
+                        <div class="flex text-amber-400">
+                            <!-- Star Icons -->
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
+                        </div>
+                        <p class="text-sm text-gray-400">Более 10,000+ довольных клиентов</p>
+                    </div>
+
+                    <h1 class="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-6 reveal font-heading" data-delay="100">
+                        Твоя энергия — <span class="gradient-text">твой капитал</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-400 max-w-xl mx-auto md:mx-0 mb-10 reveal" data-delay="200">
+                        Разработано экспертами-нутрициологами, чтобы предложить практическое решение и обеспечить вас всеми необходимыми питательными веществами в течение дня.
+                    </p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 reveal" data-delay="300">
+                        <a href="#pricing" class="glow-button w-full sm:w-auto text-black font-bold text-base uppercase px-10 py-4 rounded-lg tracking-wider order-btn">Купить ARPOZAN</a>
+                        <button id="hero-quiz-btn" class="w-full sm:w-auto bg-transparent border border-white/30 text-white font-bold text-base uppercase px-10 py-4 rounded-lg tracking-wider hover:bg-white/10 transition-colors">Подобрать продукт</button>
+                    </div>
+                </div>
+
+                <div class="product-image-container reveal" data-delay="400">
+                    <img id="productImage" src="assets/imgs/Maka peruvian.png" alt="Product bottle" class="mx-auto h-[450px] md:h-[600px] object-contain drop-shadow-2xl">
+                </div>
+            </div>
+        </section>
+
+        <section id="science" class="py-24">
+             <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mt-2 reveal font-heading">Научный подход <span class="gradient-text">ARPOZAN</span></h2>
+                    <p class="text-gray-400 mt-4 reveal" data-delay="150">Мы отказались от компромиссов. ARPOZAN — это чистые, мощные экстракты в дозировках, подтвержденных исследованиями, для тех, кто требует от жизни большего.</p>
+                </div>
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+                    <div class="reveal" data-delay="200">
+                        <div class="mx-auto w-16 h-16 mb-4 flex items-center justify-center rounded-xl bg-white/5 border border-white/10"><svg class="w-8 h-8 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg></div>
+                        <h3 class="text-xl font-bold text-white font-heading">Проверено в лаборатории</h3>
+                        <p class="text-gray-400 mt-2">Каждая партия проходит строгий контроль качества и чистоты.</p>
+                    </div>
+                     <div class="reveal" data-delay="350">
+                        <div class="mx-auto w-16 h-16 mb-4 flex items-center justify-center rounded-xl bg-white/5 border border-white/10"><svg class="w-8 h-8 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6-2.292m0 0A9.043 9.043 0 0 0 9 7.5a9.008 9.008 0 0 0-2.25.407" /></svg></div>
+                        <h3 class="text-xl font-bold text-white font-heading">Натуральные ингредиенты</h3>
+                        <p class="text-gray-400 mt-2">Мы используем только силу природы, без синтетических добавок.</p>
+                    </div>
+                    <div class="reveal" data-delay="500">
+                        <div class="mx-auto w-16 h-16 mb-4 flex items-center justify-center rounded-xl bg-white/5 border border-white/10"><svg class="w-8 h-8 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h12A2.25 2.25 0 0 0 20.25 14.25V3M3.75 14.25m-1.5 0h3m-3 0V8.25m9 6V12m0 2.25h-3m3 0V3.75M6.75 21v-6.75a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v6.75m0 0a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75M16.5 21v-6.75a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v6.75m0 0a.75.75 0 0 1-.75.75h-3a.75.75 0 0 1-.75-.75" /></svg></div>
+                        <h3 class="text-xl font-bold text-white font-heading">Эффективные дозировки</h3>
+                        <p class="text-gray-400 mt-2">Никакой "маркетинговой пыли". Только рабочие дозы для реального результата.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-black">
+            <div class="container mx-auto px-6">
+                <div class="text-center max-w-3xl mx-auto reveal">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mt-2 font-heading">ARPOZAN <span class="gradient-text">vs</span> Остальные</h2>
+                </div>
+                <div class="mt-12 max-w-4xl mx-auto reveal" data-delay="200">
+                    <div class="glass-card rounded-2xl">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="border-b border-white/10">
+                                    <th class="p-4 md:p-6 text-lg font-bold">Параметр</th>
+                                    <th class="p-4 md:p-6 text-lg font-bold gradient-text">ARPOZAN</th>
+                                    <th class="p-4 md:p-6 text-lg font-bold text-gray-500">Другие бренды</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-white/10">
+                                    <td class="p-4 md:p-6 font-semibold">Дозировки</td>
+                                    <td class="p-4 md:p-6 text-green-400 font-bold">✓ Максимально эффективные</td>
+                                    <td class="p-4 md:p-6 text-red-400">✗ Низкие, нерабочие</td>
+                                </tr>
+                                <tr class="border-b border-white/10">
+                                    <td class="p-4 md:p-6 font-semibold">Чистота сырья</td>
+                                    <td class="p-4 md:p-6 text-green-400 font-bold">✓ Лабораторный контроль</td>
+                                    <td class="p-4 md:p-6 text-red-400">✗ Часто неизвестна</td>
+                                </tr>
+                                <tr class="border-b border-white/10">
+                                    <td class="p-4 md:p-6 font-semibold">Состав</td>
+                                    <td class="p-4 md:p-6 text-green-400 font-bold">✓ Только активные компоненты</td>
+                                    <td class="p-4 md:p-6 text-red-400">✗ Наполнители и красители</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 md:p-6 font-semibold">Эффект</td>
+                                    <td class="p-4 md:p-6 text-green-400 font-bold">✓ Ощутим на 7-10 день</td>
+                                    <td class="p-4 md:p-6 text-red-400">✗ Сомнительный или отсутствует</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="py-24 bg-black">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-16 reveal font-heading">Всего <span class="gradient-text">3 шага</span> к пиковой энергии</h2>
+                <div class="relative flex flex-col items-center md:flex-row md:justify-between md:items-start max-w-4xl mx-auto">
+                    <div class="absolute top-12 left-0 w-full h-0.5 bg-white/10 hidden md:block"></div>
+                    <div class="absolute top-0 left-1/2 w-0.5 h-full bg-white/10 md:hidden"></div>
+                    <div class="flex flex-col items-center z-10 reveal" data-delay="200"><div class="w-24 h-24 flex items-center justify-center rounded-full glass-card border-2 border-amber-400/50 mb-4"><span class="text-4xl">💊</span></div><h3 class="text-xl font-bold text-white">Шаг 1: Приём</h3><p class="text-gray-400 max-w-xs mt-2">Принимайте комплекс ежедневно для запуска процесса.</p></div>
+                    <div class="flex flex-col items-center z-10 my-16 md:my-0 reveal" data-delay="400"><div class="w-24 h-24 flex items-center justify-center rounded-full glass-card border-2 border-amber-400/50 mb-4"><span class="text-4xl">⏳</span></div><h3 class="text-xl font-bold text-white">Шаг 2: Накопление</h3><p class="text-gray-400 max-w-xs mt-2">Активные вещества накапливаются, оптимизируя системы организма.</p></div>
+                    <div class="flex flex-col items-center z-10 reveal" data-delay="600"><div class="w-24 h-24 flex items-center justify-center rounded-full glass-card border-2 border-amber-400/50 mb-4"><span class="text-4xl">🚀</span></div><h3 class="text-xl font-bold text-white">Шаг 3: Результат</h3><p class="text-gray-400 max-w-xs mt-2">Почувствуйте прилив сил и энергии уже на 7-10 день.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="catalog" class="py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading reveal">Наша линейка для <span class="gradient-text">максимальной производительности</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="catalog-card glass-card rounded-2xl p-6 flex flex-col text-center items-center reveal relative" data-delay="100"><img src="assets/imgs/Yohimbin 1.png" alt="ARPOZAN Yohimbe" class="h-40 w-40 object-contain mb-4"><h3 class="font-bold text-xl text-white font-heading">ARPOZAN Yohimbe</h3><p class="text-gray-400 text-sm my-2 flex-grow">Адреналиновый заряд для ваших самых амбициозных целей.</p><p class="text-2xl font-bold text-white my-4">2990₽</p><button class="details-btn w-full mt-auto bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20">Подробнее</button><button class="add-to-cart-btn glow-button text-black font-bold py-2 rounded-lg order-btn">В корзину</button></div>
+                     <div class="catalog-card glass-card rounded-2xl p-6 flex flex-col text-center items-center reveal relative" data-delay="200"><img src="assets/imgs/Maka peruvian.png" alt="ARPOZAN Maca" class="h-40 w-40 object-contain mb-4"><h3 class="font-bold text-xl text-white font-heading">ARPOZAN Maca</h3><p class="text-gray-400 text-sm my-2 flex-grow">Природный бустер либидо и сексуальной энергии.</p><p class="text-2xl font-bold text-white my-4">1990₽</p><a href="maca.html" class="details-btn w-full mt-auto bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20">Подробнее</a><button class="add-to-cart-btn glow-button text-black font-bold py-2 rounded-lg order-btn">В корзину</button></div>
+                     <div class="catalog-card glass-card rounded-2xl p-6 flex flex-col text-center items-center reveal relative" data-delay="300"><img src="assets/imgs/Zink.png" alt="ARPOZAN Zinc" class="h-40 w-40 object-contain mb-4"><h3 class="font-bold text-xl text-white font-heading">ARPOZAN Zinc</h3><p class="text-gray-400 text-sm my-2 flex-grow">Базовый элемент мужского здоровья и тестостерона.</p><p class="text-2xl font-bold text-white my-4">1990₽</p><button class="details-btn w-full mt-auto bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20">Подробнее</button><button class="add-to-cart-btn glow-button text-black font-bold py-2 rounded-lg order-btn">В корзину</button></div>
+                     <div class="catalog-card glass-card rounded-2xl p-6 flex flex-col text-center items-center reveal relative" data-delay="400"><img src="assets/imgs/Tongkat Ali.png" alt="ARPOZAN Tongkat Ali" class="h-40 w-40 object-contain mb-4"><h3 class="font-bold text-xl text-white font-heading">ARPOZAN Tongkat Ali</h3><p class="text-gray-400 text-sm my-2 flex-grow">Природный стимулятор тестостерона и мышечного роста.</p><p class="text-2xl font-bold text-white my-4">2990₽</p><button class="details-btn w-full mt-auto bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20">Подробнее</button><button class="add-to-cart-btn glow-button text-black font-bold py-2 rounded-lg order-btn">В корзину</button></div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="py-24 bg-black">
+            <div class="container mx-auto px-6 text-center reveal">
+                 <h2 class="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading reveal">Отзывы наших <span class="gradient-text">клиентов</span></h2>
+                 <div id="testimonial-carousel" class="relative max-w-4xl mx-auto reveal" data-delay="100">
+                     <div class="overflow-hidden carousel-container">
+                         <div id="testimonial-track" class="flex transition-transform duration-500 ease-in-out">
+                            <!-- Testimonial 1 -->
+                            <div class="w-full flex-shrink-0 px-2">
+                                <div class="glass-card rounded-2xl p-6 h-full flex flex-col"><div class="flex items-center mb-4"><div class="flex text-amber-400">★★★★★</div></div><p class="text-gray-300 mb-4 relative pl-8 flex-grow"><span class="absolute left-0 top-0 text-5xl text-amber-400/30 font-serif">“</span>Энергии стало в разы больше, тренировки проходят легче, а восстановление быстрее. Это тот, самый чит-код что мне так нехватал все это время. Работаем братья"</p><div class="flex items-center mt-6"><img src="https://placehold.co/40x40/333/fff?text=А" class="rounded-full mr-3" alt="Avatar"><div><p class="font-bold text-white">Алексей П.</p><p class="text-sm text-amber-400">Профессиональный спортсмен</p></div></div></div>
+                            </div>
+                            <!-- Testimonial 2 -->
+                            <div class="w-full flex-shrink-0 px-2">
+                                <div class="glass-card rounded-2xl p-6 h-full flex flex-col"><div class="flex items-center mb-4"><div class="flex text-amber-400">★★★★★</div></div><p class="text-gray-300 mb-4 relative pl-8 flex-grow"><span class="absolute left-0 top-0 text-5xl text-amber-400/30 font-serif">“</span>Работаю в IT, постоянные дедлайны. С этим комплексом голова стала яснее, и к вечеру остаются силы на семью."</p><div class="flex items-center mt-6"><img src="https://placehold.co/40x40/333/fff?text=М" class="rounded-full mr-3" alt="Avatar"><div><p class="font-bold text-white">Михаил В.</p><p class="text-sm text-amber-400">Предприниматель</p></div></div></div>
+                            </div>
+                            <!-- Testimonial 3 -->
+                            <div class="w-full flex-shrink-0 px-2">
+                                <div class="glass-card rounded-2xl p-6 h-full flex flex-col"><div class="flex items-center mb-4"><div class="flex text-amber-400">★★★★★</div></div><p class="text-gray-300 mb-4 relative pl-8 flex-grow"><span class="absolute left-0 top-0 text-5xl text-amber-400/30 font-serif">“</span>Либидо вернулось на уровень 20-летнего. Жена довольна, я тоже. Спасибо, ребята! Лучший день СЕГОДНЯ!!! "</p><div class="flex items-center mt-6"><img src="https://placehold.co/40x40/333/fff?text=И" class="rounded-full mr-3" alt="Avatar"><div><p class="font-bold text-white">Игорь С.</p><p class="text-sm text-amber-400">45 лет</p></div></div></div>
+                            </div>
+                            <!-- Testimonial 4 -->
+                             <div class="w-full flex-shrink-0 px-2">
+                                <div class="glass-card rounded-2xl p-6 h-full flex flex-col"><div class="flex items-center mb-4"><div class="flex text-amber-400">★★★★★</div></div><p class="text-gray-300 mb-4 relative pl-8 flex-grow"><span class="absolute left-0 top-0 text-5xl text-amber-400/30 font-serif">“</span>Совмещаю учебу и работу, спал по 5 часов. С ARPOZAN концентрация на парах выросла, а после смены есть силы на подготовку к экзаменам."</p><div class="flex items-center mt-6"><img src="https://placehold.co/40x40/333/fff?text=Д" class="rounded-full mr-3" alt="Avatar"><div><p class="font-bold text-white">Дмитрий К.</p><p class="text-sm text-amber-400">Студент</p></div></div></div>
+                            </div>
+                            <!-- Testimonial 5 -->
+                             <div class="w-full flex-shrink-0 px-2">
+                                <div class="glass-card rounded-2xl p-6 h-full flex flex-col"><div class="flex items-center mb-4"><div class="flex text-amber-400">★★★★★</div></div><p class="text-gray-300 mb-4 relative pl-8 flex-grow"><span class="absolute left-0 top-0 text-5xl text-amber-400/30 font-serif">“</span>В 52 года думал, что пик формы позади. Этот комплекс вернул бодрость и мужскую уверенность. Чувствую себя на 15 лет моложе. Спасибо Артур! Луший день сегодня)))"</p><div class="flex items-center mt-6"><img src="https://placehold.co/40x40/333/fff?text=В" class="rounded-full mr-3" alt="Avatar"><div><p class="font-bold text-white">Владимир Н.</p><p class="text-sm text-amber-400">52 года</p></div></div></div>
+                            </div>
+                            <!-- Testimonial 6 -->
+                             <div class="w-full flex-shrink-0 px-2">
+                                <div class="glass-card rounded-2xl p-6 h-full flex flex-col"><div class="flex items-center mb-4"><div class="flex text-amber-400">★★★★★</div></div><p class="text-gray-300 mb-4 relative pl-8 flex-grow"><span class="absolute left-0 top-0 text-5xl text-amber-400/30 font-serif">“</span>Пропал "туман" в голове. Как дизайнер, я снова могу часами работать над проектами, не теряя фокуса. Это просто находка!"</p><div class="flex items-center mt-6"><img src="https://placehold.co/40x40/333/fff?text=С" class="rounded-full mr-3" alt="Avatar"><div><p class="font-bold text-white">Сергей Л.</p><p class="text-sm text-amber-400">Креативный директор</p></div></div></div>
+                            </div>
+                         </div>
+                     </div>
+                     <!-- Controls -->
+                     <button id="testimonial-prev" class="absolute top-1/2 -left-4 md:-left-12 transform -translate-y-1/2 bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors z-10">
+                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                     </button>
+                     <button id="testimonial-next" class="absolute top-1/2 -right-4 md:-right-12 transform -translate-y-1/2 bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors z-10">
+                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                     </button>
+                     <!-- Dots -->
+                     <div id="testimonial-dots" class="flex justify-center mt-8 space-x-2"></div>
+                 </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="py-24">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl md:text-5xl font-bold text-center mb-4 text-white font-heading reveal">ULTIMATE MEN’S PACK</h2>
+                <p class="text-center text-lg text-gray-400 mb-12 reveal" data-delay="150">Полный набор для мужской силы и энергии</p>
+                <div class="glass-card rounded-2xl p-8 max-w-3xl mx-auto flex flex-col md:flex-row items-center gap-8 reveal overflow-visible" data-delay="300">
+                    <div class="absolute top-0 right-0 bg-amber-500 text-center text-black font-semibold py-2 px-4 text-sm pulse" style="clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 8% 50%); border-top-right-radius: 1rem; border-bottom-left-radius: 0.5rem;">
+                        Самый популярный
+                    </div>
+                    <div class="md:w-1/3 text-center"><img src="assets/imgs/Ultimate Pack.png" alt="Ultimate Men's Pack" class="mx-auto h-64 object-contain"></div>
+                    <div class="md:w-2/3">
+                        <h3 class="text-2xl font-bold text-white font-heading">Хочешь максимум эффекта?</h3>
+                        <p class="text-gray-400 mt-2 mb-6">Мы собрали в один комплект все самые мощные продукты. Вместе они работают синергично для поддержки гормональной системы, стабильной энергии, улучшения интимной жизни и ускоренного восстановления.</p>
+                        <div class="grid grid-cols-2 gap-4 text-sm mb-6">
+                            <p class="reveal" data-delay="400"><span class="text-amber-400">✓</span> Мака перуанская</p>
+                            <p class="reveal" data-delay="500"><span class="text-amber-400">✓</span> Цинк пиколинат</p>
+                            <p class="reveal" data-delay="600"><span class="text-amber-400">✓</span> Тонгкат Али</p>
+                            <p class="reveal" data-delay="700"><span class="text-amber-400">✓</span> Йохимбе</p>
+                        </div>
+                        <div class="flex items-center justify-center md:justify-start space-x-4 mb-4">
+                            <span class="text-gray-400 text-sm">Разовая покупка</span>
+                            <label id="subscription-toggle-label" for="""subscription-toggle" class="relative inline-flex items-center cursor-pointer group focus:outline-none" title="""Подписка: ежемесячная доставка, -10%" role="switch" aria-label="""Подписка — скидка 10%" aria-checked="true" tabindex="0">
+                                <input type="checkbox" id="subscription-toggle" class="sr-only peer" checked>
+                                <div id="subscription-track" class="relative w-16 h-8 bg-gray-600 rounded-full peer-checked:bg-amber-500 transition-colors duration-300">
+                                    <span class="absolute left-2 top-1/2 -translate-y-1/2 toggle-icon opacity-100 peer-checked:opacity-0 peer-checked:-rotate-90">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                        </svg>
+                                    </span>
+                                    <span class="absolute right-2 top-1/2 -translate-y-1/2 toggle-icon opacity-0 peer-checked:opacity-100 peer-checked:rotate-0 rotate-90">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h5M20 20v-5h-5M4 4l1.5 1.5A9 9 0 0120.5 10.5M20 20l-1.5-1.5A9 9 0 003.5 13.5" />
+                                        </svg>
+                                    </span>
+                                    <span id="subscription-handle" class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full shadow-md transform peer-checked:translate-x-8 toggle-handle transition-transform duration-150"></span>
+                                </div>
+                            </label>
+                            <span class="font-semibold gradient-text text-sm">Подписка (-10%)</span>
+
+                            <script>
+                                (function(){
+                                    const label = document.getElementById('subscription-toggle-label');
+                                    const checkbox = document.getElementById('subscription-toggle');
+                                    const track = document.getElementById('subscription-track');
+
+                                    function updateAria(){
+                                        label.setAttribute('aria-checked', checkbox.checked ? 'true' : 'false');
+                                    }
+                                    updateAria();
+
+                                    // Click on the track: set based on horizontal position (left/right)
+                                    track.addEventListener('click', (e) => {
+                                        const rect = track.getBoundingClientRect();
+                                        const x = (e.clientX !== 0) ? e.clientX : (e.touches && e.touches[0] && e.touches[0].clientX) || 0;
+                                        const checked = x > (rect.left + rect.width / 2);
+                                        if (checkbox.checked !== checked) {
+                                            checkbox.checked = checked;
+                                            checkbox.dispatchEvent(new Event('change', {bubbles:true}));
+                                        }
+                                        updateAria();
+                                    });
+
+                                    // Keyboard support on the label (toggle with Space / Enter)
+                                    label.addEventListener('keydown', (e) => {
+                                        if (e.key === 'Enter' || e.key === ' ') {
+                                            e.preventDefault();
+                                            checkbox.checked = !checkbox.checked;
+                                            checkbox.dispatchEvent(new Event('change', {bubbles:true}));
+                                            updateAria();
+                                        }
+                                    });
+
+                                    // Keep aria state in sync if checkbox changed elsewhere
+                                    checkbox.addEventListener('change', updateAria);
+                                })();
+                            </script>
+                        </div>
+                        <div class="flex items-center justify-between bg-black/30 rounded-lg p-4">
+                            <div><p id="original-price" class="text-gray-500 line-through text-lg">9,960 ₽</p><p id="display-price" class="text-4xl font-bold text-white">8,990 ₽</p><p id="saving-text" class="gradient-text font-semibold">Экономия 970 ₽</p></div>
+                            <button class="glow-button text-black font-bold py-3 px-8 rounded-lg order-btn">Заказать комплект</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-24 bg-black">
+            <div class="container mx-auto px-6 text-center reveal">
+                <h2 class="text-2xl font-bold text-white mb-8">Ваша уверенность и результат — наш приоритет</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="guarantee-badge glass-card rounded-xl p-6 flex items-center gap-4"><div class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-white/5"><svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4M17 3v4m2-2h-4M18 17v4m2-2h-4M12 5v14m-4-7h8"></path></svg></div><div><h3 class="font-semibold text-white">Гарантия качества</h3><p class="text-sm text-gray-400">Только сертифицированные компоненты.</p></div></div>
+                    <div class="guarantee-badge glass-card rounded-xl p-6 flex items-center gap-4"><div class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-white/5"><svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><div><h3 class="font-semibold text-white">Гарантия результата</h3><p class="text-sm text-gray-400">Вернем деньги, если не будет эффекта.</p></div></div>
+                    <div class="guarantee-badge glass-card rounded-xl p-6 flex items-center gap-4"><div class="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-lg bg-white/5"><svg class="w-6 h-6 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg></div><div><h3 class="font-semibold text-white">Безопасная оплата</h3><p class="text-sm text-gray-400">Все транзакции защищены шифрованием.</p></div></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="founder" class="py-24">
+            <div class="container mx-auto px-6">
+                <div class="glass-card rounded-2xl p-8 md:p-12 max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 reveal">
+                    <div class="md:w-1/3 text-center"><img src="assets/imgs/Artur.jpg" alt="Founder of ARPOZAN" class="rounded-full mx-auto w-40 h-40 object-cover border-4 border-white/10"></div>
+                    <div class="md:w-2/3">
+                        <h2 class="text-3xl font-bold text-white font-heading mb-4">Слово <span class="gradient-text">основателя</span></h2>
+                        <p class="text-gray-400 mb-4">"Я создал ARPOZAN, потому что устал от компромиссов. Я сам прошел путь от выгорания до пиковой производительности и знаю, насколько важно питать свое тело правильными, рабочими инструментами. Наша миссия — дать вам не просто добавки, а ключ к вашему скрытому потенциалу. Без пустых обещаний, только чистая наука и сила природы."</p>
+                        <p class="text-white font-bold font-heading text-lg">Артур Погосян</p>
+                        <p class="text-gray-500">Основатель ARPOZAN</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="py-24 bg-black">
+            <div class="container mx-auto px-6 max-w-3xl">
+                <h2 class="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading reveal">Часто задаваемые <span class="gradient-text">вопросы</span></h2>
+                <div class="space-y-4 reveal" data-delay="200">
+                    <div class="faq-item glass-card rounded-xl p-1">
+                        <div class="faq-question cursor-pointer flex justify-between items-center p-5">
+                            <h3 class="text-lg font-semibold text-white">Чем ULTIMATE MEN’S PACK лучше?</h3>
+                            <svg class="faq-icon w-6 h-6 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="px-5 pb-5">
+                                <p class="text-gray-400">Комплекс обеспечивает синергетический эффект — компоненты усиливают действие друг друга, работая по всем направлениям мужского здоровья. К тому же, это значительно выгоднее, чем покупать каждый продукт по отдельности.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item glass-card rounded-xl p-1">
+                        <div class="faq-question cursor-pointer flex justify-between items-center p-5">
+                            <h3 class="text-lg font-semibold text-white">Нужно ли делать перерыв в приеме?</h3>
+                            <svg class="faq-icon w-6 h-6 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="px-5 pb-5">
+                                <p class="text-gray-400">Мы рекомендуем принимать наши продукты курсами по 2-3 месяца с перерывом в 1 месяц. Это позволяет поддерживать высокую чувствительность рецепторов и избегать привыкания.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item glass-card rounded-xl p-1">
+                        <div class="faq-question cursor-pointer flex justify-between items-center p-5">
+                            <h3 class="text-lg font-semibold text-white">Можно ли сочетать с другими добавками?</h3>
+                            <svg class="faq-icon w-6 h-6 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="px-5 pb-5">
+                                <p class="text-gray-400">Да, наши продукты можно сочетать с большинством витаминов и минералов. Например, связка Тонгкат Али и Цинка отлично работает для повышения тестостерона. При наличии хронических заболеваний проконсультируйтесь с врачом.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="faq-item glass-card rounded-xl p-1">
+                        <div class="faq-question cursor-pointer flex justify-between items-center p-5">
+                            <h3 class="text-lg font-semibold text-white">Есть ли противопоказания?</h3>
+                            <svg class="faq-icon w-6 h-6 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="px-5 pb-5">
+                                <p class="text-gray-400">Не рекомендуется принимать лицам до 18 лет, беременным и кормящим женщинам, а также при индивидуальной непереносимости компонентов. Перед применением рекомендуем проконсультироваться со специалистом.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="results" class="py-24">
+             <div class="container mx-auto px-6 text-center reveal">
+                 <img src="https://placehold.co/200x300/0a0a0a/F5A623?text=ARPOZAN" alt="Product" class="mx-auto mb-8 h-64">
+                 <h2 class="text-3xl md:text-6xl font-black text-white font-heading">РЕЗУЛЬТАТ НА <span class="gradient-text">7–10 ДЕНЬ</span></h2>
+                 <p class="mt-4 text-lg text-gray-400 max-w-xl mx-auto">Кто понял — заказал. Кто думает — откладывает свой результат на потом.</p>
+                 <div class="mt-10"><button class="glow-button text-black font-bold text-lg uppercase px-12 py-4 rounded-lg tracking-wider order-btn">Получить свой ARPOZAN</button></div>
+             </div>
+        </section>
+    </main>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal-container fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden opacity-0">
+        <div id="modalContent" class="modal-content glass-card rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center transform scale-95 opacity-0">
+            <h3 class="text-2xl font-bold text-white mb-2 font-heading">Отличный выбор!</h3>
+            <p class="text-gray-400 mb-6">Вы будете перенаправлены на страницу оформления заказа.</p>
+            <div class="w-12 h-12 mx-auto border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+            <button id="closeModalBtn" class="text-sm text-gray-500 hover:text-white transition-colors">Закрыть</button>
+            <button id="orderRedirectBtn" class="glow-button text-black font-bold py-3 px-8 rounded-lg mt-4">Оформить заказ</button>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Find all order buttons and set product page for redirect
+        let lastOrderProduct = null;
+        document.querySelectorAll('.order-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Find product name or type from button context
+                const card = btn.closest('.catalog-card');
+                if (card) {
+                    const name = card.querySelector('h3')?.textContent?.trim();
+                    if (name?.includes('Maca')) lastOrderProduct = 'maca.html';
+                    else if (name?.includes('Tongkat')) lastOrderProduct = 'Long-jack.html';
+                    else if (name?.includes('Yohimbe')) lastOrderProduct = '#catalog';
+                    else if (name?.includes('Zinc')) lastOrderProduct = '#catalog';
+                    else lastOrderProduct = '#pricing';
+                } else {
+                    // If not from catalog, check if it's from pricing section
+                    if (btn.closest('#pricing')) lastOrderProduct = '#pricing';
+                    else lastOrderProduct = '#catalog';
+                }
+            });
+        });
+        // Redirect on modal button click
+        document.getElementById('orderRedirectBtn').addEventListener('click', () => {
+            if (lastOrderProduct) {
+                if (lastOrderProduct.startsWith('#')) {
+                    document.querySelector(lastOrderProduct)?.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    window.location.href = lastOrderProduct;
+                }
+            } else {
+                window.location.href = '#pricing';
+            }
+        });
+    });
+    </script>
+    
+    <!-- Lead Capture Modal -->
+    <div id="leadModal" class="modal-container fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden opacity-0"><div id="leadModalContent" class="modal-content glass-card rounded-2xl shadow-2xl p-8 max-w-md w-full text-center transform scale-95 opacity-0 relative"><button id="closeLeadModalBtn" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button><h3 class="text-2xl font-bold text-white mb-2 font-heading gradient-text">Добро пожаловать!</h3><p class="text-gray-300 mb-4">Присоединяйтесь к сообществу ARPOZAN и получите <span class="text-amber-400 font-bold">скидку 10%</span> на ваш первый заказ.</p><p class="text-xs text-gray-500 mb-6">Введите свой email, чтобы закрепить скидку и получать эксклюзивные предложения.</p><form id="leadForm"><input type="email" placeholder="Ваш E-mail" required class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-400 mb-4"><button type="submit" class="glow-button w-full text-black font-bold py-3 rounded-lg">Получить скидку</button></form></div></div>
+
+    <!-- Quiz Modal -->
+    <div id="quizModal" class="modal-container fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden opacity-0">
+        <div id="quizModalContent" class="modal-content glass-card rounded-2xl shadow-2xl p-8 max-w-lg w-full transform scale-95 opacity-0 relative">
+            <button id="closeQuizModalBtn" class="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            
+            <div id="quiz-step-1">
+                <h3 class="text-2xl font-bold text-white mb-2 font-heading text-center">Какова ваша главная цель?</h3>
+                <p class="text-gray-400 text-center mb-8">Выберите один вариант, чтобы мы подобрали идеальный продукт.</p>
+                <div class="space-y-4">
+                    <button class="quiz-answer-btn w-full text-left bg-white/5 border border-white/20 rounded-lg px-6 py-4 text-white hover:bg-amber-500/20 hover:border-amber-500 transition-all" data-answer="energy">
+                        <span class="font-bold">Энергия и выносливость</span>
+                        <span class="block text-sm text-gray-400">Для преодоления усталости и повышения производительности.</span>
+                    </button>
+                     <button class="quiz-answer-btn w-full text-left bg-white/5 border border-white/20 rounded-lg px-6 py-4 text-white hover:bg-amber-500/20 hover:border-amber-500 transition-all" data-answer="libido">
+                        <span class="font-bold">Повышение либидо</span>
+                         <span class="block text-sm text-gray-400">Для улучшения интимной жизни и сексуальной функции.</span>
+                    </button>
+                     <button class="quiz-answer-btn w-full text-left bg-white/5 border border-white/20 rounded-lg px-6 py-4 text-white hover:bg-amber-500/20 hover:border-amber-500 transition-all" data-answer="testosterone">
+                        <span class="font-bold">Поддержка тестостерона</span>
+                         <span class="block text-sm text-gray-400">Для общего мужского здоровья, восстановления и роста мышц.</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="quiz-step-result" class="hidden text-center">
+                <h3 class="text-2xl font-bold text-white mb-2 font-heading">Ваш идеальный продукт!</h3>
+                <div id="quiz-result-content" class="mt-6 mb-8 flex flex-col items-center">
+                    <!-- Result will be injected here by JS -->
+                </div>
+                <button id="quiz-reset-btn" class="text-sm text-gray-500 hover:text-white transition-colors">Пройти заново</button>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="bg-black border-t border-white/10 py-8">
+        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
+            <p class="font-bold gradient-text text-lg mb-4 font-heading">ARPOZAN</p>
+            <p>&copy; 2025 ARPOZAN. Все права защищены.</p>
+            <p class="mt-2 max-w-md mx-auto">БАД. Не является лекарственным средством. Перед применением проконсультируйтесь со специалистом.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('background-particles');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let particles = [];
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 1.5 + 0.5, vx: Math.random() * 0.5 - 0.25, vy: Math.random() * 0.5 - 0.25 });
+            }
+
+            function drawParticles() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'rgba(245, 166, 35, 0.2)';
+                particles.forEach(p => {
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill();
+                    p.x += p.vx; p.y += p.vy;
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                });
+                requestAnimationFrame(drawParticles);
+            }
+            drawParticles();
+
+            window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+            
+            const revealElements = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.dataset.delay) || 0;
+                        setTimeout(() => entry.target.classList.add('visible'), delay);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            revealElements.forEach(el => observer.observe(el));
+
+            const heroSection = document.getElementById('hero');
+            const productImage = document.getElementById('productImage');
+            heroSection.addEventListener('mousemove', (e) => {
+                if (window.innerWidth < 768) return;
+                const { left, top, width, height } = heroSection.getBoundingClientRect();
+                const x = (e.clientX - left - width / 2) / 25;
+                const y = (e.clientY - top - height / 2) / 25;
+                productImage.style.transform = `rotateY(${x}deg) rotateX(${-y}deg) scale(1.05)`;
+            });
+            heroSection.addEventListener('mouseleave', () => productImage.style.transform = 'rotate(0)');
+
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                item.querySelector('.faq-question').addEventListener('click', () => {
+                    const isOpen = item.classList.contains('open');
+                    faqItems.forEach(i => i.classList.remove('open'));
+                    if (!isOpen) item.classList.add('open');
+                });
+            });
+
+            const orderModal = document.getElementById('orderModal');
+            const modalContent = document.getElementById('modalContent');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            const openModal = () => { if(orderModal) { orderModal.classList.remove('hidden'); setTimeout(() => { orderModal.classList.remove('opacity-0'); if(modalContent) modalContent.classList.remove('scale-95', 'opacity-0'); }, 10); }};
+            const closeModal = () => { if(orderModal) { orderModal.classList.add('opacity-0'); if(modalContent) modalContent.classList.add('scale-95', 'opacity-0'); setTimeout(() => { orderModal.classList.add('hidden'); }, 300); }};
+            
+            document.querySelectorAll('.order-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openModal();
+                });
+            });
+
+            if(closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+            if(orderModal) {
+                orderModal.addEventListener('click', (e) => (e.target === orderModal) && closeModal());
+                document.addEventListener('keydown', (e) => (e.key === 'Escape' && !orderModal.classList.contains('hidden')) && closeModal());
+            }
+
+            const leadModal = document.getElementById('leadModal');
+            const leadModalContent = document.getElementById('leadModalContent');
+            const closeLeadModalBtn = document.getElementById('closeLeadModalBtn');
+            const leadForm = document.getElementById('leadForm');
+            let leadModalShown = sessionStorage.getItem('leadModalShown') === 'true';
+
+            const openLeadModal = () => {
+                if (leadModalShown) return;
+                leadModalShown = true;
+                sessionStorage.setItem('leadModalShown', 'true');
+                leadModal.classList.remove('hidden');
+                setTimeout(() => { leadModal.classList.remove('opacity-0'); leadModalContent.classList.remove('scale-95', 'opacity-0'); }, 10);
+            };
+            const closeLeadModal = () => { leadModal.classList.add('opacity-0'); leadModalContent.classList.add('scale-95', 'opacity-0'); setTimeout(() => leadModal.classList.add('hidden'), 300); };
+            
+            setTimeout(() => {
+                openLeadModal();
+            }, 7000);
+
+            if(closeLeadModalBtn) closeLeadModalBtn.addEventListener('click', closeLeadModal);
+            if(leadModal) leadModal.addEventListener('click', (e) => (e.target === leadModal) && closeLeadModal());
+            if(leadForm) leadForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                console.log('Email captured:', e.target.querySelector('input').value);
+                leadForm.innerHTML = `<p class="text-lg text-amber-400 font-bold">Спасибо! Ваша скидка применена.</p>`;
+                setTimeout(closeLeadModal, 2000);
+            });
+            
+            // Testimonial Carousel Logic
+            const carousel = document.getElementById('testimonial-carousel');
+            if (carousel) {
+                const track = document.getElementById('testimonial-track');
+                const prevBtn = document.getElementById('testimonial-prev');
+                const nextBtn = document.getElementById('testimonial-next');
+                const dotsContainer = document.getElementById('testimonial-dots');
+                
+                let slides = Array.from(track.children);
+                let slidesPerView = window.innerWidth < 768 ? 1 : (window.innerWidth < 1024 ? 2 : 3);
+                let totalSlides = slides.length;
+                let totalPages = Math.ceil(totalSlides / slidesPerView);
+                let currentPage = 0;
+
+                const setupCarousel = () => {
+                    slidesPerView = window.innerWidth < 768 ? 1 : (window.innerWidth < 1024 ? 2 : 3);
+                    totalPages = Math.ceil(totalSlides / slidesPerView);
+                    
+                    if (currentPage >= totalPages) {
+                        currentPage = totalPages - 1;
+                    }
+                    track.style.width = `${(totalSlides / slidesPerView) * 100}%`;
+                    slides.forEach(slide => {
+                        slide.style.width = `${100 / totalSlides}%`;
+                    });
+                    updateDots();
+                    moveToPage(currentPage);
+                }
+                
+                const updateDots = () => {
+                    dotsContainer.innerHTML = '';
+                    for (let i = 0; i < totalPages; i++) {
+                        const dot = document.createElement('button');
+                        dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-white/20', 'transition-colors');
+                        if (i === currentPage) {
+                            dot.classList.add('!bg-amber-400');
+                        }
+                        dot.addEventListener('click', () => {
+                            moveToPage(i);
+                        });
+                        dotsContainer.appendChild(dot);
+                    }
+                }
+
+                const moveToPage = (pageIndex) => {
+                    currentPage = pageIndex;
+                    const newLeft = currentPage * (100 / totalPages);
+                    track.style.transform = `translateX(-${newLeft}%)`;
+                    
+                    const dots = Array.from(dotsContainer.children);
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('!bg-amber-400', index === currentPage);
+                    });
+                }
+
+                prevBtn.addEventListener('click', () => {
+                    const newPage = (currentPage - 1 + totalPages) % totalPages;
+                    moveToPage(newPage);
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    const newPage = (currentPage + 1) % totalPages;
+                    moveToPage(newPage);
+                });
+                
+                let touchStartX = 0; let touchEndX = 0;
+                const carouselContainer = document.querySelector('.carousel-container');
+                carouselContainer.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+                carouselContainer.addEventListener('touchmove', (e) => { touchEndX = e.touches[0].clientX; });
+                carouselContainer.addEventListener('touchend', () => {
+                    const diff = touchStartX - touchEndX;
+                    if (Math.abs(diff) > 50) { if (diff > 0) { nextBtn.click(); } else { prevBtn.click(); } }
+                });
+                window.addEventListener('resize', setupCarousel);
+                setupCarousel();
+            }
+
+            // Quiz Modal Logic
+            const quizModal = document.getElementById('quizModal');
+            const quizModalContent = document.getElementById('quizModalContent');
+            const openQuizBtnDesktop = document.getElementById('open-quiz-btn-desktop');
+            const openQuizBtnMobile = document.getElementById('open-quiz-btn-mobile');
+            const heroQuizBtn = document.getElementById('hero-quiz-btn');
+            const closeQuizModalBtn = document.getElementById('closeQuizModalBtn');
+            const quizStep1 = document.getElementById('quiz-step-1');
+            const quizStepResult = document.getElementById('quiz-step-result');
+            const quizResultContent = document.getElementById('quiz-result-content');
+            const quizAnswerBtns = document.querySelectorAll('.quiz-answer-btn');
+            const quizResetBtn = document.getElementById('quiz-reset-btn');
+
+            const productRecommendations = {
+                energy: { name: 'ARPOZAN Yohimbe', image: 'assets/imgs/Yohimbe.jpg', description: 'Адреналиновый заряд для ваших самых амбициозных целей.', link: '#catalog' },
+                libido: { name: 'ARPOZAN Maca', image: 'assets/imgs/Maca.jpg', description: 'Природный бустер либидо и сексуальной энергии.', link: 'maca.html' },
+                testosterone: { name: 'ARPOZAN Tongkat Ali', image: 'assets/imgs/Tongkat.jpg', description: 'Природный стимулятор тестостерона и мышечного роста.', link: 'Long-jack.html' }
+            };
+
+            const openQuizModal = () => { quizModal.classList.remove('hidden'); setTimeout(() => { quizModal.classList.remove('opacity-0'); quizModalContent.classList.remove('scale-95', 'opacity-0'); }, 10); };
+            const closeQuizModal = () => { quizModal.classList.add('opacity-0'); quizModalContent.classList.add('scale-95', 'opacity-0'); setTimeout(() => { quizModal.classList.add('hidden'); resetQuiz(); }, 300); };
+            const resetQuiz = () => { quizStep1.classList.remove('hidden'); quizStepResult.classList.add('hidden'); quizResultContent.innerHTML = ''; }
+            openQuizBtnDesktop.addEventListener('click', openQuizModal);
+            openQuizBtnMobile.addEventListener('click', openQuizModal);
+            heroQuizBtn.addEventListener('click', openQuizModal);
+            closeQuizModalBtn.addEventListener('click', closeQuizModal);
+            quizModal.addEventListener('click', (e) => (e.target === quizModal) && closeQuizModal());
+            quizResetBtn.addEventListener('click', resetQuiz);
+
+            quizAnswerBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const answer = btn.dataset.answer;
+                    const rec = productRecommendations[answer];
+                    if (rec) {
+                        quizResultContent.innerHTML = `<img src="${rec.image}" alt="${rec.name}" class="h-40 w-40 object-contain mb-4"><h4 class="font-bold text-xl text-white font-heading">${rec.name}</h4><p class="text-gray-400 my-2">${rec.description}</p><a href="${rec.link}" class="quiz-result-link glow-button text-black font-bold py-2 px-6 rounded-lg mt-4">Перейти к продукту</a>`;
+                        quizStep1.classList.add('hidden');
+                        quizStepResult.classList.remove('hidden');
+                        document.querySelector('.quiz-result-link').addEventListener('click', (e) => { e.preventDefault(); closeQuizModal(); setTimeout(() => { document.querySelector(rec.link).scrollIntoView({ behavior: 'smooth' }); }, 300); });
+                    }
+                });
+            });
+
+            const subscriptionToggle = document.getElementById('subscription-toggle');
+            const displayPrice = document.getElementById('display-price');
+            const originalPrice = document.getElementById('original-price');
+            const savingText = document.getElementById('saving-text');
+            const oneTimePrice = 8990, subscriptionPrice = Math.round(oneTimePrice * 0.9), originalFullPrice = 9960;
+            const updatePrice = () => {
+                if (subscriptionToggle.checked) {
+                    displayPrice.innerHTML = `${subscriptionPrice.toLocaleString('ru-RU')} ₽ <span class="text-lg font-normal text-gray-400">/ мес.</span>`;
+                    originalPrice.textContent = `${oneTimePrice.toLocaleString('ru-RU')} ₽`;
+                    savingText.textContent = `Экономия ${(originalFullPrice - subscriptionPrice).toLocaleString('ru-RU')} ₽`;
+                } else {
+                    displayPrice.innerHTML = `${oneTimePrice.toLocaleString('ru-RU')} ₽`;
+                    originalPrice.textContent = `${originalFullPrice.toLocaleString('ru-RU')} ₽`;
+                    savingText.textContent = `Экономия ${(originalFullPrice - oneTimePrice).toLocaleString('ru-RU')} ₽`;
+                }
+            };
+            if (subscriptionToggle) { subscriptionToggle.addEventListener('change', updatePrice); updatePrice(); }
+
+            // Mobile Menu Logic
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const openIcon = document.getElementById('menu-open-icon');
+            const closeIcon = document.getElementById('menu-close-icon');
+
+            const toggleMenu = () => {
+                const isActive = mobileMenu.classList.contains('active');
+                if (isActive) {
+                    mobileMenu.classList.remove('active');
+                    mobileMenu.classList.add('opacity-0', 'invisible', 'scale-95');
+                } else {
+                    mobileMenu.classList.add('active');
+                    mobileMenu.classList.remove('opacity-0', 'invisible', 'scale-95');
+                }
+                openIcon.classList.toggle('hidden');
+                closeIcon.classList.toggle('hidden');
+            };
+
+            menuBtn.addEventListener('click', toggleMenu);
+            document.querySelectorAll('#mobile-menu a, #mobile-menu button').forEach(link => {
+                link.addEventListener('click', () => {
+                    if (mobileMenu.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
+            });
+            
+            // Header scroll effect
+            const header = document.getElementById('main-header');
+            const handleScroll = () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-black/50', 'backdrop-blur-lg', 'border-b', 'border-white/10');
+                } else {
+                    header.classList.remove('bg-black/50', 'backdrop-blur-lg', 'border-b', 'border-white/10');
+                }
+            };
+
+            window.addEventListener('scroll', handleScroll);
+            handleScroll(); // Initial check
+        });
+    </script>
+</body>
+</html>
