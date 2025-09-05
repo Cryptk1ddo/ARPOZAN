@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мака перуанская | ARPOZAN</title>
+    <link rel="canonical" href="index.html">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -176,7 +177,7 @@
                 <!-- LEFT: Image Gallery -->
                 <div class="lg:sticky top-24">
                     <div class="relative product-image-container reveal">
-                        <img id="main-product-image" src="https://placehold.co/600x600/1a1a1a/F5A623?text=Мака" alt="Изображение продукта Мака перуанская" class="w-full h-auto object-cover rounded-lg glass-card p-2">
+                        <img id="main-product-image" src="assets/imgs/Maca-product-imgs/Maca-Product.png" alt="Изображение продукта Мака перуанская" class="w-full h-auto object-cover rounded-lg glass-card p-2">
                         <button id="prev-image" class="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors z-10"><i data-lucide="chevron-left"></i></button>
                         <button id="next-image" class="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors z-10"><i data-lucide="chevron-right"></i></button>
                     </div>
@@ -559,12 +560,12 @@
 
             // --- Image Carousel Logic ---
             const images = [
-                "https://placehold.co/600x600/1a1a1a/F5A623?text=Мака",
-                "https://placehold.co/600x600/101010/cccccc?text=Состав",
-                "https://placehold.co/600x600/1a1a1a/F5A623?text=Эффект",
-                "https://placehold.co/600x600/101010/cccccc?text=Польза",
-                "https://placehold.co/600x600/1a1a1a/F5A623?text=Наука",
-                "https://placehold.co/600x600/101010/cccccc?text=Отзывы"
+                "assets/imgs/Maca-product-imgs/Maca-Product.png",
+                "assets/imgs/Maca-product-imgs/Maca-Ingredients.png",
+                "assets/imgs/Maca-product-imgs/Maca-Effects.png",
+                "assets/imgs/Maca-product-imgs/Maca-benefits.png",
+                "assets/imgs/Maca-product-imgs/Maca-Science.png",
+                "assets/imgs/Maca-product-imgs/Maca-Testimonials.png"
             ];
             let currentIndex = 0;
             const mainImage = document.getElementById('main-product-image');
