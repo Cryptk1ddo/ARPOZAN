@@ -72,31 +72,6 @@
         .toggle-icon { transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
 
         .carousel-container { touch-action: pan-y; }
-
-        /* Hero full-bleed with left image and right column aligned to .container grid */
-        .hero-section { position: relative; width: 100%; overflow: hidden; }
-        .hero-bg {
-            position: absolute;
-            inset: 0;
-            background-image: url("assets/imgs/background%20rabbit%20hole.png");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            transform-origin: center;
-            z-index: -2;
-        }
-        .hero-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, rgba(5,5,5,0.55) 0%, rgba(5,5,5,0.25) 40%, rgba(5,5,5,0.0) 60%);
-            z-index: -1;
-        }
-        /* Make sure right column content is constrained to same container width as header/nav */
-        .hero-inner { position: relative; z-index: 10; min-height: calc(100vh - 80px); display: flex; align-items: center; }
-        .hero-right { max-width: 520px; margin-left: auto; }
-        @media (max-width: 1024px) {
-            .hero-right { max-width: 100%; padding: 2rem 0; margin-left: 0; }
-        }
     </style>
 </head>
 <body class="antialiased">
@@ -141,35 +116,6 @@
     </div>
 
     <main class="relative overflow-hidden">
-        <!-- REPLACE/INSERT: full-bleed hero -->
-        <section class="hero-section">
-            <div class="hero-bg" aria-hidden="true"></div>
-            <div class="hero-overlay" aria-hidden="true"></div>
-
-            <!-- Right column aligned to same container grid as header/navigation -->
-            <div class="hero-inner">
-                <div class="container mx-auto px-6">
-                    <div class="grid grid-cols-12 items-center">
-                        <!-- left gap keeps visual left image full-bleed,
-                             adjust the span so right column lines up with header grid -->
-                        <div class="col-span-12 lg:col-span-7"></div>
-
-                        <div class="col-span-12 lg:col-span-5">
-                            <div class="hero-right pr-0 lg:pr-6">
-                                <!-- Put your hero content here (CTA, title, buttons) -->
-                                <h1 class="text-4xl md:text-6xl font-bold gradient-text font-heading">ARPOZAN — Энергия для победителей</h1>
-                                <p class="mt-4 text-gray-300 max-w-md">Натуральные комплексы для силы, энергии и выносливости.</p>
-                                <div class="mt-6 flex flex-col sm:flex-row gap-4">
-                                    <a href="maca.html" class="glow-button text-black font-bold px-6 py-3 rounded-lg inline-block">Купить Maca</a>
-                                    <button id="open-quiz-btn-hero" class="bg-white/10 text-white font-bold py-3 px-6 rounded-lg hover:bg-white/20">Подобрать продукт</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <div class="container mx-auto px-6">
             <section id="hero" class="grid grid-cols-12 gap-x-6 py-16 md:py-24">
                 <div class="col-span-12 md:col-span-6 flex flex-col justify-center">
