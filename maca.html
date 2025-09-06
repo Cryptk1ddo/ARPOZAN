@@ -192,6 +192,22 @@
                 </div>
 
                 <!-- RIGHT: Product Form & Details -->
+                <style>
+                  /* Full-bleed on mobile while keeping default mobile padding + safe-area insets */
+                  @media (max-width: 768px) {
+                    #purchase-section {
+                      width: 100vw;
+                      position: relative;
+                      left: 50%;
+                      right: 50%;
+                      margin-left: -50vw;
+                      margin-right: -50vw;
+                      box-sizing: border-box;
+                      padding-left: calc(1rem + env(safe-area-inset-left));
+                      padding-right: calc(1rem + env(safe-area-inset-right));
+                    }
+                  }
+                </style>
                 <div class="flex flex-col justify-center py-16 px-4 sm:px-8" id="purchase-section">
                     <div class="max-w-[450px] w-full">
                         <div class="flex items-center gap-2">
