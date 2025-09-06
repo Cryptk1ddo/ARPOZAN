@@ -118,30 +118,6 @@
             transform: translateY(-10%);
             pointer-events: none;
         }
-
-        /* Mobile optimizations */
-        @media (max-width: 1024px) {
-            html { font-size: 15px; }
-            .container { padding-left: 1rem; padding-right: 1rem; }
-            .reveal { transition-duration: 0.6s; }
-            .glass-card { border-radius: 0.75rem; }
-        }
-        @media (max-width: 640px) {
-            html { font-size: 14px; }
-            #background-particles { display: none; } /* save CPU / battery */
-            header .container { padding-left: 0.75rem; padding-right: 0.75rem; }
-            #main-product-image { object-fit: cover; max-height: 55vh; }
-            #purchase-section { padding-top: 1rem; padding-bottom: 3rem; }
-            .benefit-tab-btn { padding: 0.75rem; font-size: 13px; }
-            .glow-button { padding: 0.75rem 1rem; font-size: 15px; }
-            /* compact sticky CTA on mobile */
-            #sticky-cta { padding: 0.5rem 0.75rem; }
-            #sticky-cta img { width: 42px; height: 42px; }
-            #sticky-cta .glow-button { padding: 0.5rem 0.75rem; font-size: 14px; }
-            /* make details/accordion full width and tappable */
-            details summary { padding: 0.75rem 1rem; display: flex; align-items: center; gap: .5rem; }
-            .pagination-dot { width: 8px; height: 8px; }
-        }
     </style>
 </head>
 <body class="text-gray-200">
@@ -404,7 +380,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-4xl mx-auto">
                     <div class="flex flex-col items-center p-6 glass-card rounded-lg"><span class="text-2xl font-bold text-yellow-400">1</span><h3 class="text-xl font-bold">Примите 1-2 капсулы</h3><p class="text-gray-400 mt-2">Лучше всего утром во время еды.</p></div>
                     <div class="flex flex-col items-center p-6 glass-card rounded-lg"><span class="text-2xl font-bold text-yellow-400">2</span><h3 class="text-xl font-bold">Запейте водой</h3><p class="text-gray-400 mt-2">Один стакан воды для лучшего усвоения.</p></div>
-                    <div class="flex flex-col items-center p-6 glass-card rounded-lg"><span class="text-2xl font-bold text-yellow-400">3</span><h3 class="text-xl font-bold">Почувствуйте эффект</h3><p class="text-gray-400 mt-2">Наслаждайтесь приливом сил и энергии.</p></div>
+                    <div class="flex flex-col items-center p-6 glass-card rounded-lg">span class="text-2xl font-bold text-yellow-400">3</span><h3 class="text-xl font-bold">Почувствуйте эффект</h3><p class="text-gray-400 mt-2">Наслаждайтесь приливом сил и энергии.</p></div>
                 </div>
             </section>
             
@@ -522,7 +498,7 @@
         </div>
         <div class="text-sm">
             <p class="font-bold text-gray-200" id="social-proof-name">Кто-то из г. Москва</p>
-            <p id="social-proof-product" class="text-gray-400">только что купил(а) Маку!</p>
+            <p class="text-gray-400">только что купил(а) Маку!</p>
         </div>
     </div>
 
@@ -569,33 +545,27 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
             
-            const isMobile = window.innerWidth <= 640;
-            // If mobile, reveal elements immediately and avoid heavy observers
-            if (isMobile) {
-                document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+            // --- Mobile Menu ---
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuOpenIcon = document.getElementById('menu-open-icon');
+            const menuCloseIcon = document.getElementById('menu-close-icon');
+
+            if (menuBtn) {
+                menuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    menuOpenIcon.classList.toggle('hidden');
+                    menuCloseIcon.classList.toggle('hidden');
+                });
             }
-+
-             // --- Mobile Menu ---
-             const menuBtn = document.getElementById('menu-btn');
-             const mobileMenu = document.getElementById('mobile-menu');
-             const menuOpenIcon = document.getElementById('menu-open-icon');
-             const menuCloseIcon = document.getElementById('menu-close-icon');
 
-             if (menuBtn) {
-                 menuBtn.addEventListener('click', () => {
-                     mobileMenu.classList.toggle('hidden');
-                     menuOpenIcon.classList.toggle('hidden');
-                     menuCloseIcon.classList.toggle('hidden');
-                 });
-             }
-
-             document.querySelectorAll('#mobile-menu a').forEach(link => {
-                 link.addEventListener('click', () => {
-                     mobileMenu.classList.add('hidden');
-                     menuOpenIcon.classList.remove('hidden');
-                     menuCloseIcon.classList.add('hidden');
-                 });
-             });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuOpenIcon.classList.remove('hidden');
+                    menuCloseIcon.classList.add('hidden');
+                });
+            });
 
 
             // --- Image Carousel Logic ---
@@ -879,9 +849,8 @@
             if(purchaseSection) ctaObserver.observe(purchaseSection);
 
             
-            // particles: skip initialization on mobile to save performance
             const canvas = document.getElementById('background-particles');
-            if (canvas && !isMobile) {
+            if(canvas) {
                 const ctx = canvas.getContext('2d');
                 let particlesArray;
                 const setCanvasSize = () => {
@@ -890,7 +859,7 @@
                 };
                 class Particle {
                     constructor(x, y, dX, dY, size) { this.x = x; this.y = y; this.dX = dX; this.dY = dY; this.size = size; }
-                    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = 'rgba(245, 166, 35, 0.08)'; ctx.fill(); }
+                    draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = 'rgba(245, 166, 35, 0.1)'; ctx.fill(); }
                     update() {
                         if (this.x > canvas.width || this.x < 0) this.dX = -this.dX;
                         if (this.y > canvas.height || this.y < 0) this.dY = -this.dY;
@@ -899,14 +868,13 @@
                 }
                 const initParticles = () => {
                     particlesArray = [];
-                    let density = (canvas.height * canvas.width) / 70000; // ~fewer particles
-                    let num = Math.max(10, Math.min(80, Math.round(density)));
+                    let num = (canvas.height * canvas.width) / 9000;
                     for (let i = 0; i < num; i++) {
-                        let size = Math.random() * 1.8 + 0.6;
+                        let size = (Math.random() * 2) + 1;
                         let x = Math.random() * (innerWidth - size * 2) + size * 2;
                         let y = Math.random() * (innerHeight - size * 2) + size * 2;
-                        let dX = (Math.random() * 0.5) - 0.25;
-                        let dY = (Math.random() * 0.5) - 0.25;
+                        let dX = (Math.random() * 0.4) - 0.2;
+                        let dY = (Math.random() * 0.4) - 0.2;
                         particlesArray.push(new Particle(x, y, dX, dY, size));
                     }
                 };
@@ -917,17 +885,12 @@
                 };
                 setCanvasSize(); initParticles(); animateParticles();
                 window.addEventListener('resize', () => { setCanvasSize(); initParticles(); });
-            } else if (canvas) {
-                canvas.style.display = 'none';
             }
-            
-            // reveal animation: on mobile we already made elements visible
-            if (!isMobile) {
-                const observer = new IntersectionObserver(entries => {
-                    entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
-                }, { threshold: 0.1 });
-                document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-            }
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => entry.isIntersecting && entry.target.classList.add('visible'));
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
             
             // --- Social Proof Logic ---
             const socialProof = document.getElementById('social-proof');
@@ -955,24 +918,17 @@
                 }, rand);
             }());
 
-
             // --- FAQ Interaction ---
-             (function initFAQ() {
-                // support both old .faq-item structure and <details> based accordions
-                const faqItems = document.querySelectorAll('.faq-item, details');
+            (function initFAQ() {
+                const faqItems = document.querySelectorAll('.faq-item');
                 faqItems.forEach(item => {
-                    if (item.tagName === 'DETAILS') {
-                        // details element: no further wiring needed for basic behaviour, but ensure lucide icons updated
-                        return;
-                    }
                     const question = item.querySelector('.faq-question');
                     const answer = item.querySelector('.faq-answer');
                     const icon = item.querySelector('.faq-icon');
-                     if (!question || !answer) return;
+                    if (!question || !answer) return;
 
                     // accessibility attrs
                     question.setAttribute('role', 'button');
-
                     question.setAttribute('tabindex', '0');
                     question.setAttribute('aria-expanded', 'false');
                     answer.setAttribute('aria-hidden', 'true');
@@ -1011,6 +967,6 @@
             updatePrice();
             updateCarousel();
         });
-     </script>
+    </script>
 </body>
 </html>
