@@ -203,7 +203,7 @@
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="benefits-tabs">
                             <button data-benefit="testosterone" class="benefit-tab-btn bg-yellow-500/10 text-yellow-300 p-3 rounded-lg text-sm font-semibold border-2 border-yellow-500/30 flex flex-col items-center gap-2 transition"><i data-lucide="shield-half"></i>Тестостерон</button>
                             <button data-benefit="immunity" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="shield-check"></i>Иммунитет</button>
-                            <button data-benefit="recovery" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="recycle"></i>Восстановление</button>
+                            <button data-benefit="energy" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="recycle"></i>Восстановление</button>
                             <button data-benefit="skin" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="gem"></i>Кожа и волосы</button>
                         </div>
                         <div class="mt-4 text-gray-400 text-sm min-h-[60px]" id="benefits-content">
@@ -337,7 +337,7 @@
             <!-- Comparison Section -->
             <section class="my-16 py-12 reveal">
                 <div class="container mx-auto px-6 lg:px-12 text-center">
-                     <h2 class="text-3xl font-extrabold gradient-text">Преимущество ARPOZAN</h2>
+                     <h2 class="text-3xl font-bold gradient-text">Преимущество ARPOZAN</h2>
                      <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Мы предлагаем не просто цинк, а гарантированное качество и эффективность.</p>
                      <div class="mt-12 max-w-4xl mx-auto">
                         <div class="grid grid-cols-3 gap-px bg-gray-700 rounded-lg overflow-hidden glass-card border-0">
@@ -345,19 +345,19 @@
                             <div class="bg-black/50 p-4 font-bold gradient-text">ARPOZAN Цинк</div>
                             <div class="bg-black/50 p-4 font-bold text-gray-400">Другие формы Цинка</div>
                             
-                            <div class="p-4 text-left font-semibold bg-black/30">Усвояемость</div>
+                            <div class="p-4 text-left font-bold bg-black/30">Усвояемость</div>
                             <div class="p-4 bg-black/30 flex items-center justify-center"><i data-lucide="check" class="w-6 h-6 text-green-500"></i><span class="ml-2">Высокая</span></div>
                             <div class="p-4 bg-black/30 flex items-center justify-center"><i data-lucide="x" class="w-6 h-6 text-red-500"></i><span class="ml-2">Низкая</span></div>
 
-                            <div class="p-4 text-left font-semibold bg-black/40">Чистота</div>
+                            <div class="p-4 text-left font-bold bg-black/40">Чистота</div>
                             <div class="p-4 bg-black/40 flex items-center justify-center"><i data-lucide="check" class="w-6 h-6 text-green-500"></i><span class="ml-2">100% без примесей</span></div>
                             <div class="p-4 bg-black/40 flex items-center justify-center"><i data-lucide="x" class="w-6 h-6 text-red-500"></i><span class="ml-2">Возможны добавки</span></div>
 
-                            <div class="p-4 text-left font-semibold bg-black/30">Побочные эффекты</div>
+                            <div class="p-4 text-left font-bold bg-black/30">Побочные эффекты</div>
                             <div class="p-4 bg-black/30 flex items-center justify-center"><i data-lucide="check" class="w-6 h-6 text-green-500"></i><span class="ml-2">Отсутствуют</span></div>
                             <div class="p-4 bg-black/30 flex items-center justify-center"><i data-lucide="x" class="w-6 h-6 text-red-500"></i><span class="ml-2">Возможны</span></div>
                             
-                            <div class="p-4 text-left font-semibold bg-black/40">Гарантия</div>
+                            <div class="p-4 text-left font-bold bg-black/40">Гарантия</div>
                             <div class="p-4 bg-black/40 flex items-center justify-center"><i data-lucide="check" class="w-6 h-6 text-green-500"></i><span class="ml-2">30 дней на возврат</span></div>
                             <div class="p-4 bg-black/40 flex items-center justify-center"><i data-lucide="x" class="w-6 h-6 text-red-500"></i><span class="ml-2">Нет</span></div>
                         </div>
@@ -793,7 +793,7 @@
                         name: selectedPlan.id === 'subscribe' ? 'Цинк (Подписка)' : 'Цинк (Разовая покупка)',
                         price: parseInt(selectedPlan.value, 10),
                         quantity: quantity,
-                        image: 'https://placehold.co/64x64/1a1a1a/F5A623?text=Ц'
+                        image: 'assets/imgs/Zink.png'
                     });
                 }
                 renderCart();
