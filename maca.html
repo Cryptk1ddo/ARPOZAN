@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мака перуанская | ARPOZAN</title>
-    <link rel="canonical" href="index.html">
+        <link rel="canonical" href="index.html">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
 
     <style>
@@ -44,7 +44,7 @@
         }
         .glass-card {
             background: rgba(16, 16, 16, 0.6); backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255,  0.1);
             position: relative; overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -66,8 +66,7 @@
             transition: opacity 1s cubic-bezier(0.6, 0.01, 0.05, 0.95), transform 1s cubic-bezier(0.6, 0.01, 0.05, 0.95);
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
-        .product-image-container { perspective: 1500px; }
-        #main-product-image { transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease-in-out; }
+        #main-product-image { transition: opacity 0.3s ease-in-out; }
         .animated-gradient-hero {
             background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 166, 35, 0.15), transparent);
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -128,7 +127,7 @@
         <div class="container mx-auto px-4 lg:px-8 py-4 flex justify-between items-center">
             <a href="index.html" class="text-2xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</a>
             
-            <nav class="hidden md:flex space-x-8 items-center text-sm font-semibold">
+            <nav class="hidden md:flex space-x-8 items-center text-sm font-bold">
                 <a href="#product" class="text-gray-300 hover:text-yellow-400 transition-colors">Продукт</a>
                 <a href="#components" class="text-gray-300 hover:text-yellow-400 transition-colors">Компоненты</a>
                 <a href="#faq" class="text-gray-300 hover:text-yellow-400 transition-colors">FAQ</a>
@@ -162,7 +161,7 @@
         <div id="mobile-menu" class="md:hidden hidden absolute top-full left-0 w-full bg-black/90 backdrop-blur-lg">
             <nav class="flex flex-col items-center space-y-6 py-8">
                 <a href="#product" class="text-gray-300 hover:text-yellow-400 transition-colors text-lg">Продукт</a>
-                <a href="#components" class="text-gray-300 hover:text-yellow-400 transition-colors text-lg">Компоненты</a>
+                <a href="#components" class="text-gray-300 hover:text-yellow-400 transition-colors text-lg">Как работает</a>
                 <a href="#faq" class="text-gray-300 hover:text-yellow-400 transition-colors text-lg">FAQ</a>
                 <a href="#product" class="glow-button mt-4 text-black font-bold uppercase px-8 py-3 rounded-lg text-base tracking-wider">Заказать</a>
             </nav>
@@ -170,134 +169,145 @@
     </header>
 
     <main>
-        <div class="container mx-auto px-4 lg:px-8 relative">
+        <div class="relative">
             <div class="animated-gradient-hero"></div>
-            <section id="product" class="lg:grid lg:grid-cols-2">                
+            <section id="product" class="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-[25px]">
+                
                 <!-- LEFT: Image Gallery -->
-                <div class="lg:sticky top-24">
-                    <div class="relative product-image-container reveal">
-                        <img id="main-product-image" src="assets/imgs/Maca-product-imgs/Maca-Product.png" alt="Изображение продукта Мака перуанская" class="w-full h-auto object-cover rounded-lg glass-card p-2">
-                        <button id="prev-image" class="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors z-10"><i data-lucide="chevron-left"></i></button>
-                        <button id="next-image" class="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors z-10"><i data-lucide="chevron-right"></i></button>
-                    </div>
-                    <div id="pagination-dots" class="flex justify-center space-x-2 mt-4">
-                        <!-- Dots will be generated by JS -->
+                <div class="lg:sticky lg:top-[81px] h-[60vh] lg:h-[calc(100vh-81px)]">
+                     <div class="relative reveal w-full h-full p-8 lg:p-16 flex items-center justify-center">
+                        <img id="main-product-image" src="https://placehold.co/1200x1200/1a1a1a/F5A623?text=Йохимбе" alt="Изображение продукта Йохимбе" class="w-full h-auto max-h-full object-contain rounded-lg">
+                        
+                        <!-- Navigation Arrows -->
+                        <div class="absolute inset-x-4 top-1/2 -translate-y-1/2 flex items-center justify-between z-10">
+                            <button id="prev-image" class="bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors"><i data-lucide="chevron-left"></i></button>
+                            <button id="next-image" class="bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors"><i data-lucide="chevron-right"></i></button>
+                        </div>
+
+                        <!-- Pagination Dots -->
+                        <div id="pagination-dots" class="absolute bottom-6 left-6 flex space-x-2 z-10">
+                            <!-- Dots will be generated by JS -->
+                        </div>
                     </div>
                 </div>
 
                 <!-- RIGHT: Product Form & Details -->
-                <div class="flex flex-col reveal" id="purchase-section">
-                    <div class="flex items-center gap-2">
-                        <div class="flex text-yellow-500">
-                            <i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                <div class="flex flex-col justify-center py-16 px-4 sm:px-8" id="purchase-section">
+                    <div class="max-w-[450px] w-full">
+                        <div class="flex items-center gap-2">
+                            <div class="flex text-yellow-500">
+                                <i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i><i data-lucide="star" class="w-5 h-5 fill-current"></i>
+                            </div>
+                            <span class="text-sm font-normal text-gray-400">978 отзывов</span>
                         </div>
-                        <span class="text-sm font-medium text-gray-400">1,283 отзывов</span>
-                    </div>
-                    <h1 class="text-4xl lg:text-5xl font-extrabold gradient-text mt-2">Мака перуанская</h1>
-                    <p class="mt-2 text-gray-400 text-lg">Природный бустер либидо</p>
-                    
-                    <p class="mt-4 text-gray-400">Растение из высокогорных районов Перу, которое веками использовали мужчины для поддержания силы и сексуальной энергии.</p>
-                    
-                    <!-- Benefits Explorer -->
-                    <div class="mt-6">
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="benefits-tabs">
-                            <button data-benefit="libido" class="benefit-tab-btn bg-yellow-500/10 text-yellow-300 p-3 rounded-lg text-sm font-semibold border-2 border-yellow-500/30 flex flex-col items-center gap-2 transition"><i data-lucide="heart-pulse"></i>Либидо</button>
+                        <h1 class="text-4xl lg:text-5xl font-bold gradient-text mt-2">Йохимбе</h1>
+                        <p class="mt-2 text-gray-400 text-lg">Энергия + жиросжигание + либидо</p>
+                        
+                        <p class="mt-6 text-gray-400">Натуральный афродизиак и стимулятор для ускоренного жиросжигания, повышения либидо, притока энергии и концентрации.</p>
+                        
+                        <!-- Benefits Explorer -->
+                        <div class="mt-6">
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="benefits-tabs">
+<button data-benefit="libido" class="benefit-tab-btn bg-yellow-500/10 text-yellow-300 p-3 rounded-lg text-sm font-semibold border-2 border-yellow-500/30 flex flex-col items-center gap-2 transition"><i data-lucide="heart-pulse"></i>Либидо</button>
                             <button data-benefit="energy" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="battery-charging"></i>Энергия</button>
                             <button data-benefit="stamina" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="trending-up"></i>Выносливость</button>
                             <button data-benefit="focus" class="benefit-tab-btn bg-gray-800/50 text-gray-300 p-3 rounded-lg text-sm font-semibold border-2 border-transparent flex flex-col items-center gap-2 transition"><i data-lucide="brain-circuit"></i>Фокус</button>
-                        </div>
-                        <div class="mt-4 text-gray-400 text-sm min-h-[60px]" id="benefits-content">
-                            <!-- Content will be injected by JS -->
-                        </div>
-                    </div>
-
-
-                    <div class="mt-6 p-3 rounded-lg bg-gradient-to-r from-yellow-500/10 to-yellow-500/0 border border-yellow-500/20 text-sm">
-                        <p class="font-semibold text-yellow-300 flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4"></i>Специальное предложение! Скидка 10% по подписке действует еще 2 дня.</p>
-                    </div>
-
-                    <form id="product-form" class="mt-6 space-y-6">
-                        <fieldset>
-                            <legend class="font-semibold text-lg mb-3">Выберите ваш план</legend>
-                            
-                            <!-- One-time purchase option -->
-                            <div class="p-4 glass-card rounded-lg mb-3 border border-gray-700 has-[:checked]:border-yellow-500/50 has-[:checked]:ring-2 has-[:checked]:ring-yellow-500/20">
-                                 <div class="flex items-center">
-                                    <input type="radio" name="purchase_type" value="1990" id="one-time" class="h-4 w-4 bg-transparent border-gray-600 text-yellow-500 focus:ring-yellow-600">
-                                    <label for="one-time" class="ml-3 flex-grow flex justify-between items-center cursor-pointer">
-                                        <div>
-                                            <p class="font-semibold text-gray-200">Разовая покупка</p>
-                                            <p class="text-sm text-gray-400">60 капсул</p>
-                                        </div>
-                                        <div class="text-lg font-bold text-gray-200">1.990 ₽</div>
-                                    </label>
-                                </div>
                             </div>
-                    
-                            <!-- Subscription option -->
-                            <div class="glass-card rounded-lg border border-gray-700 has-[:checked]:border-yellow-500/50 has-[:checked]:ring-2 has-[:checked]:ring-yellow-500/20">
-                                <div class="bg-yellow-500/10 px-4 py-1 text-center text-sm font-semibold text-yellow-400 rounded-t-lg">
-                                    <p>Экономьте 10% на каждой доставке</p>
-                                </div>
-                                <div class="p-4">
+                            <div class="mt-4 text-gray-400 text-sm min-h-[64px]" id="benefits-content">
+                                <!-- Content will be injected by JS -->
+                            </div>
+                        </div>
+
+                        <form id="product-form" class="mt-8 space-y-6">
+                            <fieldset>
+                                <legend class="font-bold text-lg mb-4">Выберите ваш план</legend>
+                                
+                                <!-- One-time purchase option -->
+                                <div class="p-4 glass-card rounded-lg mb-4 border border-gray-700 has-[:checked]:border-yellow-500/50 has-[:checked]:ring-2 has-[:checked]:ring-yellow-500/20">
                                      <div class="flex items-center">
-                                        <input type="radio" name="purchase_type" value="1791" id="subscribe" class="h-4 w-4 bg-transparent border-gray-600 text-yellow-500 focus:ring-yellow-600" checked>
-                                        <label for="subscribe" class="ml-3 flex-grow flex justify-between items-center cursor-pointer">
+                                        <input type="radio" name="purchase_type" value="2990" id="one-time" class="h-4 w-4 bg-transparent border-gray-600 text-yellow-500 focus:ring-yellow-600" checked>
+                                        <label for="one-time" class="ml-4 flex-grow flex justify-between items-center cursor-pointer">
                                             <div>
-                                                <p class="font-semibold text-gray-200">Подписка и скидка 10%</p>
+                                                <p class="font-bold text-gray-200">Разовая покупка</p>
                                                 <p class="text-sm text-gray-400">60 капсул</p>
                                             </div>
-                                            <div class="text-right">
-                                                 <p class="text-lg font-bold text-white">1.791 ₽</p>
-                                                 <p class="text-sm line-through text-gray-500">1.990 ₽</p>
-                                            </div>
+                                            <div class="text-lg font-bold text-gray-200">1.990 ₽</div>
                                         </label>
                                     </div>
-                                    <div class="mt-4 pl-7 border-t border-gray-700/50 pt-4">
-                                         <p class="text-sm font-semibold text-gray-300 mb-3">Доставка каждые:</p>
-                                         <div class="grid grid-cols-3 gap-2 text-sm">
-                                            <div>
-                                                <input type="radio" id="freq4" name="frequency" value="4" class="hidden peer" checked>
-                                                <label for="freq4" class="block text-center py-2 px-3 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">4 недели</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="freq6" name="frequency" value="6" class="hidden peer">
-                                                <label for="freq6" class="block text-center py-2 px-3 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">6 недель</label>
-                                            </div>
-                                            <div>
-                                                <input type="radio" id="freq8" name="frequency" value="8" class="hidden peer">
-                                                <label for="freq8" class="block text-center py-2 px-3 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">8 недель</label>
-                                            </div>
-                                         </div>
+                                </div>
+                        
+                                <!-- Subscription option -->
+                                <div class="glass-card rounded-lg border border-gray-700 has-[:checked]:border-yellow-500/50 has-[:checked]:ring-2 has-[:checked]:ring-yellow-500/20">
+                                    <div class="bg-yellow-500/10 px-4 py-2 text-center text-sm font-bold text-yellow-400 rounded-t-lg">
+                                        <p>Экономьте 10% на каждой доставке</p>
+                                    </div>
+                                    <div class="p-4">
+                                         <div class="flex items-center">
+                                            <input type="radio" name="purchase_type" value="1791" id="subscribe" class="h-4 w-4 bg-transparent border-gray-600 text-yellow-500 focus:ring-yellow-600">
+                                            <label for="subscribe" class="ml-4 flex-grow flex justify-between items-center cursor-pointer">
+                                                <div>
+                                                    <p class="font-bold text-gray-200">Подписка и скидка 10%</p>
+                                                    <p class="text-sm text-gray-400">60 капсул</p>
+                                                </div>
+                                                <div class="text-right">
+                                                     <p class="text-lg font-bold text-white">2.691 ₽</p>
+                                                     <p class="text-sm line-through text-gray-500">2.990 ₽</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <div class="mt-4 pl-8 border-t border-gray-700/50 pt-4">
+                                             <p class="text-sm font-bold text-gray-300">Как работает подписка:</p>
+                                             <ul class="mt-2 mb-4 space-y-2 text-sm text-gray-400">
+                                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-yellow-500 flex-shrink-0"></i>Самый выгодный вариант</li>
+                                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-yellow-500 flex-shrink-0"></i>Скидка 10% на все последующие заказы</li>
+                                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-yellow-500 flex-shrink-0"></i>Легко изменяйте или пропускайте доставку</li>
+                                                <li class="flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4 text-yellow-500 flex-shrink-0"></i>Отмена в любое время</li>
+                                             </ul>
+                                             <p class="text-sm font-bold text-gray-300 mb-2">Доставка каждые:</p>
+                                             <div class="grid grid-cols-3 gap-2 text-sm">
+                                                <div>
+                                                    <input type="radio" id="freq4" name="frequency" value="4" class="hidden peer">
+                                                    <label for="freq4" class="block text-center py-2 px-4 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">4 недели</label>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" id="freq6" name="frequency" value="6" class="hidden peer" checked>
+                                                    <label for="freq6" class="block text-center py-2 px-4 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">6 недель</label>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" id="freq8" name="frequency" value="8" class="hidden peer">
+                                                    <label for="freq8" class="block text-center py-2 px-4 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">8 недель</label>
+                                                </div>
+                                             </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </fieldset>
+                            
+                            <div class="flex items-end gap-4">
+                            <div>
+                                <label for="quantity-input" class="block text-sm font-normal text-gray-400 mb-2">Количество</label>
+                                <div class="relative flex items-center max-w-[8rem]">
+                                    <button type="button" id="decrement-button" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-l-lg p-4 h-12 focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                        <i data-lucide="minus" class="w-4 h-4 text-gray-400"></i>
+                                    </button>
+                                    <input type="text" id="quantity-input" class="bg-gray-900 border-t border-b border-gray-600 h-12 text-center text-gray-200 text-sm focus:ring-yellow-500 focus:border-yellow-500 block w-full py-2" value="1" required>
+                                    <button type="button" id="increment-button" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg p-4 h-12 focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                                        <i data-lucide="plus" class="w-4 h-4 text-gray-400"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </fieldset>
-                        
-                        <div class="flex items-end gap-4">
-                        <div>
-                            <label for="quantity-input" class="block text-sm font-medium text-gray-400 mb-1">Количество</label>
-                            <div class="relative flex items-center max-w-[8rem]">
-                                <button type="button" id="decrement-button" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-l-lg p-3 h-11 focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                    <i data-lucide="minus" class="w-3 h-3 text-gray-400"></i>
-                                </button>
-                                <input type="text" id="quantity-input" class="bg-gray-900 border-t border-b border-gray-600 h-11 text-center text-gray-200 text-sm focus:ring-yellow-500 focus:border-yellow-500 block w-full py-2.5" value="1" required>
-                                <button type="button" id="increment-button" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg p-3 h-11 focus:ring-gray-700 focus:ring-2 focus:outline-none">
-                                    <i data-lucide="plus" class="w-3 h-3 text-gray-400"></i>
-                                </button>
-                            </div>
+                            <button type="submit" class="w-full glow-button font-bold px-6 rounded-lg text-lg shadow-lg h-12 flex-grow flex items-center justify-center">Добавить в корзину</button>
                         </div>
-                        <button type="submit" class="w-full glow-button font-bold px-6 rounded-lg text-lg shadow-lg h-11 flex-grow flex items-center justify-center">Добавить в корзину</button>
-                    </div>
-                </form>
-                <div class="mt-4 text-center text-sm text-gray-400 flex items-center justify-center gap-2">
-                        <i data-lucide="shield-check" class="w-5 h-5 text-green-500"></i>
-                        <span>30-дневная гарантия возврата денег</span>
-                    </div>
-                    <div class="mt-4 flex justify-center items-center gap-x-4">
-                       <svg aria-describedby="visa-title" width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title id="visa-title">Visa</title><rect x="0.5" y="0.5" width="33" height="23" rx="3.5" fill="#141414" stroke="#444"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M10.751 15.8579H8.69129L7.14674 9.79198C7.07343 9.51295 6.91776 9.26627 6.68879 9.15001C6.11737 8.85784 5.4877 8.62531 4.80078 8.50804V8.2745H8.11886C8.57681 8.2745 8.92026 8.62531 8.97751 9.03274L9.77891 13.4083L11.8376 8.2745H13.8401L10.751 15.8579ZM14.985 15.8579H13.0398L14.6415 8.2745H16.5868L14.985 15.8579ZM19.1035 10.3753C19.1607 9.96689 19.5042 9.73335 19.9049 9.73335C20.5346 9.67471 21.2205 9.79199 21.7929 10.0831L22.1364 8.45042C21.5639 8.21688 20.9343 8.09961 20.3628 8.09961C18.4748 8.09961 17.101 9.15002 17.101 10.6078C17.101 11.7169 18.0741 12.2992 18.761 12.65C19.5042 12.9998 19.7904 13.2334 19.7332 13.5832C19.7332 14.1079 19.1607 14.3414 18.5893 14.3414C17.9024 14.3414 17.2155 14.1665 16.5868 13.8743L16.2433 15.5081C16.9303 15.7992 17.6734 15.9165 18.3603 15.9165C20.4773 15.9741 21.7929 14.9247 21.7929 13.3496C21.7929 11.3661 19.1035 11.2498 19.1035 10.3753V10.3753ZM28.6008 15.8579L27.0562 8.2745H25.3972C25.0537 8.2745 24.7103 8.50804 24.5958 8.85784L21.7356 15.8579H23.7381L24.1378 14.7498H26.5983L26.8273 15.8579H28.6008ZM25.6834 10.3167L26.2548 13.1747H24.653L25.6834 10.3167Z" fill="#8896a3"></path></svg>
-                       <svg aria-describedby="mastercard-title" width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title id="mastercard-title">Mastercard</title><rect x="0.5" y="0.5" width="33" height="23" rx="3.5" fill="#141414" stroke="#444"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M17.179 16.8288C15.9949 17.8268 14.459 18.4293 12.7807 18.4293C9.03582 18.4293 6 15.4296 6 11.7293C6 8.02899 9.03582 5.0293 12.7807 5.0293C14.459 5.0293 15.9949 5.63179 17.179 6.62984C18.363 5.63179 19.8989 5.0293 21.5773 5.0293C25.3221 5.0293 28.358 8.02899 28.358 11.7293C28.358 15.4296 25.3221 18.4293 21.5773 18.4293C19.8989 18.4293 18.363 17.8268 17.179 16.8288Z" fill="#ED0006"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M17.1797 16.8288C18.6376 15.5999 19.5621 13.7713 19.5621 11.7293C19.5621 9.68734 18.6376 7.85874 17.1797 6.62984C18.3637 5.63179 19.8996 5.0293 21.578 5.0293C25.3228 5.0293 28.3587 8.02899 28.3587 11.7293C28.3587 15.4296 25.3228 18.4293 21.578 18.4293C19.8996 18.4293 18.3637 17.8268 17.1797 16.8288Z" fill="#F9A000"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M17.1793 16.8278C18.6372 15.5989 19.5616 13.7703 19.5616 11.7283C19.5616 9.6864 18.6372 7.85781 17.1793 6.62891C15.7213 7.85781 14.7969 9.6864 14.7969 11.7283C14.7969 13.7703 15.7213 15.5989 17.1793 16.8278Z" fill="#FF5E00"></path></svg>
-                       <svg aria-describedby="apple-pay-title" width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title id="apple-pay-title">Apple Pay</title><rect x="0.5" y="0.5" width="33" height="23" rx="3.5" fill="#141414" stroke="#444"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M9.44921 8.34316C9.16382 8.69506 8.70721 8.97261 8.2506 8.93296C8.19353 8.45715 8.41707 7.95161 8.67867 7.63936C8.96406 7.27755 9.46348 7.01983 9.86777 7C9.91533 7.49563 9.72983 7.98135 9.44921 8.34316ZM9.86297 9.02712C9.46071 9.003 9.09366 9.15319 8.79718 9.2745C8.60639 9.35256 8.44483 9.41867 8.32191 9.41867C8.18397 9.41867 8.01574 9.34903 7.82685 9.27084L7.82685 9.27084C7.57935 9.16838 7.29638 9.05124 6.99964 9.05686C6.31948 9.06677 5.68688 9.46823 5.33967 10.1076C4.62621 11.3863 5.15417 13.2796 5.84384 14.3205C6.18155 14.8359 6.58584 15.4009 7.11855 15.3811C7.35291 15.3719 7.5215 15.2973 7.69597 15.2202C7.89683 15.1314 8.10549 15.0391 8.43131 15.0391C8.74582 15.0391 8.94536 15.129 9.1369 15.2152C9.31903 15.2973 9.49393 15.376 9.75358 15.3712C10.3053 15.3613 10.6525 14.8557 10.9902 14.3403C11.3547 13.7871 11.5148 13.2471 11.5391 13.1652L11.542 13.1557C11.5414 13.1551 11.5369 13.153 11.5289 13.1492C11.4071 13.0911 10.476 12.6469 10.467 11.4557C10.4581 10.4559 11.2056 9.94935 11.3233 9.86961L11.3233 9.8696C11.3304 9.86476 11.3353 9.86149 11.3374 9.85978C10.8618 9.12625 10.1198 9.04695 9.86297 9.02712ZM13.6824 15.3167V7.5898H16.4649C17.9013 7.5898 18.9049 8.62071 18.9049 10.1274C18.9049 11.6341 17.8822 12.675 16.4268 12.675H14.8334V15.3167H13.6824ZM14.8333 8.60088H16.1603C17.1592 8.60088 17.7299 9.15599 17.7299 10.1324C17.7299 11.1088 17.1592 11.6688 16.1556 11.6688H14.8333V8.60088ZM22.7053 14.3898C22.4009 14.9945 21.7302 15.3761 21.0072 15.3761C19.9371 15.3761 19.1903 14.712 19.1903 13.7108C19.1903 12.7196 19.9133 12.1496 21.2498 12.0653L22.6862 11.9761V11.5499C22.6862 10.9204 22.2915 10.5784 21.5875 10.5784C21.0072 10.5784 20.5839 10.8907 20.4983 11.3665H19.4614C19.4947 10.3653 20.3984 9.63675 21.6208 9.63675C22.9383 9.63675 23.7945 10.3554 23.7945 11.4706V15.3167H22.729V14.3898H22.7053ZM21.3163 14.4592C20.7027 14.4592 20.3127 14.1519 20.3127 13.6811C20.3127 13.1954 20.6885 12.9129 21.4067 12.8683L22.6861 12.784V13.2202C22.6861 13.9438 22.0964 14.4592 21.3163 14.4592ZM27.3284 15.619C26.867 16.9721 26.3391 17.4181 25.2166 17.4181C25.131 17.4181 24.8456 17.4082 24.779 17.3884V16.4616C24.8503 16.4715 25.0263 16.4814 25.1167 16.4814C25.6256 16.4814 25.911 16.2584 26.087 15.6785L26.1916 15.3365L24.2415 9.7111H25.4449L26.8004 14.2759H26.8242L28.1798 9.7111H29.3499L27.3284 15.619Z" fill="#8896a3"></path></svg>
+                    </form>
+                    <div class="mt-4 text-center text-sm text-gray-400 flex items-center justify-center gap-2">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-green-500"></i>
+                            <span>30-дневная гарантия возврата денег</span>
+                        </div>
+                        <div class="mt-4 flex justify-center items-center gap-x-4">
+                           <svg aria-describedby="visa-title" width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title id="visa-title">Visa</title><rect x="0.5" y="0.5" width="33" height="23" rx="3.5" fill="#141414" stroke="#444"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M10.751 15.8579H8.69129L7.14674 9.79198C7.07343 9.51295 6.91776 9.26627 6.68879 9.15001C6.11737 8.85784 5.4877 8.62531 4.80078 8.50804V8.2745H8.11886C8.57681 8.2745 8.92026 8.62531 8.97751 9.03274L9.77891 13.4083L11.8376 8.2745H13.8401L10.751 15.8579ZM14.985 15.8579H13.0398L14.6415 8.2745H16.5868L14.985 15.8579ZM19.1035 10.3753C19.1607 9.96689 19.5042 9.73335 19.9049 9.73335C20.5346 9.67471 21.2205 9.79199 21.7929 10.0831L22.1364 8.45042C21.5639 8.21688 20.9343 8.09961 20.3628 8.09961C18.4748 8.09961 17.101 9.15002 17.101 10.6078C17.101 11.7169 18.0741 12.2992 18.761 12.65C19.5042 12.9998 19.7904 13.2334 19.7332 13.5832C19.7332 14.1079 19.1607 14.3414 18.5893 14.3414C17.9024 14.3414 17.2155 14.1665 16.5868 13.8743L16.2433 15.5081C16.9303 15.7992 17.6734 15.9165 18.3603 15.9165C20.4773 15.9741 21.7929 14.9247 21.7929 13.3496C21.7929 11.3661 19.1035 11.2498 19.1035 10.3753V10.3753ZM28.6008 15.8579L27.0562 8.2745H25.3972C25.0537 8.2745 24.7103 8.50804 24.5958 8.85784L21.7356 15.8579H23.7381L24.1378 14.7498H26.5983L26.8273 15.8579H28.6008ZM25.6834 10.3167L26.2548 13.1747H24.653L25.6834 10.3167Z" fill="#8896a3"></path></svg>
+                           <svg aria-describedby="mastercard-title" width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title id="mastercard-title">Mastercard</title><rect x="0.5" y="0.5" width="33" height="23" rx="3.5" fill="#141414" stroke="#444"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M17.179 16.8288C15.9949 17.8268 14.459 18.4293 12.7807 18.4293C9.03582 18.4293 6 15.4296 6 11.7293C6 8.02899 9.03582 5.0293 12.7807 5.0293C14.459 5.0293 15.9949 5.63179 17.179 6.62984C18.363 5.63179 19.8989 5.0293 21.5773 5.0293C25.3221 5.0293 28.358 8.02899 28.358 11.7293C28.358 15.4296 25.3221 18.4293 21.5773 18.4293C19.8989 18.4293 18.363 17.8268 17.179 16.8288Z" fill="#ED0006"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M17.1797 16.8288C18.6376 15.5999 19.5621 13.7713 19.5621 11.7293C19.5621 9.68734 18.6376 7.85874 17.1797 6.62984C18.3637 5.63179 19.8996 5.0293 21.578 5.0293C25.3228 5.0293 28.3587 8.02899 28.3587 11.7293C28.3587 15.4296 25.3228 18.4293 21.578 18.4293C19.8996 18.4293 18.3637 17.8268 17.1797 16.8288Z" fill="#F9A000"></path><path fill-rule="evenodd" clip-rule="evenodd" d="M17.1793 16.8278C18.6372 15.5989 19.5616 13.7703 19.5616 11.7283C19.5616 9.6864 18.6372 7.85781 17.1793 6.62891C15.7213 7.85781 14.7969 9.6864 14.7969 11.7283C14.7969 13.7703 15.7213 15.5989 17.1793 16.8278Z" fill="#FF5E00"></path></svg>
+                           <svg aria-describedby="apple-pay-title" width="34" height="24" viewBox="0 0 34 24" fill="none" xmlns="http://www.w3.org/2000/svg"><title id="apple-pay-title">Apple Pay</title><rect x="0.5" y="0.5" width="33" height="23" rx="3.5" fill="#141414" stroke="#444"></rect><path fill-rule="evenodd" clip-rule="evenodd" d="M9.44921 8.34316C9.16382 8.69506 8.70721 8.97261 8.2506 8.93296C8.19353 8.45715 8.41707 7.95161 8.67867 7.63936C8.96406 7.27755 9.46348 7.01983 9.86777 7C9.91533 7.49563 9.72983 7.98135 9.44921 8.34316ZM9.86297 9.02712C9.46071 9.003 9.09366 9.15319 8.79718 9.2745C8.60639 9.35256 8.44483 9.41867 8.32191 9.41867C8.18397 9.41867 8.01574 9.34903 7.82685 9.27084L7.82685 9.27084C7.57935 9.16838 7.29638 9.05124 6.99964 9.05686C6.31948 9.06677 5.68688 9.46823 5.33967 10.1076C4.62621 11.3863 5.15417 13.2796 5.84384 14.3205C6.18155 14.8359 6.58584 15.4009 7.11855 15.3811C7.35291 15.3719 7.5215 15.2973 7.69597 15.2202C7.89683 15.1314 8.10549 15.0391 8.43131 15.0391C8.74582 15.0391 8.94536 15.129 9.1369 15.2152C9.31903 15.2973 9.49393 15.376 9.75358 15.3712C10.3053 15.3613 10.6525 14.8557 10.9902 14.3403C11.3547 13.7871 11.5148 13.2471 11.5391 13.1652L11.542 13.1557C11.5414 13.1551 11.5369 13.153 11.5289 13.1492C11.4071 13.0911 10.476 12.6469 10.467 11.4557C10.4581 10.4559 11.2056 9.94935 11.3233 9.86961L11.3233 9.8696C11.3304 9.86476 11.3353 9.86149 11.3374 9.85978C10.8618 9.12625 10.1198 9.04695 9.86297 9.02712ZM13.6824 15.3167V7.5898H16.4649C17.9013 7.5898 18.9049 8.62071 18.9049 10.1274C18.9049 11.6341 17.8822 12.675 16.4268 12.675H14.8334V15.3167H13.6824ZM14.8333 8.60088H16.1603C17.1592 8.60088 17.7299 9.15599 17.7299 10.1324C17.7299 11.1088 17.1592 11.6688 16.1556 11.6688H14.8333V8.60088ZM22.7053 14.3898C22.4009 14.9945 21.7302 15.3761 21.0072 15.3761C19.9371 15.3761 19.1903 14.712 19.1903 13.7108C19.1903 12.7196 19.9133 12.1496 21.2498 12.0653L22.6862 11.9761V11.5499C22.6862 10.9204 22.2915 10.5784 21.5875 10.5784C21.0072 10.5784 20.5839 10.8907 20.4983 11.3665H19.4614C19.4947 10.3653 20.3984 9.63675 21.6208 9.63675C22.9383 9.63675 23.7945 10.3554 23.7945 11.4706V15.3167H22.729V14.3898H22.7053ZM21.3163 14.4592C20.7027 14.4592 20.3127 14.1519 20.3127 13.6811C20.3127 13.1954 20.6885 12.9129 21.4067 12.8683L22.6861 12.784V13.2202C22.6861 13.9438 22.0964 14.4592 21.3163 14.4592ZM27.3284 15.619C26.867 16.9721 26.3391 17.4181 25.2166 17.4181C25.131 17.4181 24.8456 17.4082 24.779 17.3884V16.4616C24.8503 16.4715 25.0263 16.4814 25.1167 16.4814C25.6256 16.4814 25.911 16.2584 26.087 15.6785L26.1916 15.3365L24.2415 9.7111H25.4449L26.8004 14.2759H26.8242L28.1798 9.7111H29.3499L27.3284 15.619Z" fill="#8896a3"></path></svg>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -306,8 +316,8 @@
         <div class="container mx-auto px-4 lg:px-8">
             <!-- Key Components Section -->
             <section id="components" class="my-16 py-12 reveal">
-                <div class="container mx-auto px-6 lg:px-12 text-center">
-                    <h2 class="text-3xl font-extrabold gradient-text">Ключевые компоненты силы</h2>
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold gradient-text">Ключевые компоненты силы</h2>
                     <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Узнайте, что делает нашу маку такой эффективной.</p>
                     <div class="mt-12 max-w-4xl mx-auto">
                         <div id="component-tabs" class="flex flex-col md:flex-row gap-4 justify-center mb-8">
@@ -366,34 +376,35 @@
             </section>
 
              <section class="mb-16 text-center reveal">
-                <h2 class="text-3xl font-extrabold gradient-text">Простой путь к вашей энергии</h2>
+                <h2 class="text-3xl font-bold gradient-text">Простой путь к вашей энергии</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-4xl mx-auto">
-                    <div class="flex flex-col items-center p-6 glass-card rounded-lg"><div class="bg-yellow-900 bg-opacity-30 rounded-full p-4 mb-4"><span class="text-2xl font-bold text-yellow-400">1</span></div><h3 class="text-xl font-bold">Примите 1-2 капсулы</h3><p class="text-gray-400 mt-2">Лучше всего утром во время еды.</p></div>
-                    <div class="flex flex-col items-center p-6 glass-card rounded-lg"><div class="bg-yellow-900 bg-opacity-30 rounded-full p-4 mb-4"><span class="text-2xl font-bold text-yellow-400">2</span></div><h3 class="text-xl font-bold">Запейте водой</h3><p class="text-gray-400 mt-2">Один стакан воды для лучшего усвоения.</p></div>
-                    <div class="flex flex-col items-center p-6 glass-card rounded-lg"><div class="bg-yellow-900 bg-opacity-30 rounded-full p-4 mb-4"><span class="text-2xl font-bold text-yellow-400">3</span></div><h3 class="text-xl font-bold">Почувствуйте эффект</h3><p class="text-gray-400 mt-2">Наслаждайтесь приливом сил и энергии.</p></div>
+                    <div class="flex flex-col items-center p-6 glass-card rounded-lg"><span class="text-2xl font-bold text-yellow-400">1</span><h3 class="text-xl font-bold">Примите 1-2 капсулы</h3><p class="text-gray-400 mt-2">Лучше всего утром во время еды.</p></div>
+                    <div class="flex flex-col items-center p-6 glass-card rounded-lg"><span class="text-2xl font-bold text-yellow-400">2</span><h3 class="text-xl font-bold">Запейте водой</h3><p class="text-gray-400 mt-2">Один стакан воды для лучшего усвоения.</p></div>
+                    <div class="flex flex-col items-center p-6 glass-card rounded-lg">span class="text-2xl font-bold text-yellow-400">3</span><h3 class="text-xl font-bold">Почувствуйте эффект</h3><p class="text-gray-400 mt-2">Наслаждайтесь приливом сил и энергии.</p></div>
                 </div>
             </section>
             
             <!-- Science Section -->
             <section class="my-16 py-12 reveal">
                  <div class="container mx-auto px-6 lg:px-12">
-                    <div class="grid lg:grid-cols-2 gap-12 items-center">
-                        <div class="glass-card rounded-lg p-4">
-                            <img src="https://placehold.co/500x500/101010/F5A623?text=Молекулы" alt="Научное исследование Маки" class="rounded-md w-full">
+                        <div class="lg:col-span-5 glass-card rounded-lg p-4" style="background:#ffffff;color:#111;"></div>
+                            <img src="assets/imgs/Yohimbin-product-imgs/Yohimbin.svg" alt="Научное исследование Йохимбе" class="rounded-md w-full">
                         </div>
                         <div>
-                            <h2 class="text-3xl font-extrabold gradient-text">Научный подход к вашей силе</h2>
+                            <h2 class="text-3xl font-bold gradient-text">Научный подход к вашей силе</h2>
                             <p class="mt-4 text-lg text-gray-400">Перуанская мака содержит уникальные биологически активные вещества — макамиды и макаены. Научные исследования показывают, что именно эти соединения отвечают за повышение либидо и улучшение сексуальной функции.</p>
                             <p class="mt-4 text-gray-400">Они действуют на эндокринную систему, помогая организму естественным образом регулировать гормональный баланс, что приводит к увеличению энергии, выносливости и полового влечения без использования синтетических стимуляторов.</p>
                         </div>
+                        </div>
                     </div>
-                 </div>
             </section>
 
             <!-- FAQ Section -->
-            <section id="faq" class="my-16 py-12 reveal">
-                 <div class="container mx-auto px-6 lg:px-12 max-w-3xl">
-                    <h2 class="text-3xl font-extrabold gradient-text text-center mb-12">Часто задаваемые вопросы</h2>
+             <section id="faq" class="grid grid-cols-12 gap-x-6 py-16 md:py-24">
+                <div class="col-span-12 md:col-span-4">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white font-heading">Частые<br>вопросы</h2>
+                </div>
+                <div class="col-span-12 md:col-span-8 mt-8 md:mt-0">
                     <div class="space-y-4">
                         <details class="glass-card rounded-lg p-4">
                             <summary class="flex justify-between items-center cursor-pointer font-semibold text-lg">
@@ -402,7 +413,7 @@
                             </summary>
                             <div class="mt-3 text-gray-400">
                                <p>Не рекомендуется принимать при индивидуальной непереносимости компонентов. Перед применением рекомендуется проконсультироваться с врачом.</p>
-                            </div>
+                        </div>
                         </details>
                         <details class="glass-card rounded-lg p-4">
                             <summary class="flex justify-between items-center cursor-pointer font-semibold text-lg">
@@ -411,7 +422,7 @@
                             </summary>
                             <div class="mt-3 text-gray-400">
                                <p>Рекомендуемый курс - 2-3 месяца. Можно принимать на постоянной основе с небольшими перерывами.</p>
-                            </div>
+                        </div>
                         </details>
                         <details class="glass-card rounded-lg p-4">
                             <summary class="flex justify-between items-center cursor-pointer font-semibold text-lg">
@@ -420,7 +431,7 @@
                             </summary>
                             <div class="mt-3 text-gray-400">
                                <p>Да, мака хорошо сочетается с большинством витаминов и добавок. Однако, для составления индивидуальной схемы лучше проконсультироваться со специалистом.</p>
-                            </div>
+                        </div>
                         </details>
                          <details class="glass-card rounded-lg p-4">
                             <summary class="flex justify-between items-center cursor-pointer font-semibold text-lg">
@@ -432,7 +443,7 @@
                             </div>
                         </details>
                     </div>
-                 </div>
+                </div>
             </section>
         </div>
 
@@ -467,7 +478,7 @@
                 <img src="assets/imgs/Maka peruvian.png" alt="Мака" class="rounded-md">
                 <div>
                     <h4 class="font-bold">Мака перуанская</h4>
-                    <p id="sticky-cta-price" class="text-sm text-yellow-500 font-semibold">1.791 ₽</p>
+                    <p id="sticky-cta-price" class="text-sm text-yellow-500 font-bold">1.791 ₽</p>
                 </div>
             </div>
             <button id="sticky-cta-button" class="glow-button font-bold py-2 px-6 rounded-lg text-md">В корзину</button>
@@ -486,7 +497,7 @@
             <i data-lucide="shopping-bag" class="text-yellow-400 w-5 h-5"></i>
         </div>
         <div class="text-sm">
-            <p class="font-semibold text-gray-200" id="social-proof-name">Кто-то из г. Москва</p>
+            <p class="font-bold text-gray-200" id="social-proof-name">Кто-то из г. Москва</p>
             <p class="text-gray-400">только что купил(а) Маку!</p>
         </div>
     </div>
@@ -582,21 +593,24 @@
 
                 document.querySelectorAll('.pagination-dot').forEach((dot, index) => {
                     dot.classList.toggle('bg-yellow-500', index === currentIndex);
-                    dot.classList.toggle('bg-gray-700', index !== currentIndex);
+                    dot.classList.toggle('bg-gray-600', index !== currentIndex);
                 });
             }
             
-            images.forEach((_, index) => {
-                const dot = document.createElement('button');
-                dot.classList.add('pagination-dot', 'w-2', 'h-2', 'rounded-full', 'transition-colors');
-                if (index === 0) dot.classList.add('bg-yellow-500');
-                else dot.classList.add('bg-gray-700');
-                dot.addEventListener('click', () => {
-                    currentIndex = index;
-                    updateCarousel();
+            if(dotsContainer) {
+                dotsContainer.innerHTML = ''; // Clear existing dots
+                images.forEach((_, index) => {
+                    const dot = document.createElement('button');
+                    dot.classList.add('pagination-dot', 'w-2.5', 'h-2.5', 'rounded-full', 'transition-colors');
+                    if (index === 0) dot.classList.add('bg-yellow-500');
+                    else dot.classList.add('bg-gray-600');
+                    dot.addEventListener('click', () => {
+                        currentIndex = index;
+                        updateCarousel();
+                    });
+                    dotsContainer.appendChild(dot);
                 });
-                if(dotsContainer) dotsContainer.appendChild(dot);
-            });
+            }
 
             if(prevButton) prevButton.addEventListener('click', () => {
                 currentIndex = (currentIndex - 1 + images.length) % images.length;
@@ -608,7 +622,7 @@
             });
             
             // --- Benefits Explorer ---
-            const benefits = {
+             const benefits = {
                 libido: "Повышает половое влечение и улучшает качество интимной жизни за счет уникальных макамидов.",
                 energy: "Снижает усталость и увеличивает жизненный тонус благодаря богатому составу витаминов группы B.",
                 stamina: "Увеличивает физическую выносливость, сокращает время восстановления между актами.",
@@ -618,7 +632,9 @@
             const benefitContent = document.getElementById('benefits-content');
 
             function updateBenefitContent(benefit) {
-                benefitContent.innerHTML = `<p>${benefits[benefit]}</p>`;
+                if (benefitContent) {
+                   benefitContent.innerHTML = `<p>${benefits[benefit]}</p>`;
+                }
             }
             
             benefitTabs.forEach(tab => {
@@ -730,7 +746,7 @@
                         itemElement.innerHTML = `
                             <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-md object-cover">
                             <div class="flex-grow">
-                                <p class="font-semibold">${item.name}</p>
+                                <p class="font-bold">${item.name}</p>
                                 <p class="text-sm text-gray-400">${item.price} ₽</p>
                             </div>
                             <div class="flex items-center gap-2">
@@ -738,7 +754,7 @@
                                 <span>${item.quantity}</span>
                                 <button data-id="${item.id}" class="cart-quantity-increase p-1 hover:bg-gray-700 rounded-full"><i data-lucide="plus" class="w-4 h-4"></i></button>
                             </div>
-                            <div class="font-semibold">${itemTotal} ₽</div>
+                            <div class="font-bold">${itemTotal} ₽</div>
                             <button data-id="${item.id}" class="cart-item-remove text-gray-500 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                         `;
                         cartItemsContainer.appendChild(itemElement);
@@ -876,28 +892,18 @@
             }, { threshold: 0.1 });
             document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
             
-            const container = document.querySelector('.product-image-container');
-            const mainProductImage = document.getElementById('main-product-image');
-            if (container && mainProductImage) {
-                container.addEventListener('mousemove', (e) => {
-                    const { left, top, width, height } = container.getBoundingClientRect();
-                    const x = (e.clientX - left) / width - 0.5;
-                    const y = (e.clientY - top) / height - 0.5;
-                    mainProductImage.style.transform = `rotateX(${-y * 10}deg) rotateY(${x * 10}deg) scale3d(1.05, 1.05, 1.05)`;
-                });
-                container.addEventListener('mouseleave', () => mainProductImage.style.transform = 'none');
-            }
-
             // --- Social Proof Logic ---
             const socialProof = document.getElementById('social-proof');
             const socialProofName = document.getElementById('social-proof-name');
-            const names = ["Алексей", "Дмитрий", "Сергей", "Андрей", "Иван", "Михаил"];
+            const socialProofProduct = document.getElementById('social-proof-product');
+            const names = ["Алексей", "Дмитрий", "Сергей", "Андрей", "Иван", "Михаил", "Елена", "Ольга", "Анна"];
             const cities = ["Москвы", "Санкт-Петербурга", "Сочи", "Казани", "Новосибирска", "Екатеринбурга"];
 
             function showSocialProof() {
                 const randomName = names[Math.floor(Math.random() * names.length)];
                 const randomCity = cities[Math.floor(Math.random() * cities.length)];
                 socialProofName.textContent = `${randomName} из г. ${randomCity}`;
+                socialProofProduct.textContent = `только что купил(а) Маку!`;
                 socialProof.classList.add('show');
                 setTimeout(() => {
                     socialProof.classList.remove('show');
@@ -912,11 +918,55 @@
                 }, rand);
             }());
 
+            // --- FAQ Interaction ---
+            (function initFAQ() {
+                const faqItems = document.querySelectorAll('.faq-item');
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question');
+                    const answer = item.querySelector('.faq-answer');
+                    const icon = item.querySelector('.faq-icon');
+                    if (!question || !answer) return;
+
+                    // accessibility attrs
+                    question.setAttribute('role', 'button');
+                    question.setAttribute('tabindex', '0');
+                    question.setAttribute('aria-expanded', 'false');
+                    answer.setAttribute('aria-hidden', 'true');
+
+                    // prepare animation
+                    answer.style.overflow = 'hidden';
+                    answer.style.maxHeight = '0px';
+                    answer.style.transition = 'max-height 0.35s ease';
+
+                    function toggle() {
+                        const isOpen = item.classList.toggle('open');
+                        question.setAttribute('aria-expanded', String(isOpen));
+                        answer.setAttribute('aria-hidden', String(!isOpen));
+                        if (isOpen) {
+                            // expand to actual content height
+                            answer.style.maxHeight = answer.scrollHeight + 'px';
+                            if (icon) icon.textContent = '−';
+                        } else {
+                            answer.style.maxHeight = '0px';
+                            if (icon) icon.textContent = '+';
+                        }
+                    }
+
+                    question.addEventListener('click', toggle);
+                    question.addEventListener('keydown', (e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            toggle();
+                        }
+                    });
+                });
+            })();
+
             // Initial call
             renderCart();
             updatePrice();
+            updateCarousel();
         });
     </script>
 </body>
 </html>
-
