@@ -147,7 +147,7 @@ export default function SearchBar({ isOpen, onClose }) {
                   animate={{ opacity: 1 }}
                   className="mt-4 text-center py-8"
                 >
-                  <p className="text-gray-400">Ничего не найдено для &quot;{query}&quot;</p>
+                  <p className="text-gray-400">Ничего не найдено для "{query}"</p>
                 </motion.div>
               )}
             </div>

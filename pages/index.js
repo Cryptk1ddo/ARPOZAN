@@ -433,7 +433,7 @@ export default function Home() {
                           <div className="grid grid-cols-12 gap-x-6 items-center h-full">
                             <div className="col-span-12 md:col-span-8">
                               <p className="text-3xl md:text-4xl font-bold text-white leading-tight">
-                                &ldquo;{testimonial.quote}&rdquo;
+                                "{testimonial.quote}"
                               </p>
                             </div>
                             <div className="col-span-12 md:col-span-4 md:pl-8 mt-6 md:mt-0">

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import Layout from '../components/Layout';
 import { useCart } from '../lib/CartContext';
 import { useToast } from '../lib/ToastContext';
@@ -105,11 +104,11 @@ const ParticleCanvas = () => {
 const Header = () => (
      <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-lg border-b border-white/10">
         <div className="container mx-auto px-4 lg:px-8 py-4 flex justify-between items-center">
-            <Link href="/" className="text-2xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</Link>
-             <Link href="/" className="text-sm font-bold text-gray-300 hover:text-yellow-400 transition-colors flex items-center gap-2">
+            <a href="/" className="text-2xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</a>
+             <a href="/" className="text-sm font-bold text-gray-300 hover:text-yellow-400 transition-colors flex items-center gap-2">
                 <ArrowLeftIcon />
                 Вернуться в магазин
-            </Link>
+            </a>
         </div>
     </header>
 );
@@ -273,9 +272,9 @@ const Footer = () => (
                 <div className="md:col-span-2 md:col-start-7">
                     <h4 className="font-bold text-white">Навигация</h4>
                     <ul className="mt-4 space-y-2 text-sm">
-                        <li><Link href="/" className="hover:text-yellow-400 transition-colors">Продукт</Link></li>
-                        <li><Link href="/#components" className="hover:text-yellow-400 transition-colors">Как работает</Link></li>
-                        <li><Link href="/#faq" className="hover:text-yellow-400 transition-colors">FAQ</Link></li>
+                        <li><a href="/" className="hover:text-yellow-400 transition-colors">Продукт</a></li>
+                        <li><a href="/#components" className="hover:text-yellow-400 transition-colors">Как работает</a></li>
+                        <li><a href="/#faq" className="hover:text-yellow-400 transition-colors">FAQ</a></li>
                     </ul>
                 </div>
                 <div className="md:col-span-2">
