@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head'
+import Image from 'next/image'
 import Layout from '../components/Layout'
 import Carousel from '../components/Carousel'
 import StickyCTA from '../components/StickyCTA'
@@ -211,9 +212,10 @@ export default function LongJack() {
             <section id="product" className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-[25px]">
               <div className="lg:sticky lg:top-[81px] h-[60vh] lg:h-[calc(100vh-81px)]">
                 <div className="relative reveal w-full h-full p-8 lg:p-16 flex items-center justify-center">
-                  <img
+                  <Image
                     src={images[currentImageIndex]}
                     alt="Изображение продукта Тонгкат Али"
+                    fill
                     className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
                   />
 
@@ -538,7 +540,13 @@ export default function LongJack() {
               <div className="container mx-auto px-6 lg:px-12">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                   <div className="glass-card rounded-lg p-4">
-                    <img src="/assets/imgs/Tongkat Ali.png" alt="Научное исследование Тонгкат Али" className="rounded-md w-full max-h-[500px] object-contain" />
+                    <Image 
+                        src="/assets/imgs/Tongkat Ali.png" 
+                        alt="Научное исследование Тонгкат Али" 
+                        width={800} 
+                        height={500} 
+                        className="rounded-md w-full max-h-[500px] object-contain" 
+                    />
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold gradient-text">Научный подход к вашей силе</h2>

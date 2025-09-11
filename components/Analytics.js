@@ -1,8 +1,34 @@
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useRouter } from 'next/router'
 
 export default function Analytics() {
   const router = useRouter()
+
+  const getVisitorId = useCallback(() => {
+    let visitorId = localStorage.getItem('arpofan-visitor-id')
+    if (!visitorId) {
+      visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+      localStorage.setItem('arpofan-visitor-id', visitorId)
+    }
+    return visitorId
+  }, [])
+
+  const trackPageView = useCallback((url) => {
+    // Store page view data in localStorage for demo purposes
+    const analyticsData = JSON.parse(localStorage.getItem('arpofan-analytics') || '{}')
+    const today = new Date().toISOString().split('T')[0]
+
+    if (!analyticsData[today]) {
+      analyticsData[today] = { pageViews: 0, uniqueVisitors: new Set() }
+    }
+
+    analyticsData[today].pageViews += 1
+    analyticsData[today].uniqueVisitors.add(getVisitorId())
+
+    localStorage.setItem('arpofan-analytics', JSON.stringify(analyticsData))
+
+    console.log(`Page view tracked: ${url}`)
+  }, [getVisitorId])
 
   useEffect(() => {
     // Track page views
@@ -25,33 +51,7 @@ export default function Analytics() {
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
-  }, [router])
-
-  const trackPageView = (url) => {
-    // Store page view data in localStorage for demo purposes
-    const analyticsData = JSON.parse(localStorage.getItem('arpofan-analytics') || '{}')
-    const today = new Date().toISOString().split('T')[0]
-
-    if (!analyticsData[today]) {
-      analyticsData[today] = { pageViews: 0, uniqueVisitors: new Set() }
-    }
-
-    analyticsData[today].pageViews += 1
-    analyticsData[today].uniqueVisitors.add(getVisitorId())
-
-    localStorage.setItem('arpofan-analytics', JSON.stringify(analyticsData))
-
-    console.log(`Page view tracked: ${url}`)
-  }
-
-  const getVisitorId = () => {
-    let visitorId = localStorage.getItem('arpofan-visitor-id')
-    if (!visitorId) {
-      visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
-      localStorage.setItem('arpofan-visitor-id', visitorId)
-    }
-    return visitorId
-  }
+  }, [router, trackPageView])
 
   // Track user interactions
   useEffect(() => {

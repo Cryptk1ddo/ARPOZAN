@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Carousel({ images = [], currentIndex, onPrev, onNext, onJump }){
   const [loadedImages, setLoadedImages] = useState(new Set())
@@ -18,17 +19,26 @@ export default function Carousel({ images = [], currentIndex, onPrev, onNext, on
   return (
     <div className="relative w-full h-full">
       {/* main image: load eagerly for visible slide, others lazy-load via offscreen preloads */}
-      <img
+      <Image
         src={images[currentIndex]}
         alt={`product-${currentIndex}`}
-        loading="eager"
+        fill
         className="w-full h-full object-contain rounded-lg"
+        priority
       />
 
-      {/* preload other images so transitions are smooth */}
-      <div style={{display: 'none'}} aria-hidden>
+      {/* preload other images so transitions are smooth (use Next.js Image) */}
+      <div style={{ display: 'none' }} aria-hidden>
         {images.map((src, idx) => idx !== currentIndex && (
-          <img key={idx} src={src} alt={`preload-${idx}`} loading="lazy" />
+          <Image
+            key={idx}
+            src={src}
+            alt={`preload-${idx}`}
+            width={1}
+            height={1}
+            loading="lazy"
+            unoptimized
+          />
         ))}
       </div>
 

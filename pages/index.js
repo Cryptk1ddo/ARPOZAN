@@ -1,12 +1,15 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import Layout from '../components/Layout'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-
-// Assuming these are imported or defined elsewhere
-// import Header from '../components/Header'
-// import StickyCTA from '../components/StickyCTA'
-// import { utils, gsap, animations } from 'some-libraries'
+import { useRouter } from 'next/router'
+import { gsap } from 'gsap'
+import { animations } from '../lib/gsapUtils'
+import { utils } from '../lib/lodashUtils'
+import { useCart } from '../lib/CartContext'
+import NewsletterSignup from '../components/NewsletterSignup'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -19,6 +22,10 @@ export default function Home() {
   const [quizStep, setQuizStep] = useState(1)
   const [quizRecommendation, setQuizRecommendation] = useState(null)
   const [isProductsOpen, setIsProductsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const router = useRouter()
+  const { addToCart } = useCart()
 
   const headerRef = useRef(null)
 
@@ -29,12 +36,51 @@ export default function Home() {
     { quote: "Либидо вернулось на уровень 20-летнего. Жена довольна, я тоже. Спасибо, ребята!", name: "Игорь С.", role: "45 лет", avatar: "И" },
     { quote: "Совмещаю учебу и работу. С ARPOZAN концентрация выросла, а после смены есть силы на подготовку к экзаменам.", name: "Дмитрий К.", role: "Студент", avatar: "Д" },
     { quote: "В 52 года думал, что пик формы позади. Этот комплекс вернул бодрость и мужскую уверенность.", name: "Владимир Н.", role: "52 года", avatar: "В" },
-    { quote: "Пропал 'туман' в голове. Как дизайнер, я снова могу часами работать над проектами, не теряя фокуса.", name: "Сергей Л.", role: "Креативный директор", avatar: "С" }
+    { quote: "Пропал &apos;туман&apos; в голове. Как дизайнер, я снова могу часами работать над проектами, не теряя фокуса.", name: "Сергей Л.", role: "Креативный директор", avatar: "С" }
   ]
   const recommendations = {
-    energy: { name: 'ARPOZAN Yohimbe', image: '/assets/imgs/Yohimbin 1.png', description: 'Адреналиновый заряд', price: '2990₽' },
-    libido: { name: 'ARPOZAN Maca', image: '/assets/imgs/Maka peruvian.png', description: 'Бустер либидо', price: '1990₽' },
-    testosterone: { name: 'ARPOZAN Tongkat Ali', image: '/assets/imgs/Tongkat Ali.png', description: 'Стимулятор тестостерона', price: '2990₽' }
+    energy: { 
+      name: 'ARPOZAN Yohimbe', 
+      image: '/assets/imgs/Yohimbin 1.png', 
+      description: 'Адреналиновый заряд', 
+      price: '2990₽',
+      route: '/Yohimbin',
+      product: {
+        id: 'yohimbin',
+        name: 'ARPOZAN Yohimbe',
+        price: 2990,
+        img: '/assets/imgs/Yohimbin 1.png',
+        quantity: 1
+      }
+    },
+    libido: { 
+      name: 'ARPOZAN Maca', 
+      image: '/assets/imgs/Maka peruvian.png', 
+      description: 'Бустер либидо', 
+      price: '1990₽',
+      route: '/maca',
+      product: {
+        id: 'maca',
+        name: 'ARPOZAN Maca',
+        price: 1990,
+        img: '/assets/imgs/Maka peruvian.png',
+        quantity: 1
+      }
+    },
+    testosterone: { 
+      name: 'ARPOZAN Tongkat Ali', 
+      image: '/assets/imgs/Tongkat Ali.png', 
+      description: 'Стимулятор тестостерона', 
+      price: '2990₽',
+      route: '/Long-jack',
+      product: {
+        id: 'tongkat-ali',
+        name: 'ARPOZAN Tongkat Ali',
+        price: 2990,
+        img: '/assets/imgs/Tongkat Ali.png',
+        quantity: 1
+      }
+    }
   }
 
   // Header scroll effect
@@ -78,9 +124,17 @@ export default function Home() {
   useEffect(() => {
     const revealElements = document.querySelectorAll('.reveal')
     revealElements.forEach(el => {
-      // Assuming animations.scrollReveal is defined
-      // animations.scrollReveal(el)
+      animations.scrollReveal(el)
     })
+  }, [])
+
+  // Loading effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1500) // Show loading for 1.5 seconds
+
+    return () => clearTimeout(timer)
   }, [])
 
   const toggleFaq = (index) => {
@@ -103,22 +157,37 @@ export default function Home() {
     setQuizStep(2)
   }
 
+  const handleViewProduct = () => {
+    if (quizRecommendation) {
+      setIsQuizModalOpen(false)
+      router.push(quizRecommendation.route)
+    }
+  }
+
+  const handleAddToCartAndView = () => {
+    if (quizRecommendation) {
+      addToCart(quizRecommendation.product)
+      setIsQuizModalOpen(false)
+      router.push(quizRecommendation.route)
+    }
+  }
+
   const handleAddToCart = (product) => {
     // Assuming utils and addToCart are defined
-    // if (utils.isEmpty(product.name) || !utils.isNumber(product.price)) {
-    //   console.log('Ошибка: некорректные данные товара')
-    //   return
-    // }
+    if (utils.isEmpty(product.name) || !utils.isNumber(product.price)) {
+      console.log('Ошибка: некорректные данные товара')
+      return
+    }
     // addToCart(product)
-    // console.log(`✅ ${product.name} добавлен в корзину!`)
+    console.log(`✅ ${product.name} добавлен в корзину!`)
 
     // GSAP animation
-    // const btn = document.querySelector('.glow-button')
-    // if (btn) {
-    //   const tl = gsap.timeline()
-    //   tl.to(btn, { scale: 0.95, duration: 0.1 })
-    //     .to(btn, { scale: 1, duration: 0.3, ease: "back.out(1.7)" })
-    // }
+    const btn = document.querySelector('.glow-button')
+    if (btn) {
+      const tl = gsap.timeline()
+      tl.to(btn, { scale: 0.95, duration: 0.1 })
+        .to(btn, { scale: 1, duration: 0.3, ease: "back.out(1.7)" })
+    }
   }
 
   const productData = {
@@ -154,10 +223,39 @@ export default function Home() {
         <meta name="description" content="ARPOZAN - комплекс натуральных добавок для повышения энергии, тестостерона и либидо. Йохимбин, Мака, Тонгкат Али. Заказать с доставкой." />
         <meta name="keywords" content="мужское здоровье, тестостерон, энергия, либидо, натуральные добавки, ARPOZAN" />
         <link rel="canonical" href="https://arpozan.com" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "ARPOZAN",
+              "url": "https://arpozan.com",
+              "description": "Комплекс натуральных добавок для повышения энергии, тестостерона и либидо",
+              "product": [
+                {
+                  "@type": "Product",
+                  "name": "ARPOZAN Ultimate Pack",
+                  "description": "Полный набор натуральных добавок для мужского здоровья",
+                  "offers": {
+                    "@type": "Offer",
+                    "price": "8990",
+                    "priceCurrency": "RUB"
+                  }
+                }
+              ]
+            })
+          }}
+        />
       </Head>
 
-      <div className="antialiased">
-        <div className="bg-black fixed inset-0 -z-10"></div>
+      {isLoading ? (
+        <div className="min-h-screen bg-black flex items-center justify-center">
+          <LoadingSpinner size="lg" text="Загрузка ARPOZAN..." />
+        </div>
+      ) : (
+        <div className="antialiased">
+          <div className="bg-black fixed inset-0 -z-10"></div>
 
         {/* Assuming Header component is defined */}
         {/* <Header
@@ -207,7 +305,7 @@ export default function Home() {
         <main className="relative overflow-hidden">
           <div className="container mx-auto px-6">
             {/* Hero Section */}
-            <section id="hero" className="grid grid-cols-12 gap-x-6 py-16 md:py-24">
+            <section id="hero" className="grid grid-cols-12 gap-x-6 py-16 md:py-24 reveal">
               <div className="col-span-12 md:col-span-6 flex flex-col justify-center">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="flex text-amber-400">
@@ -241,11 +339,16 @@ export default function Home() {
                 </div>
               </div>
               <div className="col-span-12 md:col-span-6 product-image-container flex items-center justify-center mt-12 md:mt-0">
-                <img
+                <Image
                   id="productImage"
                   src="/assets/imgs/Maka peruvian.png"
-                  alt="Product bottle"
+                  alt="ARPOZAN Maca - Natural Energy Supplement"
+                  width={300}
+                  height={600}
                   className="h-[450px] md:h-[600px] object-contain drop-shadow-2xl"
+                  priority
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                 />
               </div>
             </section>
@@ -289,7 +392,7 @@ export default function Home() {
             </section>
 
             {/* Catalog Section */}
-            <section id="catalog" className="grid grid-cols-12 gap-6 py-16 md:py-24">
+            <section id="catalog" className="grid grid-cols-12 gap-6 py-16 md:py-24 reveal">
               <div className="col-span-12">
                 <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading">
                   Наша линейка продуктов
@@ -297,7 +400,15 @@ export default function Home() {
               </div>
               <div className="col-span-12 md:col-span-3">
                 <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
-                  <img src="/assets/imgs/Yohimbin 1.png" alt="ARPOZAN Yohimbe" className="h-40 w-40 object-contain mb-4" />
+                  <Image 
+                    src="/assets/imgs/Yohimbin 1.png" 
+                    alt="ARPOZAN Yohimbe - Natural Energy and Focus Supplement" 
+                    width={160} 
+                    height={160} 
+                    className="h-40 w-40 object-contain mb-4"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
+                  />
                   <h3 className="font-bold text-xl text-white font-heading">ARPOZAN Yohimbe</h3>
                   <p className="text-gray-400 text-sm my-2 flex-grow">
                     Адреналиновый заряд для ваших самых амбициозных целей.
@@ -315,7 +426,15 @@ export default function Home() {
               </div>
               <div className="col-span-12 md:col-span-3">
                 <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
-                  <img src="/assets/imgs/Maka peruvian.png" alt="ARPOZAN Maca" className="h-40 w-40 object-contain mb-4" />
+                  <Image 
+                    src="/assets/imgs/Maka peruvian.png" 
+                    alt="ARPOZAN Maca - Natural Libido and Energy Booster" 
+                    width={160} 
+                    height={160} 
+                    className="h-40 w-40 object-contain mb-4"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
+                  />
                   <h3 className="font-bold text-xl text-white font-heading">ARPOZAN Maca</h3>
                   <p className="text-gray-400 text-sm my-2 flex-grow">
                     Природный бустер либидо и сексуальной энергии.
@@ -333,7 +452,15 @@ export default function Home() {
               </div>
               <div className="col-span-12 md:col-span-3">
                 <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
-                  <img src="/assets/imgs/Zink.png" alt="ARPOZAN Zinc" className="h-40 w-40 object-contain mb-4" />
+                  <Image 
+                    src="/assets/imgs/Zink.png" 
+                    alt="ARPOZAN Zinc - Essential Men's Health Supplement" 
+                    width={160} 
+                    height={160} 
+                    className="h-40 w-40 object-contain mb-4"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
+                  />
                   <h3 className="font-bold text-xl text-white font-heading">ARPOZAN Zinc</h3>
                   <p className="text-gray-400 text-sm my-2 flex-grow">
                     Базовый элемент мужского здоровья и тестостерона.
@@ -351,7 +478,15 @@ export default function Home() {
               </div>
               <div className="col-span-12 md:col-span-3">
                 <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
-                  <img src="/assets/imgs/Tongkat Ali.png" alt="ARPOZAN Tongkat Ali" className="h-40 w-40 object-contain mb-4" />
+                  <Image 
+                    src="/assets/imgs/Tongkat Ali.png" 
+                    alt="ARPOZAN Tongkat Ali - Natural Testosterone Booster" 
+                    width={160} 
+                    height={160} 
+                    className="h-40 w-40 object-contain mb-4"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
+                  />
                   <h3 className="font-bold text-xl text-white font-heading">ARPOZAN Tongkat Ali</h3>
                   <p className="text-gray-400 text-sm my-2 flex-grow">
                     Природный стимулятор тестостерона и мышечного роста.
@@ -370,13 +505,21 @@ export default function Home() {
             </section>
 
             {/* Pricing Section */}
-            <section id="pricing" className="grid grid-cols-12 gap-x-6 py-16 md:py-24 items-center">
+            <section id="pricing" className="grid grid-cols-12 gap-x-6 py-16 md:py-24 items-center reveal">
               <div className="col-span-12 md:col-span-6">
-                <img src="/assets/imgs/Ultimate Pack.png" alt="Ultimate Men's Pack" className="rounded-2xl w-full" />
+                <Image 
+                  src="/assets/imgs/Ultimate Pack.png" 
+                  alt="ARPOZAN Ultimate Men's Pack - Complete Natural Health Solution" 
+                  width={500} 
+                  height={500} 
+                  className="rounded-2xl w-full"
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
+                />
               </div>
               <div className="col-span-12 md:col-span-6 md:pl-12 mt-8 md:mt-0">
                 <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">
-                  ULTIMATE MEN'S PACK
+                  ULTIMATE MEN&apos;S PACK
                 </h2>
                 <p className="text-gray-400 mt-4 max-w-lg">
                   Полный набор для максимального синергетического эффекта. Поддержите гормональную систему, энергию, интимную жизнь и восстановление.
@@ -418,7 +561,7 @@ export default function Home() {
             </section>
 
             {/* Testimonials Section */}
-            <section id="testimonial" className="py-16 md:py-24 col-span-12">
+            <section id="testimonial" className="py-16 md:py-24 col-span-12 reveal">
               <div className="grid grid-cols-12 gap-x-6">
                 <div className="col-span-12">
                   <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading">
@@ -433,15 +576,19 @@ export default function Home() {
                           <div className="grid grid-cols-12 gap-x-6 items-center h-full">
                             <div className="col-span-12 md:col-span-8">
                               <p className="text-3xl md:text-4xl font-bold text-white leading-tight">
-                                "{testimonial.quote}"
+                                &quot;{testimonial.quote}&quot;
                               </p>
                             </div>
                             <div className="col-span-12 md:col-span-4 md:pl-8 mt-6 md:mt-0">
                               <div className="flex items-center">
-                                <img
+                                <Image
                                   src={`https://placehold.co/48x48/333/fff?text=${testimonial.avatar}`}
+                                  width={48}
+                                  height={48}
                                   className="rounded-full mr-4"
-                                  alt="Avatar"
+                                  alt={`${testimonial.name} avatar`}
+                                  placeholder="blur"
+                                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                                 />
                                 <div>
                                   <p className="font-bold text-white">{testimonial.name}</p>
@@ -488,7 +635,7 @@ export default function Home() {
             </section>
 
             {/* FAQ Section */}
-            <section id="faq" className="py-16 md:py-24 col-span-12">
+            <section id="faq" className="py-16 md:py-24 col-span-12 reveal">
               <div className="grid grid-cols-12 gap-x-6">
                 <div className="col-span-12">
                   <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading">
@@ -522,58 +669,6 @@ export default function Home() {
             </section>
           </div>
         </main>
-
-        {/* Footer */}
-        <footer className="bg-black bg-opacity-20 border-t border-gray-800">
-          <div className="container mx-auto px-4 lg:px-8 py-12 text-gray-400">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-              <div className="md:col-span-4">
-                <h3 className="text-xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</h3>
-                <p className="mt-4 text-sm">Природные решения для вашей силы и здоровья.</p>
-              </div>
-              <div className="md:col-span-2 md:col-start-7">
-                <h4 className="font-bold text-white">Навигация</h4>
-                <ul className="mt-4 space-y-2 text-sm">
-                  <li><a href="#science" className="hover:text-yellow-400 transition-colors">Наука</a></li>
-                  <li><a href="#catalog" className="hover:text-yellow-400 transition-colors">Каталог</a></li>
-                  <li><a href="#pricing" className="hover:text-yellow-400 transition-colors">Цены</a></li>
-                  <li><a href="#faq" className="hover:text-yellow-400 transition-colors">FAQ</a></li>
-                </ul>
-              </div>
-              <div className="md:col-span-2">
-                <h4 className="font-bold text-white">Поддержка</h4>
-                <ul className="mt-4 space-y-2 text-sm">
-                  <li><a href="#" className="hover:text-yellow-400 transition-colors">Связаться с нами</a></li>
-                  <li><a href="#" className="hover:text-yellow-400 transition-colors">Политика возврата</a></li>
-                  <li><a href="#" className="hover:text-yellow-400 transition-colors">Доставка</a></li>
-                </ul>
-              </div>
-              <div className="md:col-span-2">
-                <h4 className="font-bold text-white">Соцсети</h4>
-                <div className="flex space-x-4 mt-4">
-                  <a href="#" className="hover:text-yellow-400 transition-colors">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.749.097.118.112.221.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.747-1.378 0 0-.599 2.282-.744 2.84-.282 1.084-1.064 2.456-1.549 3.235C9.584 23.815 10.77 24.001 12.017 24.001c6.624 0 11.99-5.367 11.99-11.987C24.007 5.367 18.641.001.012.017z"/>
-                    </svg>
-                  </a>
-                  <a href="#" className="hover:text-yellow-400 transition-colors">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                    </svg>
-                  </a>
-                  <a href="#" className="hover:text-yellow-400 transition-colors">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                    </svg>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
-              <p>&copy; 2024 ARPOZAN. Все права защищены.</p>
-            </div>
-          </div>
-        </footer>
 
         {/* Order Modal */}
         {isOrderModalOpen && (
@@ -665,20 +760,32 @@ export default function Home() {
                   {quizRecommendation && (
                     <div className="text-center mb-6">
                       <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center">
-                        <img
+                        <Image
                           src={quizRecommendation.image}
-                          alt={quizRecommendation.name}
+                          alt={`${quizRecommendation.name} - ARPOZAN Product`}
+                          width={128}
+                          height={128}
                           className="h-32 w-32 object-contain mb-4"
+                          placeholder="blur"
+                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                         />
                         <h4 className="font-bold text-xl text-white">{quizRecommendation.name}</h4>
                         <p className="text-gray-400 text-sm my-2">{quizRecommendation.description}</p>
                         <p className="text-2xl font-bold text-white my-4">{quizRecommendation.price}</p>
-                        <button
-                          onClick={handleOrderClick}
-                          className="glow-button w-full text-black font-bold py-2 rounded-lg order-btn"
-                        >
-                          Заказать
-                        </button>
+                        <div className="flex gap-3 w-full">
+                          <button
+                            onClick={handleViewProduct}
+                            className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                          >
+                            Посмотреть
+                          </button>
+                          <button
+                            onClick={handleAddToCartAndView}
+                            className="flex-1 glow-button text-black font-bold py-2 px-4 rounded-lg order-btn"
+                          >
+                            В корзину
+                          </button>
+                        </div>
                       </div>
                     </div>
                   )}
@@ -694,9 +801,56 @@ export default function Home() {
           </div>
         )}
 
-        {/* Sticky CTA */}
-        {/* <StickyCTA productData={productData} /> */}
-      </div>
+        {/* Footer */}
+        <footer className="bg-black/50 backdrop-blur-lg border-t border-white/10 py-16">
+          <div className="container mx-auto px-6">
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 md:col-span-6">
+                <h3 className="text-2xl font-bold gradient-text font-heading mb-4">ARPOZAN</h3>
+                <p className="text-gray-400 mb-6 max-w-md">
+                  Натуральные решения для вашей силы и здоровья. Присоединяйтесь к тысячам мужчин, которые уже улучшили свою жизнь.
+                </p>
+                <NewsletterSignup />
+              </div>
+              <div className="col-span-12 md:col-span-3">
+                <h4 className="font-bold text-white mb-4">Продукты</h4>
+                <ul className="space-y-2 text-gray-400">
+                  <li><Link href="/maca" className="hover:text-yellow-400 transition-colors">ARPOZAN Maca</Link></li>
+                  <li><Link href="/Yohimbin" className="hover:text-yellow-400 transition-colors">ARPOZAN Yohimbe</Link></li>
+                  <li><Link href="/zinc" className="hover:text-yellow-400 transition-colors">ARPOZAN Zinc</Link></li>
+                  <li><Link href="/Long-jack" className="hover:text-yellow-400 transition-colors">ARPOZAN Tongkat Ali</Link></li>
+                </ul>
+              </div>
+              <div className="col-span-12 md:col-span-3">
+                <h4 className="font-bold text-white mb-4">Поддержка</h4>
+                <ul className="space-y-2 text-gray-400">
+                  <li><a href="#faq" className="hover:text-yellow-400 transition-colors">FAQ</a></li>
+                  <li><a href="#" className="hover:text-yellow-400 transition-colors">Контакты</a></li>
+                  <li><a href="#" className="hover:text-yellow-400 transition-colors">Политика конфиденциальности</a></li>
+                </ul>
+              </div>
+            </div>
+            <div className="border-t border-white/10 mt-12 pt-8 text-center text-gray-400">
+              <p>&copy; 2025 ARPOZAN. Все права защищены.</p>
+            </div>
+          </div>
+        </footer>
+
+        {/* Floating Action Button */}
+        <div className="fixed bottom-6 right-6 z-40">
+          <button
+            onClick={() => setIsQuizModalOpen(true)}
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 animate-bounce"
+            aria-label="Открыть подбор продукта"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </button>
+        </div>
+
+        </div>
+      )}
     </Layout>
   )
 }

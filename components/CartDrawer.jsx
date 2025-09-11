@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { useCart } from '../lib/CartContext';
 
 // --- SVG Icon Components ---
@@ -55,7 +56,13 @@ export default function CartDrawer({ open, onClose }) {
                     ) : (
                         cart.map(item => (
                              <div key={item.id} className="flex items-center gap-4 bg-white/2 rounded-xl p-3">
-                                <img src={item.img || item.image} alt={item.name} className="w-16 h-16 rounded-md object-cover shadow-sm" />
+                                <Image 
+                                    src={item.img || item.image} 
+                                    alt={item.name} 
+                                    width={64} 
+                                    height={64} 
+                                    className="w-16 h-16 rounded-md object-cover shadow-sm" 
+                                />
                                 <div className="flex-grow">
                                     <p className="font-bold text-white">{item.name}</p>
                                     <p className="text-sm text-amber-400">{item.price} ₽</p>
