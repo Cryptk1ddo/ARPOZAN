@@ -9,6 +9,8 @@ import SearchBar from './SearchBar'
 import UserProfile from './UserProfile'
 import BackToTop from './BackToTop'
 import ToastContainer from './ToastContainer'
+import Footer from './Footer'
+import PromoBar from './PromoBar'
 
 export default function Layout({ children }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -21,6 +23,8 @@ export default function Layout({ children }) {
   const [menuLoading, setMenuLoading] = useState(false)
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
+  const [promoBarVisible, setPromoBarVisible] = useState(true)
+  const [promoBarHeight, setPromoBarHeight] = useState(40)  // Default height for SSR
   const searchInputRef = useRef(null)
 
   // Destructure functions from hooks
@@ -51,22 +55,20 @@ export default function Layout({ children }) {
     if (!isMenuOpen) return
 
     const handleKeyDown = (e) => {
-      const focusableElements = document.querySelectorAll(
-        '.mobile-menu-focusable'
-      )
+      const focusableElements = document.querySelectorAll('.mobile-menu-focusable')
       const firstElement = focusableElements[0]
       const lastElement = focusableElements[focusableElements.length - 1]
 
       if (e.key === 'Tab') {
         if (e.shiftKey) {
           if (document.activeElement === firstElement) {
-            e.preventDefault()
             lastElement.focus()
+            e.preventDefault()
           }
         } else {
           if (document.activeElement === lastElement) {
-            e.preventDefault()
             firstElement.focus()
+            e.preventDefault()
           }
         }
       }
@@ -111,11 +113,24 @@ export default function Layout({ children }) {
     }
   }
 
+  // Combined useEffect for scroll handling and promo bar logic (fixed nested useEffect)
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      const scrollTop = window.scrollY
+      setIsScrolled(scrollTop > 50)
+      // Check promo bar visibility and adjust nav position
+      const dismissed = typeof window !== 'undefined' ? localStorage.getItem('promoBarDismissed') : null
+      const height = dismissed ? 0 : parseInt((typeof window !== 'undefined' ? localStorage.getItem('promoBarHeight') : null) || '40')
+      setPromoBarVisible(scrollTop < height && !dismissed)
     }
     window.addEventListener('scroll', handleScroll)
+
+    // Initial check (runs once on mount)
+    const dismissed = typeof window !== 'undefined' ? localStorage.getItem('promoBarDismissed') : null
+    const height = dismissed ? 0 : parseInt((typeof window !== 'undefined' ? localStorage.getItem('promoBarHeight') : null) || '40')
+    setPromoBarHeight(height)
+    setPromoBarVisible(window.scrollY < height && !dismissed)
+
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -148,20 +163,80 @@ export default function Layout({ children }) {
     { name: 'Yohimbin', href: '/Yohimbin' },
     { name: 'Zinc', href: '/zinc' },
     { name: 'Long Jack', href: '/Long-jack' },
-    ]
+  ]
 
   return (
     <div className="min-h-screen bg-black">
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
-      }`}>
+      <PromoBar />
+
+      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md transition-all duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          {/* Mobile Navigation */}
+          <div className="md:hidden flex justify-between items-center h-16">
+            {/* Logo - Left */}
+            <Link href="/" className="text-xl font-bold gradient-text">
+              ARPOZAN
+            </Link>
+
+            {/* Search, Cart and Hamburger Icons - Right */}
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="relative text-white hover:text-blue-400 transition-colors p-2"
+                aria-label="Поиск"
+              >
+                <Search size={20} />
+              </button>
+
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="relative text-white hover:text-blue-400 transition-colors p-2"
+                aria-label="Корзина"
+              >
+                <ShoppingCart size={20} />
+                {getTotalItems() > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs font-bold">
+                    {getTotalItems()}
+                  </span>
+                )}
+              </button>
+
+              {/* Hamburger Menu */}
+              <button
+                onClick={handleMenuToggle}
+                disabled={menuLoading}
+                className="relative w-10 h-10 flex flex-col justify-center items-center text-white transition-all duration-300 group rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
+                aria-expanded={isMenuOpen}
+              >
+                {menuLoading ? (
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    {/* Top line */}
+                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 ease-in-out transform origin-center ${
+                      isMenuOpen ? 'rotate-45 translate-y-0.5' : '-translate-y-1'
+                    }`}></div>
+                    {/* Bottom line */}
+                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 ease-in-out transform origin-center ${
+                      isMenuOpen ? '-rotate-45 -translate-y-0.5' : 'translate-y-1'
+                    }`}></div>
+
+                    {/* Ripple effect */}
+                    <div className="absolute inset-0 rounded-lg opacity-0 group-active:opacity-20 group-active:bg-white transition-all duration-200 ease-out"></div>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex justify-between items-center h-16">
             <Link href="/" className="text-2xl font-bold gradient-text">
               ARPOZAN
             </Link>
 
-            <div className="hidden md:flex space-x-8">
+            <div className="flex space-x-8">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
@@ -210,248 +285,162 @@ export default function Layout({ children }) {
                   </span>
                 )}
               </button>
-
-              <button
-                onClick={handleMenuToggle}
-                disabled={menuLoading}
-                className="md:hidden relative w-10 h-10 flex flex-col justify-center items-center text-white hover:text-amber-400 transition-all duration-300 group rounded-lg hover:bg-white/10 p-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
-                aria-expanded={isMenuOpen}
-              >
-                {menuLoading ? (
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                ) : (
-                  <>
-                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 transform ${
-                      isMenuOpen ? 'rotate-45 translate-y-1.5' : ''
-                    }`}></div>
-                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 mt-1 ${
-                      isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
-                    }`}></div>
-                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 mt-1 ${
-                      isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''
-                    }`}></div>
-
-                    {/* Ripple effect */}
-                    <div className="absolute inset-0 rounded-lg opacity-0 group-active:opacity-20 group-active:bg-white transition-opacity duration-150"></div>
-                  </>
-                )}
-              </button>
             </div>
           </div>
 
           {isMenuOpen && (
             <div
-              className="md:hidden fixed inset-0 z-40 mobile-menu-backdrop animate-in fade-in duration-300"
+              className="fixed inset-0 z-[9999]"
               role="dialog"
               aria-modal="true"
               aria-label="Мобильная навигация"
-              onClick={(e) => {
-                // Close menu when clicking on backdrop
-                if (e.target === e.currentTarget) {
-                  setIsMenuOpen(false)
-                }
-              }}
-              onTouchStart={onTouchStart}
-              onTouchMove={onTouchMove}
-              onTouchEnd={onTouchEnd}
             >
-              {/* Background pattern */}
-              <div className="absolute inset-0 opacity-5">
-                <div className="absolute top-20 left-10 w-32 h-32 bg-amber-400 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-32 right-10 w-24 h-24 bg-yellow-400 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-orange-400 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-              </div>
-              <div className="flex flex-col h-full relative">
-                {/* Subtle scroll indicator */}
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex flex-col space-y-2 opacity-30">
-                  <div className="w-1 h-8 bg-gradient-to-b from-transparent via-white to-transparent rounded-full"></div>
-                  <div className="w-1 h-12 bg-gradient-to-b from-white via-white to-transparent rounded-full"></div>
-                  <div className="w-1 h-6 bg-gradient-to-b from-transparent via-white to-transparent rounded-full"></div>
-                </div>
-                {/* Header with close button */}
-                <div className="flex justify-between items-center p-6 border-b border-white/10 bg-gradient-to-r from-black/50 to-transparent">
-                  <Link href="/" className="text-2xl font-bold gradient-text hover:scale-105 transition-transform">
-                    ARPOZAN
-                  </Link>
-                  <button
-                    onClick={() => setIsMenuOpen(false)}
-                    className="mobile-menu-focusable text-white hover:text-amber-400 transition-all duration-300 p-2 rounded-lg hover:bg-white/10 hover:rotate-90"
-                    aria-label="Закрыть меню"
-                  >
-                    <X size={24} />
-                  </button>
+              {/* Backdrop with premium fade */}
+              <div
+                className="absolute inset-0 bg-black/80 backdrop-blur-lg"
+                onClick={(e) => {
+                  if (e.target === e.currentTarget) {
+                    setIsMenuOpen(false)
+                  }
+                }}
+                style={{
+                  animation: isMenuOpen ? 'fadeInBackdrop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'fadeOutBackdrop 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+                }}
+              />
+
+              {/* Mobile Menu - Full Screen (Apple-style globalnav) */}
+              <div
+                className="absolute inset-0 h-screen min-h-screen bg-gradient-to-b from-black via-black/95 to-black overflow-hidden"
+                role="dialog"
+                aria-modal="true"
+                tabIndex={-1}
+                aria-label="Menu"
+                style={{
+                  animation: isMenuOpen
+                    ? 'slideDownFullScreen 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+                    : 'slideUpFullScreen 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
+                  transform: isMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
+                  ['--r-globalnav-flyout-rate']: '450.5ms'
+                }}
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+              >
+                {/* Background pattern - Full screen (kept) */}
+                <div className="absolute inset-0 opacity-5">
+                  <div className="absolute top-32 left-20 w-48 h-48 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full blur-3xl animate-pulse"></div>
+                  <div className="absolute bottom-40 right-20 w-40 h-40 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+                  <div className="absolute top-1/3 left-1/3 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-gradient-to-br from-orange-400 to-red-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+                  <div className="absolute top-2/3 right-1/4 w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '3s' }}></div>
                 </div>
 
-                {/* Search Bar */}
-                <div className="px-6 py-4 border-b border-white/5">
-                  <form onSubmit={handleSearch} className="relative">
-                    <div className={`relative transition-all duration-300 ${isSearchFocused ? 'scale-105' : ''}`}>
-                      <Search size={20} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white/60" />
-                      <input
-                        ref={searchInputRef}
-                        type="text"
-                        value={searchQuery}
-                        onChange={handleSearchInput}
-                        onFocus={() => setIsSearchFocused(true)}
-                        onBlur={() => setIsSearchFocused(false)}
-                        placeholder="Поиск товаров..."
-                        className="mobile-search-input w-full bg-white/5 border border-white/20 rounded-xl px-12 py-4 text-white placeholder-white/60 focus:outline-none focus:border-amber-400 focus:bg-white/10 transition-all duration-300"
-                        aria-label="Поиск товаров"
-                      />
-                      {searchQuery && (
-                        <button
-                          type="button"
-                          onClick={clearSearch}
-                          className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white transition-colors p-1 rounded hover:bg-white/10"
-                          aria-label="Очистить поиск"
-                        >
-                          <X size={16} />
-                        </button>
-                      )}
+                {/* Globalnav content wrapper */}
+                <div className="globalnav-content flex flex-col h-full relative overflow-y-auto">
+                  {/* Menuback - left top back button */}
+                  <div className="globalnav-item globalnav-menuback flex items-center h-16 px-4">
+                    <button
+                      aria-label="Main menu"
+                      className="globalnav-menuback-button mobile-menu-focusable text-white/80 hover:text-white transition-all duration-300 p-2 rounded-full"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <span className="globalnav-chevron-icon inline-block align-middle">
+                        {/* Chevron SVG (left) */}
+                        <svg height="24" viewBox="0 0 9 48" width="8" xmlns="http://www.w3.org/2000/svg"><path d="m1.5618 24.0621 6.5581-6.4238c.2368-.2319.2407-.6118.0088-.8486-.2324-.2373-.6123-.2407-.8486-.0088l-7 6.8569c-.1157.1138-.1807.2695-.1802.4316.001.1621.0674.3174.1846.4297l7 6.7241c.1162.1118.2661.1675.4155.1675.1577 0 .3149-.062.4326-.1846.2295-.2388.2222-.6187-.0171-.8481z"/></svg>
+                      </span>
+                    </button>
+
+                    {/* Keep close button on right inside same header (for muscle-memory) */}
+                    <div className="ml-auto">
+                      <button
+                        onClick={() => setIsMenuOpen(false)}
+                        className="mobile-menu-focusable text-white/80 hover:text-white transition-all duration-300 p-2"
+                        aria-label="Закрыть меню"
+                      >
+                        <div className="w-5 h-5 flex flex-col justify-center items-center">
+                          <div className="w-5 h-0.5 bg-current transition-all duration-300 ease-in-out transform origin-center rotate-45 translate-y-0.5"></div>
+                          <div className="w-5 h-0.5 bg-current transition-all duration-300 ease-in-out transform origin-center -rotate-45 -translate-y-0.5"></div>
+                        </div>
+                      </button>
                     </div>
-                  </form>
-                </div>
+                  </div>
 
-                {/* Navigation Links */}
-                <div className="flex-1 flex flex-col justify-center px-6">
-                  <nav className="space-y-6">
-                    {navigation.map((item, index) => (
-                      <Link
+                  {/* List container (matches globalnav-list semantic) */}
+                  <ul id="globalnav-list" className="globalnav-list px-4 pt-2 pb-8 space-y-4" role="none">
+                    {navigation.map((item, idx) => (
+                      <li
                         key={item.name}
-                        href={item.href}
-                        className="mobile-menu-focusable group block text-white text-2xl font-medium hover:text-amber-400 transition-all duration-300 transform hover:translate-x-3 relative overflow-hidden"
-                        onClick={() => setIsMenuOpen(false)}
+                        className="globalnav-item globalnav-item-menu"
+                        role="listitem"
                         style={{
-                          animationDelay: `${index * 0.1}s`,
-                          animation: 'slideInFromRight 0.6s ease-out forwards'
+                          ['--r-globalnav-flyout-item-number']: idx,
+                          animation: isMenuOpen ? `appleCascadeSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
+                          animationDelay: isMenuOpen ? `${0.1 + idx * 0.08}s` : '0s',
+                          opacity: isMenuOpen ? 1 : 0,
+                          transform: isMenuOpen ? 'translateX(0)' : 'translateX(-20px)'
                         }}
                       >
-                        <span className="relative z-10 flex items-center">
-                          {item.name}
-                          <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
-                          </div>
-                        </span>
-                        <div className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-yellow-500/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-95 group-hover:scale-100"></div>
-                        <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-amber-400 to-yellow-400 group-hover:w-full transition-all duration-500"></div>
-                      </Link>
-                    ))}
-                  </nav>
-
-                  {/* Quick Actions */}
-                  <div className="mt-8 space-y-3">
-                    <div className="text-white/60 text-sm font-medium uppercase tracking-wider mb-4">Быстрые действия</div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <button
-                        onClick={() => {
-                          setIsSearchOpen(true)
-                          setIsMenuOpen(false)
-                        }}
-                        className="mobile-menu-focusable quick-action-btn flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-blue-500/20 to-purple-500/20 hover:from-blue-500/30 hover:to-purple-500/30 text-white py-4 px-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 border border-white/10"
-                      >
-                        <Search size={20} />
-                        <span className="text-xs">Поиск</span>
-                      </button>
-
-                      <button
-                        onClick={() => {
-                          setIsProfileOpen(true)
-                          setIsMenuOpen(false)
-                        }}
-                        className="mobile-menu-focusable quick-action-btn flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-green-500/20 to-teal-500/20 hover:from-green-500/30 hover:to-teal-500/30 text-white py-4 px-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 border border-white/10"
-                      >
-                        <User size={20} />
-                        <span className="text-xs">Профиль</span>
-                      </button>
-
-                      <Link
-                        href="/wishlist"
-                        onClick={() => setIsMenuOpen(false)}
-                        className="mobile-menu-focusable quick-action-btn flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-pink-500/20 to-rose-500/20 hover:from-pink-500/30 hover:to-rose-500/30 text-white py-4 px-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 border border-white/10 relative"
-                      >
-                        <Heart size={20} />
-                        <span className="text-xs">Избранное</span>
-                        {getWishlistCount() > 0 && (
-                          <span className="absolute -top-1 -right-1 bg-pink-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold animate-bounce">
-                            {getWishlistCount()}
-                          </span>
-                        )}
-                      </Link>
-
-                      <button
-                        onClick={() => {
-                          setIsCartOpen(true)
-                          setIsMenuOpen(false)
-                        }}
-                        className="mobile-menu-focusable quick-action-btn flex flex-col items-center justify-center space-y-2 bg-gradient-to-br from-amber-500/20 to-yellow-500/20 hover:from-amber-500/30 hover:to-yellow-500/30 text-white py-4 px-4 rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 border border-white/10 relative"
-                      >
-                        <ShoppingCart size={20} />
-                        <span className="text-xs">Корзина</span>
-                        {getTotalItems() > 0 && (
-                          <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold animate-pulse">
-                            {getTotalItems()}
-                          </span>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Featured Products */}
-                  <div className="mt-8">
-                    <div className="text-white/60 text-sm font-medium uppercase tracking-wider mb-4">Популярные товары</div>
-                    <div className="space-y-3">
-                      {[
-                        { name: 'ARPOZAN Yohimbe', href: '/Yohimbin', icon: '⚡' },
-                        { name: 'ARPOZAN Maca', href: '/maca', icon: '🌿' },
-                        { name: 'ARPOZAN Zinc', href: '/zinc', icon: '💪' }
-                      ].map((product, index) => (
-                        <Link
-                          key={product.name}
-                          href={product.href}
+                        <a
+                          href={item.href}
                           onClick={() => setIsMenuOpen(false)}
-                          className="mobile-menu-focusable featured-product-item flex items-center space-x-3 bg-white/5 hover:bg-white/10 text-white py-3 px-4 rounded-lg transition-all duration-300 hover:translate-x-2 group"
-                          style={{
-                            animationDelay: `${(navigation.length + index) * 0.1}s`,
-                            animation: 'slideInFromRight 0.6s ease-out forwards'
-                          }}
+                          className="globalnav-link flex items-center justify-between text-white text-2xl font-light py-3 px-3 rounded-lg hover:bg-white/5 transition-colors"
+                          role="menuitem"
                         >
-                          <span className="text-lg">{product.icon}</span>
-                          <span className="flex-1">{product.name}</span>
-                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="w-2 h-2 bg-amber-400 rounded-full"></div>
-                          </div>
+                          <span className="globalnav-link-text">{item.name}</span>
+                          <span className="globalnav-link-chevron ml-4 inline-flex items-center">
+                            <svg height="18" viewBox="0 0 9 48" width="8" xmlns="http://www.w3.org/2000/svg"><path d="m8.1155 30.358a.6.6 0 1 1 -.831.8653l-7-6.7242a.6.6 0 0 1 -.0045-.8613l7-6.8569a.6.6 0 1 1 .84.8574l-6.5582 6.4238z"/></svg>
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+
+                    {/* Optional group: Quick Actions */}
+                    <li className="globalnav-item" role="listitem">
+                      <div
+                        className="mt-6 grid grid-cols-4 gap-4 px-1"
+                        style={{
+                          animation: isMenuOpen ? `appleCascadeSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
+                          animationDelay: isMenuOpen ? `${0.1 + navigation.length * 0.08 + 0.1}s` : '0s',
+                          opacity: isMenuOpen ? 1 : 0,
+                          transform: isMenuOpen ? 'translateX(0)' : 'translateX(-20px)'
+                        }}
+                      >
+                        <button onClick={() => { setIsSearchOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-lg bg-white/3 hover:bg-white/6">
+                          <Search size={20} />
+                          <span className="text-xs mt-2">Поиск</span>
+                        </button>
+                        <button onClick={() => { setIsProfileOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-lg bg-white/3 hover:bg-white/6">
+                          <User size={20} />
+                          <span className="text-xs mt-2">Профиль</span>
+                        </button>
+                        <Link href="/wishlist" onClick={() => setIsMenuOpen(false)} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-lg bg-white/3 hover:bg-white/6">
+                          <Heart size={20} />
+                          <span className="text-xs mt-2">Избранное</span>
                         </Link>
-                      ))}
-                    </div>
+                        <button onClick={() => { setIsCartOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-lg bg-white/3 hover:bg-white/6">
+                          <ShoppingCart size={20} />
+                          <span className="text-xs mt-2">Корзина</span>
+                        </button>
+                      </div>
+                    </li>
+                  </ul>
+
+                  {/* Footer area */}
+                  <div className="pb-12 pt-6 px-6 text-center text-white/60 text-sm">
+                    © 2025 ARPOZAN
                   </div>
                 </div>
 
-                {/* Footer */}
-                <div className="p-6 border-t border-white/10 bg-gradient-to-t from-black/50 to-transparent">
-                  <div className="flex justify-between items-center">
-                    <p className="text-white/60 text-sm">
-                      © 2025 ARPOZAN
-                    </p>
-                    <div className="flex space-x-4">
-                      <button className="text-white/60 hover:text-white transition-colors text-sm">
-                        Контакты
-                      </button>
-                      <button className="text-white/60 hover:text-white transition-colors text-sm">
-                        Поддержка
-                      </button>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           )}
         </div>
       </nav>
 
-      <main className="pt-16">
+      <main className="transition-all duration-300" style={{ paddingTop: promoBarVisible ? `${64 + promoBarHeight}px` : '64px' }}>
         {children}
       </main>
+
+      <Footer />
 
       <CartDrawer
         open={isCartOpen}

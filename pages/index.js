@@ -8,12 +8,12 @@ import { gsap } from 'gsap'
 import { animations } from '../lib/gsapUtils'
 import { utils } from '../lib/lodashUtils'
 import { useCart } from '../lib/CartContext'
+import { ArrowLeft, X, ChevronRight, RotateCcw } from 'lucide-react'
 import NewsletterSignup from '../components/NewsletterSignup'
 import LoadingSpinner from '../components/LoadingSpinner'
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isQuizModalOpen, setIsQuizModalOpen] = useState(false)
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false)
   const [isSubscription, setIsSubscription] = useState(false)
@@ -152,26 +152,6 @@ export default function Home() {
     setTimeout(() => setIsOrderModalOpen(false), 2000)
   }
 
-  const handleQuizAnswer = (answer) => {
-    setQuizRecommendation(recommendations[answer])
-    setQuizStep(2)
-  }
-
-  const handleViewProduct = () => {
-    if (quizRecommendation) {
-      setIsQuizModalOpen(false)
-      router.push(quizRecommendation.route)
-    }
-  }
-
-  const handleAddToCartAndView = () => {
-    if (quizRecommendation) {
-      addToCart(quizRecommendation.product)
-      setIsQuizModalOpen(false)
-      router.push(quizRecommendation.route)
-    }
-  }
-
   const handleAddToCart = (product) => {
     // Assuming utils and addToCart are defined
     if (utils.isEmpty(product.name) || !utils.isNumber(product.price)) {
@@ -281,15 +261,6 @@ export default function Home() {
             <a href="#catalog" className="mobile-link text-2xl" onClick={() => setIsMenuOpen(false)}>Каталог</a>
             <a href="#pricing" className="mobile-link text-2xl" onClick={() => setIsMenuOpen(false)}>Цены</a>
             <a href="#faq" className="mobile-link text-2xl" onClick={() => setIsMenuOpen(false)}>FAQ</a>
-            <button
-              onClick={() => {
-                setIsQuizModalOpen(true)
-                setIsMenuOpen(false)
-              }}
-              className="mobile-link bg-white/10 text-white font-bold py-3 px-6 rounded-lg text-lg"
-            >
-              Подобрать продукт
-            </button>
             <button
               onClick={() => {
                 handleOrderClick()
@@ -712,95 +683,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* Quiz Modal */}
-        {isQuizModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
-            <div className="glass-card rounded-2xl shadow-2xl p-8 max-w-lg w-full relative">
-              <button
-                onClick={() => {
-                  setIsQuizModalOpen(false)
-                  setQuizStep(1)
-                }}
-                className="absolute top-4 right-4 text-gray-500 hover:text-white"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              {quizStep === 1 ? (
-                <>
-                  <h3 className="text-2xl font-bold text-center text-white mb-8">Какова ваша главная цель?</h3>
-                  <div className="space-y-4">
-                    <button
-                      onClick={() => handleQuizAnswer('energy')}
-                      className="w-full text-left bg-white/5 border border-white/20 rounded-lg p-4 hover:border-amber-500"
-                    >
-                      <div className="font-semibold text-white">Энергия и выносливость</div>
-                      <div className="text-sm text-gray-400">Больше сил для тренировок</div>
-                    </button>
-                    <button
-                      onClick={() => handleQuizAnswer('libido')}
-                      className="w-full text-left bg-white/5 border border-white/20 rounded-lg p-4 hover:border-amber-500"
-                    >
-                      <div className="font-semibold text-white">Повышение либидо</div>
-                      <div className="text-sm text-gray-400">Улучшение сексуальной жизни</div>
-                    </button>
-                    <button
-                      onClick={() => handleQuizAnswer('testosterone')}
-                      className="w-full text-left bg-white/5 border border-white/20 rounded-lg p-4 hover:border-amber-500"
-                    >
-                      <div className="font-semibold text-white">Поддержка тестостерона</div>
-                      <div className="text-sm text-gray-400">Мужская сила и выносливость</div>
-                    </button>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <h3 className="text-2xl font-bold text-center text-white mb-4">Ваш идеальный продукт!</h3>
-                  {quizRecommendation && (
-                    <div className="text-center mb-6">
-                      <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center">
-                        <Image
-                          src={quizRecommendation.image}
-                          alt={`${quizRecommendation.name} - ARPOZAN Product`}
-                          width={128}
-                          height={128}
-                          className="h-32 w-32 object-contain mb-4"
-                          placeholder="blur"
-                          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
-                        />
-                        <h4 className="font-bold text-xl text-white">{quizRecommendation.name}</h4>
-                        <p className="text-gray-400 text-sm my-2">{quizRecommendation.description}</p>
-                        <p className="text-2xl font-bold text-white my-4">{quizRecommendation.price}</p>
-                        <div className="flex gap-3 w-full">
-                          <button
-                            onClick={handleViewProduct}
-                            className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-                          >
-                            Посмотреть
-                          </button>
-                          <button
-                            onClick={handleAddToCartAndView}
-                            className="flex-1 glow-button text-black font-bold py-2 px-4 rounded-lg order-btn"
-                          >
-                            В корзину
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  <button
-                    onClick={() => setQuizStep(1)}
-                    className="text-sm text-gray-500"
-                  >
-                    Пройти заново
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
-
         {/* Footer */}
         <footer className="bg-black/50 backdrop-blur-lg border-t border-white/10 py-16">
           <div className="container mx-auto px-6">
@@ -815,10 +697,10 @@ export default function Home() {
               <div className="col-span-12 md:col-span-3">
                 <h4 className="font-bold text-white mb-4">Продукты</h4>
                 <ul className="space-y-2 text-gray-400">
-                  <li><Link href="/maca" className="hover:text-yellow-400 transition-colors">ARPOZAN Maca</Link></li>
-                  <li><Link href="/Yohimbin" className="hover:text-yellow-400 transition-colors">ARPOZAN Yohimbe</Link></li>
-                  <li><Link href="/zinc" className="hover:text-yellow-400 transition-colors">ARPOZAN Zinc</Link></li>
-                  <li><Link href="/Long-jack" className="hover:text-yellow-400 transition-colors">ARPOZAN Tongkat Ali</Link></li>
+                  <li><Link href="/maca" className="hover:text-gray-300 transition-colors">ARPOZAN Maca</Link></li>
+                  <li><Link href="/Yohimbin" className="hover:text-gray-300 transition-colors">ARPOZAN Yohimbe</Link></li>
+                  <li><Link href="/zinc" className="hover:text-gray-300 transition-colors">ARPOZAN Zinc</Link></li>
+                  <li><Link href="/Long-jack" className="hover:text-gray-300 transition-colors">ARPOZAN Tongkat Ali</Link></li>
                 </ul>
               </div>
               <div className="col-span-12 md:col-span-3">
@@ -835,22 +717,8 @@ export default function Home() {
             </div>
           </div>
         </footer>
-
-        {/* Floating Action Button */}
-        <div className="fixed bottom-6 right-6 z-40">
-          <button
-            onClick={() => setIsQuizModalOpen(true)}
-            className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 animate-bounce"
-            aria-label="Открыть подбор продукта"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </button>
-        </div>
-
-        </div>
-      )}
-    </Layout>
-  )
+      </div>
+    )}
+  </Layout>
+)
 }

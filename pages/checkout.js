@@ -39,7 +39,7 @@ const ParticleCanvas = () => {
             draw() {
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(245, 166, 35, 0.1)';
+                ctx.fillStyle = 'rgba(107, 114, 128, 0.1)'; // Light gray particles for monochrome design
                 ctx.fill();
             }
             update() {
@@ -108,7 +108,7 @@ const Header = () => (
      <header className="sticky top-0 z-50 bg-black/50 backdrop-blur-lg border-b border-white/10">
         <div className="container mx-auto px-4 lg:px-8 py-4 flex justify-between items-center">
             <Link href="/" className="text-2xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</Link>
-             <Link href="/" className="text-sm font-bold text-gray-300 hover:text-yellow-400 transition-colors flex items-center gap-2">
+             <Link href="/" className="text-sm font-bold text-gray-300 hover:text-white transition-colors flex items-center gap-2">
                 <ArrowLeftIcon />
                 Вернуться в магазин
             </Link>
@@ -164,102 +164,173 @@ const ShippingForm = ({ formData, setFormData, errors, setErrors }) => {
     };
 
     return (
-        <div className="glass-card p-6 lg:p-8 rounded-lg">
-            <h2 className="text-2xl font-bold mb-6">Информация о доставке</h2>
-            <form className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
-                <div className="sm:col-span-2">
-                    <label htmlFor="full-name" className="block text-sm font-bold mb-2">Полное имя *</label>
-                    <input 
-                        type="text" 
-                        id="full-name" 
-                        value={formData.fullName}
-                        onChange={(e) => handleInputChange('fullName', e.target.value)}
-                        onBlur={() => handleBlur('fullName')}
-                        className={`w-full input-glass rounded-lg p-3 focus:outline-none ${errors.fullName ? 'border-red-500' : ''}`}
-                        required 
-                    />
-                    {errors.fullName && <p className="text-red-400 text-sm mt-1">{errors.fullName}</p>}
+        <div className="glass-card p-6 lg:p-8 rounded-lg border border-white/5">
+            <h2 className="text-2xl font-bold mb-8 text-white">Информация о доставке</h2>
+            <form className="space-y-8">
+                {/* Personal Information Group */}
+                <div className="space-y-3">
+                    <div className="sm:col-span-2">
+                        <label htmlFor="full-name" className="block text-sm font-semibold mb-1.5 text-gray-200">Полное имя *</label>
+                        <div className="relative">
+                            <input 
+                                type="text" 
+                                id="full-name" 
+                                value={formData.fullName}
+                                onChange={(e) => handleInputChange('fullName', e.target.value)}
+                                onBlur={() => handleBlur('fullName')}
+                                className={`w-full bg-gray-800/60 border-2 rounded-xl p-3 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 ${errors.fullName ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                                placeholder="Введите ваше полное имя"
+                                required 
+                            />
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </div>
+                        </div>
+                        {errors.fullName && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.fullName}</p>}
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+                        <div>
+                            <label htmlFor="email" className="block text-sm font-semibold mb-1.5 text-gray-200">Email *</label>
+                            <div className="relative">
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    value={formData.email}
+                                    onChange={(e) => handleInputChange('email', e.target.value)}
+                                    onBlur={() => handleBlur('email')}
+                                    className={`w-full bg-gray-800/60 border-2 rounded-xl p-3 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 ${errors.email ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                                    placeholder="your@email.com"
+                                    required 
+                                />
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            {errors.email && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.email}</p>}
+                        </div>
+                        <div>
+                            <label htmlFor="phone" className="block text-sm font-semibold mb-1.5 text-gray-200">Телефон *</label>
+                            <div className="relative">
+                                <input 
+                                    type="tel" 
+                                    id="phone" 
+                                    placeholder="+7 (999) 123-45-67"
+                                    value={formData.phone}
+                                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                                    onBlur={() => handleBlur('phone')}
+                                    className={`w-full bg-gray-800/60 border-2 rounded-xl p-3 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 ${errors.phone ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                                    required 
+                                />
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                </svg>
+                            </div>
+                        </div>
+                        {errors.phone && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.phone}</p>}
+                    </div>
+                 </div>
                 </div>
-                <div>
-                    <label htmlFor="email" className="block text-sm font-bold mb-2">Email *</label>
-                    <input 
-                        type="email" 
-                        id="email" 
-                        value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        onBlur={() => handleBlur('email')}
-                        className={`w-full input-glass rounded-lg p-3 focus:outline-none ${errors.email ? 'border-red-500' : ''}`}
-                        required 
-                    />
-                    {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
-                </div>
-                <div>
-                    <label htmlFor="phone" className="block text-sm font-bold mb-2">Телефон *</label>
-                    <input 
-                        type="tel" 
-                        id="phone" 
-                        placeholder="+7 (999) 123-45-67"
-                        value={formData.phone}
-                        onChange={(e) => handleInputChange('phone', e.target.value)}
-                        onBlur={() => handleBlur('phone')}
-                        className={`w-full input-glass rounded-lg p-3 focus:outline-none ${errors.phone ? 'border-red-500' : ''}`}
-                        required 
-                    />
-                    {errors.phone && <p className="text-red-400 text-sm mt-1">{errors.phone}</p>}
-                </div>
-                <div className="sm:col-span-2">
-                    <label htmlFor="address" className="block text-sm font-bold mb-2">Адрес *</label>
-                    <input 
-                        type="text" 
-                        id="address" 
-                        placeholder="ул. Ленина, д. 1, кв. 1"
-                        value={formData.address}
-                        onChange={(e) => handleInputChange('address', e.target.value)}
-                        onBlur={() => handleBlur('address')}
-                        className={`w-full input-glass rounded-lg p-3 focus:outline-none ${errors.address ? 'border-red-500' : ''}`}
-                        required 
-                    />
-                    {errors.address && <p className="text-red-400 text-sm mt-1">{errors.address}</p>}
-                </div>
-                <div>
-                    <label htmlFor="city" className="block text-sm font-bold mb-2">Город *</label>
-                    <input 
-                        type="text" 
-                        id="city" 
-                        value={formData.city}
-                        onChange={(e) => handleInputChange('city', e.target.value)}
-                        onBlur={() => handleBlur('city')}
-                        className={`w-full input-glass rounded-lg p-3 focus:outline-none ${errors.city ? 'border-red-500' : ''}`}
-                        required 
-                    />
-                    {errors.city && <p className="text-red-400 text-sm mt-1">{errors.city}</p>}
-                </div>
-                <div>
-                    <label htmlFor="postal-code" className="block text-sm font-bold mb-2">Почтовый индекс *</label>
-                    <input 
-                        type="text" 
-                        id="postal-code" 
-                        placeholder="123456"
-                        value={formData.postalCode}
-                        onChange={(e) => handleInputChange('postalCode', e.target.value)}
-                        onBlur={() => handleBlur('postalCode')}
-                        className={`w-full input-glass rounded-lg p-3 focus:outline-none ${errors.postalCode ? 'border-red-500' : ''}`}
-                        required 
-                    />
-                    {errors.postalCode && <p className="text-red-400 text-sm mt-1">{errors.postalCode}</p>}
-                </div>
-                <div className="sm:col-span-2">
-                    <label htmlFor="country" className="block text-sm font-bold mb-2">Страна</label>
-                    <select 
-                        id="country" 
-                        value={formData.country}
-                        onChange={(e) => handleInputChange('country', e.target.value)}
-                        className="w-full input-glass rounded-lg p-3 focus:outline-none"
-                    >
-                        <option>Россия</option>
-                        <option>Беларусь</option>
-                        <option>Казахстан</option>
-                    </select>
+
+                {/* Delivery Details Group */}
+                <div className="space-y-3">
+                    <div className="sm:col-span-2">
+                        <label htmlFor="address" className="block text-sm font-semibold mb-1.5 text-gray-200">Адрес *</label>
+                        <div className="relative">
+                            <input 
+                                type="text" 
+                                id="address" 
+                                placeholder="ул. Ленина, д. 1, кв. 1"
+                                value={formData.address}
+                                onChange={(e) => handleInputChange('address', e.target.value)}
+                                onBlur={() => handleBlur('address')}
+                                className={`w-full bg-gray-800/60 border-2 rounded-xl p-3 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 ${errors.address ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                                required 
+                            />
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        {errors.address && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.address}</p>}
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
+                        <div>
+                            <label htmlFor="city" className="block text-sm font-semibold mb-1.5 text-gray-200">Город *</label>
+                            <div className="relative">
+                                <input 
+                                    type="text" 
+                                    id="city" 
+                                    value={formData.city}
+                                    onChange={(e) => handleInputChange('city', e.target.value)}
+                                    onBlur={() => handleBlur('city')}
+                                    className={`w-full bg-gray-800/60 border-2 rounded-xl p-3 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 ${errors.city ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                                    placeholder="Москва"
+                                    required 
+                                />
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                    </svg>
+                                </div>
+                            </div>
+                            {errors.city && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.city}</p>}
+                        </div>
+                        <div>
+                            <label htmlFor="postal-code" className="block text-sm font-semibold mb-1.5 text-gray-200">Почтовый индекс *</label>
+                            <div className="relative">
+                                <input 
+                                    type="text" 
+                                    id="postal-code" 
+                                    placeholder="123456"
+                                    value={formData.postalCode}
+                                    onChange={(e) => handleInputChange('postalCode', e.target.value)}
+                                    onBlur={() => handleBlur('postalCode')}
+                                    className={`w-full bg-gray-800/60 border-2 rounded-xl p-3 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 ${errors.postalCode ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                                    required 
+                                />
+                                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                    </svg>
+                                </div>
+                            </div>
+                            {errors.postalCode && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.postalCode}</p>}
+                        </div>
+                    </div>
+                    <div className="sm:col-span-2">
+                        <label htmlFor="country" className="block text-sm font-semibold mb-1.5 text-gray-200">Страна</label>
+                        <div className="relative">
+                            <select 
+                                id="country" 
+                                value={formData.country}
+                                onChange={(e) => handleInputChange('country', e.target.value)}
+                                className="w-full bg-gray-800/60 border-2 border-gray-600/50 rounded-xl p-3 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white appearance-none cursor-pointer"
+                            >
+                                <option value="Россия" className="bg-gray-800 text-white">🇷🇺 Россия</option>
+                                <option value="Беларусь" className="bg-gray-800 text-white">🇧🇾 Беларусь</option>
+                                <option value="Казахстан" className="bg-gray-800 text-white">🇰🇿 Казахстан</option>
+                            </select>
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                            <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                <span className="text-lg">
+                                    {formData.country === 'Россия' && '🇷🇺'}
+                                    {formData.country === 'Беларусь' && '🇧🇾'}
+                                    {formData.country === 'Казахстан' && '🇰🇿'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -326,73 +397,101 @@ const PaymentForm = ({ formData, setFormData, errors, setErrors }) => {
     };
 
     return (
-        <div className="glass-card p-6 lg:p-8 rounded-lg">
-            <h2 className="text-2xl font-bold mb-6">Оплата</h2>
-            <form className="space-y-4">
+        <div className="glass-card p-6 lg:p-8 rounded-lg border border-white/5">
+            <h2 className="text-2xl font-bold mb-8 text-white">Оплата</h2>
+            <form className="space-y-6">
                 <div>
-                    <label htmlFor="cardholder-name" className="block text-sm font-bold mb-2">Имя владельца карты *</label>
-                    <input 
-                        type="text" 
-                        id="cardholder-name"
-                        placeholder="IVAN IVANOV"
-                        value={formData.cardholderName}
-                        onChange={(e) => handleInputChange('cardholderName', e.target.value)}
-                        onBlur={() => handleBlur('cardholderName')}
-                        className={`w-full input-glass rounded-lg p-3 focus:outline-none uppercase ${errors.cardholderName ? 'border-red-500' : ''}`}
-                        required 
-                    />
-                    {errors.cardholderName && <p className="text-red-400 text-sm mt-1">{errors.cardholderName}</p>}
+                    <label htmlFor="cardholder-name" className="block text-sm font-semibold mb-1.5 text-gray-200">Имя владельца карты *</label>
+                    <div className="relative">
+                        <input 
+                            type="text" 
+                            id="cardholder-name"
+                            placeholder="IVAN IVANOV"
+                            value={formData.cardholderName}
+                            onChange={(e) => handleInputChange('cardholderName', e.target.value)}
+                            onBlur={() => handleBlur('cardholderName')}
+                            className={`w-full bg-gray-800/60 border-2 rounded-xl p-4 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 uppercase ${errors.cardholderName ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                            required 
+                        />
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                        </div>
+                    </div>
+                    {errors.cardholderName && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.cardholderName}</p>}
                 </div>
                 <div>
-                    <label htmlFor="card-number" className="block text-sm font-bold mb-2">Номер карты *</label>
-                    <input 
-                        type="text" 
-                        id="card-number" 
-                        placeholder="•••• •••• •••• ••••" 
-                        value={formData.cardNumber}
-                        onChange={(e) => handleInputChange('cardNumber', e.target.value)}
-                        onBlur={() => handleBlur('cardNumber')}
-                        maxLength="19"
-                        className={`w-full input-glass rounded-lg p-3 focus:outline-none ${errors.cardNumber ? 'border-red-500' : ''}`}
-                        required 
-                    />
-                    {errors.cardNumber && <p className="text-red-400 text-sm mt-1">{errors.cardNumber}</p>}
+                    <label htmlFor="card-number" className="block text-sm font-semibold mb-1.5 text-gray-200">Номер карты *</label>
+                    <div className="relative">
+                        <input 
+                            type="text" 
+                            id="card-number" 
+                            placeholder="•••• •••• •••• ••••" 
+                            value={formData.cardNumber}
+                            onChange={(e) => handleInputChange('cardNumber', e.target.value)}
+                            onBlur={() => handleBlur('cardNumber')}
+                            maxLength="19"
+                            className={`w-full bg-gray-800/60 border-2 rounded-xl p-4 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 ${errors.cardNumber ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                            required 
+                        />
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                            <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                            </svg>
+                        </div>
+                    </div>
+                    {errors.cardNumber && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.cardNumber}</p>}
                 </div>
                 <div className="grid grid-cols-2 gap-6">
                     <div>
-                        <label htmlFor="expiry-date" className="block text-sm font-bold mb-2">Срок действия *</label>
-                        <input 
-                            type="text" 
-                            id="expiry-date" 
-                            placeholder="ММ / ГГ" 
-                            value={formData.expiryDate}
-                            onChange={(e) => handleInputChange('expiryDate', e.target.value)}
-                            onBlur={() => handleBlur('expiryDate')}
-                            maxLength="5"
-                            className={`w-full input-glass rounded-lg p-3 focus:outline-none ${errors.expiryDate ? 'border-red-500' : ''}`}
-                            required 
-                        />
-                        {errors.expiryDate && <p className="text-red-400 text-sm mt-1">{errors.expiryDate}</p>}
+                        <label htmlFor="expiry-date" className="block text-sm font-semibold mb-1.5 text-gray-200">Срок действия *</label>
+                        <div className="relative">
+                            <input 
+                                type="text" 
+                                id="expiry-date" 
+                                placeholder="ММ / ГГ" 
+                                value={formData.expiryDate}
+                                onChange={(e) => handleInputChange('expiryDate', e.target.value)}
+                                onBlur={() => handleBlur('expiryDate')}
+                                maxLength="5"
+                                className={`w-full bg-gray-800/60 border-2 rounded-xl p-4 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 ${errors.expiryDate ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                                required 
+                            />
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </div>
+                        </div>
+                        {errors.expiryDate && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.expiryDate}</p>}
                     </div>
                     <div>
-                        <label htmlFor="cvv" className="block text-sm font-bold mb-2">CVV *</label>
-                        <input 
-                            type="text" 
-                            id="cvv" 
-                            placeholder="•••" 
-                            value={formData.cvv}
-                            onChange={(e) => handleInputChange('cvv', e.target.value)}
-                            onBlur={() => handleBlur('cvv')}
-                            maxLength="4"
-                            className={`w-full input-glass rounded-lg p-3 focus:outline-none ${errors.cvv ? 'border-red-500' : ''}`}
-                            required 
-                        />
-                        {errors.cvv && <p className="text-red-400 text-sm mt-1">{errors.cvv}</p>}
+                        <label htmlFor="cvv" className="block text-sm font-semibold mb-1.5 text-gray-200">CVV *</label>
+                        <div className="relative">
+                            <input 
+                                type="text" 
+                                id="cvv" 
+                                placeholder="•••" 
+                                value={formData.cvv}
+                                onChange={(e) => handleInputChange('cvv', e.target.value)}
+                                onBlur={() => handleBlur('cvv')}
+                                maxLength="4"
+                                className={`w-full bg-gray-800/60 border-2 rounded-xl p-4 focus:outline-none focus:border-white/50 focus:bg-gray-800/80 transition-all duration-200 text-white placeholder-gray-400 ${errors.cvv ? 'border-red-500 bg-red-900/20' : 'border-gray-600/50'}`}
+                                required 
+                            />
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none">
+                                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                            </div>
+                        </div>
+                        {errors.cvv && <p className="text-red-400 text-sm mt-2 flex items-center"><span className="mr-1">⚠️</span>{errors.cvv}</p>}
                     </div>
                 </div>
-                <div className="flex items-center mt-4">
-                    <input type="checkbox" id="save-card" className="mr-3" />
-                    <label htmlFor="save-card" className="text-sm text-gray-400">Сохранить карту для будущих покупок</label>
+                <div className="flex items-center mt-6 p-4 bg-gray-800/40 rounded-xl border border-gray-600/30">
+                    <input type="checkbox" id="save-card" className="mr-4 w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500 focus:ring-2" />
+                    <label htmlFor="save-card" className="text-sm text-gray-300 cursor-pointer">Сохранить карту для будущих покупок</label>
                 </div>
             </form>
         </div>
@@ -449,7 +548,7 @@ function OrderSummary({ formData, isSubmitting, setIsSubmitting, validateAllFiel
     }
 
     return (
-        <div className="lg:col-span-5 mt-8 lg:mt-0">
+        <div className="mt-8 lg:mt-0">
             <div className="glass-card rounded-lg p-6 lg:p-8 lg:sticky top-24">
                 <h2 className="text-2xl font-bold mb-6">Ваш заказ</h2>
                 <div className="space-y-4">
@@ -466,25 +565,7 @@ function OrderSummary({ formData, isSubmitting, setIsSubmitting, validateAllFiel
                             <div className="flex-grow">
                                 <p className="font-bold">{item.name}</p>
                                 <div className="flex items-center gap-3 mt-1">
-                                    <div className="inline-flex items-center border border-gray-700 rounded-md overflow-hidden">
-                                        <button
-                                            type="button"
-                                            onClick={() => setQuantity(item.id, (item.quantity || 1) - 1)}
-                                            className="px-3 py-1 bg-transparent hover:bg-white/5"
-                                            aria-label={`Уменьшить количество ${item.name}`}
-                                        >
-                                            -
-                                        </button>
-                                        <div className="px-3 py-1 min-w-[48px] text-center">{item.quantity}</div>
-                                        <button
-                                            type="button"
-                                            onClick={() => setQuantity(item.id, (item.quantity || 1) + 1)}
-                                            className="px-3 py-1 bg-transparent hover:bg-white/5"
-                                            aria-label={`Увеличить количество ${item.name}`}
-                                        >
-                                            +
-                                        </button>
-                                    </div>
+                                    <div className="text-sm text-gray-400">Количество: {item.quantity}</div>
                                     <div className="text-sm text-gray-400">{item.price.toLocaleString('ru-RU')} ₽ / шт.</div>
                                     <button type="button" onClick={() => removeFromCart(item.id)} className="text-sm text-red-400 hover:text-red-300 ml-2">Удалить</button>
                                 </div>
@@ -677,22 +758,64 @@ export default function CheckoutPage() {
                     {/* Progress Indicator */}
                     <div className="flex justify-center mb-8">
                         <div className="flex items-center space-x-4">
-                            <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-amber-500 text-black' : 'bg-gray-600 text-gray-400'}`}>
+                            <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-white text-black' : 'bg-gray-600 text-gray-400'}`}>
                                 1
                             </div>
-                            <div className={`w-12 h-0.5 ${currentStep >= 2 ? 'bg-amber-500' : 'bg-gray-600'}`}></div>
-                            <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-amber-500 text-black' : 'bg-gray-600 text-gray-400'}`}>
+                            <div className={`w-12 h-0.5 ${currentStep >= 2 ? 'bg-white' : 'bg-gray-600'}`}></div>
+                            <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-white text-black' : 'bg-gray-600 text-gray-400'}`}>
                                 2
                             </div>
-                            <div className={`w-12 h-0.5 ${currentStep >= 3 ? 'bg-amber-500' : 'bg-gray-600'}`}></div>
-                            <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-amber-500 text-black' : 'bg-gray-600 text-gray-400'}`}>
+                            <div className={`w-12 h-0.5 ${currentStep >= 3 ? 'bg-white' : 'bg-gray-600'}`}></div>
+                            <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-white text-black' : 'bg-gray-600 text-gray-400'}`}>
                                 3
                             </div>
                         </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 lg:gap-x-16">
-                        <div className="lg:col-span-7 space-y-8">
+                    {/* Trust Badges */}
+                    <div className="flex justify-center mb-8">
+                        <div className="flex items-center space-x-8 text-sm text-gray-400">
+                            <div className="flex items-center space-x-2">
+                                <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>30-дневная гарантия</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                <span>Безопасная оплата</span>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <svg className="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                </svg>
+                                <span>Быстрая доставка</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Urgency and Social Proof */}
+                    <div className="flex justify-center mb-8">
+                        <div className="glass-card p-4 rounded-lg max-w-md">
+                            <div className="text-center">
+                                <div className="flex items-center justify-center space-x-2 mb-2">
+                                    <svg className="w-5 h-5 text-red-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span className="text-sm font-bold text-red-400">Ограниченное время!</span>
+                                </div>
+                                <p className="text-xs text-gray-400">🎯 5 человек уже оформили заказ за последние 10 минут</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 lg:gap-x-16 lg:gap-y-12">
+                        <div className="lg:col-span-6">
+                            <OrderSummary />
+                        </div>
+                        <div className="lg:col-span-6 space-y-8 mt-30 lg:mt-0">
                             {currentStep === 1 && (
                                 <ShippingForm 
                                     formData={formData} 
@@ -742,7 +865,7 @@ export default function CheckoutPage() {
                                 {currentStep < 3 && (
                                     <button
                                         onClick={handleNextStep}
-                                        className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-black rounded-lg transition-colors ml-auto"
+                                        className="px-6 py-3 glow-button text-black rounded-lg transition-all ml-auto"
                                     >
                                         Далее
                                     </button>
@@ -757,8 +880,41 @@ export default function CheckoutPage() {
                                 )}
                             </div>
                         </div>
-                        <div className="lg:col-span-5">
-                            <OrderSummary />
+                    </div>
+                </div>
+                
+                {/* Premium Security & Trust Section */}
+                <div className="mt-16 glass-card p-8 rounded-lg">
+                    <div className="text-center">
+                        <h3 className="text-2xl font-bold mb-6 gradient-text">Ваша безопасность - наш приоритет</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div className="flex flex-col items-center">
+                                <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4">
+                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                    </svg>
+                                </div>
+                                <h4 className="font-bold mb-2">SSL Шифрование</h4>
+                                <p className="text-sm text-gray-400">256-битное шифрование для защиты ваших данных</p>
+                            </div>
+                            <div className="flex flex-col items-center">
+                                <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4">
+                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <h4 className="font-bold mb-2">Гарантия качества</h4>
+                                <p className="text-sm text-gray-400">30 дней на возврат при любых обстоятельствах</p>
+                            </div>
+                            <div className="flex flex-col items-center">
+                                <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mb-4">
+                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                    </svg>
+                                </div>
+                                <h4 className="font-bold mb-2">Быстрая доставка</h4>
+                                <p className="text-sm text-gray-400">Доставка в течение 1-3 рабочих дней</p>
+                            </div>
                         </div>
                     </div>
                 </div>

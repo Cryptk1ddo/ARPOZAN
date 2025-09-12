@@ -14,7 +14,7 @@ export default function PaymentIcons() {
         <div className="w-8 h-5 bg-blue-500 rounded text-white text-xs flex items-center justify-center font-bold">
           МИР
         </div>
-        <div className="w-8 h-5 bg-yellow-500 rounded text-white text-xs flex items-center justify-center font-bold">
+        <div className="w-8 h-5 bg-green-500 rounded text-white text-xs flex items-center justify-center font-bold">
           SBER
         </div>
       </div>

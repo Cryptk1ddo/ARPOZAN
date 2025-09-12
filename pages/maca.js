@@ -14,7 +14,6 @@ import gsap from 'gsap'
 export default function Maca() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [selectedPlan, setSelectedPlan] = useState('one-time')
-  const [quantity, setQuantity] = useState(1)
   const [activeBenefit, setActiveBenefit] = useState('libido')
   const [activeComponent, setActiveComponent] = useState('maca')
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -159,16 +158,12 @@ export default function Maca() {
     setCurrentImageIndex(index)
   }
 
-  const handleQuantityChange = (delta) => {
-    setQuantity(prev => Math.max(1, prev + delta))
-  }
-
   const handleAddToCart = () => {
     const product = {
       id: 'maca',
       name: 'Мака перуанская',
       price: selectedPlan === 'subscription' ? 2691 : 1990,
-      quantity: quantity,
+      quantity: 1,
       plan: selectedPlan
     }
 
@@ -244,7 +239,7 @@ export default function Maca() {
                         key={index}
                         onClick={() => handleImageChange(index)}
                         className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                          index === currentImageIndex ? 'bg-yellow-500' : 'bg-gray-600 hover:bg-gray-500'
+                          index === currentImageIndex ? 'bg-white' : 'bg-gray-600 hover:bg-gray-400'
                         }`}
                       />
                     ))}
@@ -255,9 +250,9 @@ export default function Maca() {
               <div className="flex flex-col justify-center py-16 px-4 sm:px-8" id="purchase-section">
                 <div className="max-w-[450px] w-full">
                   <div className="flex items-center gap-2">
-                    <div className="flex text-yellow-500">
+                    <div className="flex text-gray-300">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B">
+                        <svg key={i} width="20" height="20" viewBox="0 0 24 24" fill="#D1D5DB">
                           <path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z" />
                         </svg>
                       ))}
@@ -270,34 +265,36 @@ export default function Maca() {
                   <p className="mt-6 text-gray-400">Растение из высокогорных районов Перу, которое веками использовали мужчины для поддержания силы и сексуальной энергии.</p>
 
                   <div className="mt-6">
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2" id="benefits-tabs">
+                    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-2" id="benefits-tabs">
                       {Object.entries(benefits).map(([key, description], index) => (
                         <button
                           key={key}
                           ref={el => benefitsRef.current[index] = el}
                           onClick={() => setActiveBenefit(key)}
-                          className={`benefit-tab-btn p-3 rounded-lg text-sm font-semibold border-2 transition ${
+                          className={`benefit-tab-btn p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-semibold border-2 transition min-h-[60px] sm:min-h-[auto] ${
                             activeBenefit === key
-                              ? 'bg-yellow-500/10 text-yellow-300 border-yellow-500/30'
+                              ? 'bg-gray-500/10 text-gray-300 border-gray-500/30'
                               : 'bg-gray-800/50 text-gray-300 border-transparent hover:bg-gray-700'
                           }`}
                         >
-                          <div className="flex flex-col items-center gap-2">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className="flex flex-col items-center gap-1 sm:gap-2">
+                            <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               {key === 'libido' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />}
                               {key === 'energy' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />}
                               {key === 'stamina' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
                               {key === 'focus' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />}
                             </svg>
-                            {key === 'libido' && 'Либидо'}
-                            {key === 'energy' && 'Энергия'}
-                            {key === 'stamina' && 'Выносливость'}
-                            {key === 'focus' && 'Фокус'}
+                            <span className="text-center leading-tight">
+                              {key === 'libido' && 'Либидо'}
+                              {key === 'energy' && 'Энергия'}
+                              {key === 'stamina' && 'Выносливость'}
+                              {key === 'focus' && 'Фокус'}
+                            </span>
                           </div>
                         </button>
                       ))}
                     </div>
-                    <div className="mt-4 text-gray-400 text-sm min-h-[64px]">
+                    <div className="mt-4 text-gray-400 text-sm min-h-[64px] leading-relaxed">
                       {benefits[activeBenefit]}
                     </div>
                   </div>
@@ -306,7 +303,7 @@ export default function Maca() {
                     <fieldset>
                       <legend className="font-bold text-lg mb-4">Выберите ваш план</legend>
 
-                      <div className={`p-4 glass-card rounded-lg mb-4 border ${selectedPlan === 'one-time' ? 'border-yellow-500/50 ring-2 ring-yellow-500/20' : 'border-gray-700'}`}>
+                      <div className={`p-4 glass-card rounded-lg mb-4 border ${selectedPlan === 'one-time' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}>
                         <div className="flex items-center">
                           <input
                             type="radio"
@@ -315,7 +312,7 @@ export default function Maca() {
                             id="one-time"
                             checked={selectedPlan === 'one-time'}
                             onChange={(e) => setSelectedPlan(e.target.value)}
-                            className="h-4 w-4 bg-transparent border-gray-600 text-yellow-500 focus:ring-yellow-600"
+                            className="h-4 w-4 bg-transparent border-gray-600 text-white focus:ring-white"
                           />
                           <label htmlFor="one-time" className="ml-4 flex-grow flex justify-between items-center cursor-pointer">
                             <div>
@@ -327,8 +324,8 @@ export default function Maca() {
                         </div>
                       </div>
 
-                      <div className={`glass-card rounded-lg border ${selectedPlan === 'subscription' ? 'border-yellow-500/50 ring-2 ring-yellow-500/20' : 'border-gray-700'}`}>
-                        <div className="bg-yellow-500/10 px-4 py-2 text-center text-sm font-bold text-yellow-400 rounded-t-lg">
+                      <div className={`glass-card rounded-lg border ${selectedPlan === 'subscription' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}>
+                        <div className="bg-white/10 px-4 py-2 text-center text-sm font-bold text-white rounded-t-lg">
                           <p>Экономьте 10% на каждой доставке</p>
                         </div>
                         <div className="p-4">
@@ -340,7 +337,7 @@ export default function Maca() {
                               id="subscribe"
                               checked={selectedPlan === 'subscription'}
                               onChange={(e) => setSelectedPlan(e.target.value)}
-                              className="h-4 w-4 bg-transparent border-gray-600 text-yellow-500 focus:ring-yellow-600"
+                              className="h-4 w-4 bg-transparent border-gray-600 text-white focus:ring-white"
                             />
                             <label htmlFor="subscribe" className="ml-4 flex-grow flex justify-between items-center cursor-pointer">
                               <div>
@@ -353,48 +350,61 @@ export default function Maca() {
                               </div>
                             </label>
                           </div>
+                          <div className="mt-4 pl-8 border-t border-gray-700/50 pt-4">
+                            <p className="text-sm font-bold text-gray-300">Как работает подписка:</p>
+                            <ul className="mt-2 mb-4 space-y-2 text-sm text-gray-400">
+                              <li className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Самый выгодный вариант
+                              </li>
+                              <li className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Скидка 10% на все последующие заказы
+                              </li>
+                              <li className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Легко изменяйте или пропускайте доставку
+                              </li>
+                              <li className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Отмена в любое время
+                              </li>
+                            </ul>
+                            <p className="text-sm font-bold text-gray-300 mb-2">Доставка каждые:</p>
+                            <div className="grid grid-cols-3 gap-2 text-sm">
+                              <div>
+                                <input type="radio" id="freq4" name="frequency" value="4" className="hidden peer" />
+                                <label htmlFor="freq4" className="block text-center py-2 px-4 rounded-lg border border-gray-600 peer-checked:border-gray-300 peer-checked:bg-gray-500/10 cursor-pointer transition">4 недели</label>
+                              </div>
+                              <div>
+                                <input type="radio" id="freq6" name="frequency" value="6" className="hidden peer" defaultChecked />
+                                <label htmlFor="freq6" className="block text-center py-2 px-4 rounded-lg border border-gray-600 peer-checked:border-gray-300 peer-checked:bg-gray-500/10 cursor-pointer transition">6 недель</label>
+                              </div>
+                              <div>
+                                <input type="radio" id="freq8" name="frequency" value="8" className="hidden peer" />
+                                <label htmlFor="freq8" className="block text-center py-2 px-4 rounded-lg border border-gray-600 peer-checked:border-gray-300 peer-checked:bg-gray-500/10 cursor-pointer transition">8 недель</label>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </fieldset>
 
-                    <div className="flex items-end gap-4">
-                      <div>
-                        <label htmlFor="quantity-input" className="block text-sm font-normal text-gray-400 mb-2">Количество</label>
-                        <div className="relative flex items-center max-w-[8rem]">
-                          <button
-                            type="button"
-                            onClick={() => handleQuantityChange(-1)}
-                            className="bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-l-lg p-4 h-12 focus:ring-gray-700 focus:ring-2 focus:outline-none"
-                          >
-                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4" />
-                            </svg>
-                          </button>
-                          <input
-                            type="text"
-                            id="quantity-input"
-                            value={quantity}
-                            onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                            className="bg-gray-900 border-t border-b border-gray-600 h-12 text-center text-gray-200 text-sm focus:ring-yellow-500 focus:border-yellow-500 block w-full py-2"
-                            required
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleQuantityChange(1)}
-                            className="bg-gray-800 hover:bg-gray-700 border border-gray-600 rounded-r-lg p-4 h-12 focus:ring-gray-700 focus:ring-2 focus:outline-none"
-                          >
-                            <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
+                    <div className="flex flex-col sm:flex-row sm:items-end gap-4">
                       <button
                         type="button"
                         onClick={handleAddToCart}
-                        className="w-full glow-button font-bold px-6 rounded-lg text-lg shadow-lg h-12 flex-grow flex items-center justify-center"
+                        className="w-full glow-button font-bold px-4 sm:px-6 py-3 sm:py-0 rounded-lg text-base sm:text-lg shadow-lg h-10 sm:h-12 flex-grow flex items-center justify-center"
                       >
-                        Добавить в корзину
+                        <span className="whitespace-nowrap">Добавить в корзину</span>
                       </button>
                     </div>
                   </form>
@@ -524,12 +534,12 @@ export default function Maca() {
                   <p className="text-gray-400 mt-2">Лучше всего утром во время еды.</p>
                 </div>
                 <div className="flex flex-col items-center p-6 glass-card rounded-lg">
-                  <span className="text-2xl font-bold text-yellow-400">2</span>
+                  <span className="text-2xl font-bold text-gray-300">2</span>
                   <h3 className="text-xl font-bold">Запейте водой</h3>
                   <p className="text-gray-400 mt-2">Один стакан воды для лучшего усвоения.</p>
                 </div>
                 <div className="flex flex-col items-center p-6 glass-card rounded-lg">
-                  <span className="text-2xl font-bold text-yellow-400">3</span>
+                  <span className="text-2xl font-bold text-gray-300">3</span>
                   <h3 className="text-xl font-bold">Почувствуйте эффект</h3>
                   <p className="text-gray-400 mt-2">Наслаждайтесь приливом сил и энергии.</p>
                 </div>
