@@ -2,6 +2,7 @@ import { useCart } from '../lib/CartContext'
 import { useToast } from '../lib/ToastContext'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Image from 'next/image' // Add import
 
 export default function CartDrawer({ open, onClose }) {
   const { cart, removeFromCart, clearCart, getTotal, updateQuantity, addToCart } = useCart()
@@ -118,10 +119,14 @@ export default function CartDrawer({ open, onClose }) {
                       <div className="block sm:hidden p-3">
                         <div className="flex items-start gap-3 mb-3">
                           <div className="w-16 h-16 sm:w-18 sm:h-18 flex-shrink-0">
-                            <img
+                            <Image
                               src={product.image}
                               alt={product.name}
-                              className="w-full h-full object-cover rounded-md"
+                              width={160}
+                              height={160}
+                              className="w-16 h-16 sm:w-18 sm:h-18 flex-shrink-0"
+                              placeholder="blur"
+                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                               loading="lazy"
                             />
                           </div>
@@ -155,10 +160,14 @@ export default function CartDrawer({ open, onClose }) {
                       {/* Tablet Layout - Small to Medium (640px - 1024px) */}
                       <div className="hidden sm:flex md:hidden items-center gap-4 p-4">
                         <div className="w-20 h-20 flex-shrink-0">
-                          <img
+                          <Image
                             src={product.image}
                             alt={product.name}
-                            className="w-full h-full object-cover rounded-md"
+                            width={160}
+                            height={160}
+                            className="w-20 h-20 flex-shrink-0"
+                            placeholder="blur"
+                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                             loading="lazy"
                           />
                         </div>
@@ -210,10 +219,14 @@ export default function CartDrawer({ open, onClose }) {
                             </svg>
                           </div>
                           <div className="w-16 h-16 flex-shrink-0">
-                            <img
+                            <Image
                               src={product.image}
                               alt={product.name}
-                              className="w-full h-full object-cover rounded-md"
+                              width={160}
+                              height={160}
+                              className="w-16 h-16 flex-shrink-0"
+                              placeholder="blur"
+                              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                               loading="lazy"
                             />
                           </div>

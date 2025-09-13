@@ -9,6 +9,7 @@ import { useToast } from '../lib/ToastContext'
 import { animations } from '../lib/gsapUtils'
 import { utils } from '../lib/lodashUtils'
 import gsap from 'gsap'
+import Image from 'next/image'  // Add import
 
 export default function Zinc() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -206,10 +207,14 @@ export default function Zinc() {
             <section id="product" className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-[25px]">
               <div className="lg:sticky lg:top-[81px] h-[60vh] lg:h-[calc(100vh-81px)]">
                 <div className="relative reveal w-full h-full p-8 lg:p-16 flex items-center justify-center">
-                  <img
+                  <Image
                     src={images[currentImageIndex]}
                     alt="Изображение продукта Цинк пиколинат"
+                    width={500}
+                    height={500}
                     className="absolute inset-0 w-full h-full object-cover transition-opacity duration-300"
+                    placeholder="blur"
+                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                   />
 
                   <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex items-center justify-between z-10">
@@ -548,7 +553,15 @@ export default function Zinc() {
               <div className="container mx-auto px-6 lg:px-12">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                   <div className="glass-card rounded-lg p-4">
-                    <img src="/assets/imgs/Zinc.png" alt="Научное исследование Цинк пиколинат" className="rounded-md w-full max-h-[500px] object-contain" />
+                    <Image
+                      src="/assets/imgs/Zinc.png"
+                      alt="Научное исследование Цинк пиколинат"
+                      width={500}
+                      height={500}
+                      className="rounded-md w-full max-h-[500px] object-contain"
+                      placeholder="blur"
+                      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
+                    />
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold gradient-text">Научный подход к вашей силе</h2>

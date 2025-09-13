@@ -203,7 +203,7 @@ export default function SearchBar({ isOpen, onClose }) {
                     <Search size={24} className="text-gray-600" />
                   </div>
                   <p className="text-gray-400 text-base md:text-sm">Ничего не найдено для</p>
-                  <p className="text-white font-medium text-lg md:text-base mt-1">"{query}"</p>
+                  <p className="text-white font-medium text-lg md:text-base mt-1">&quot;{query}&quot;</p>
                   <p className="text-gray-500 text-sm mt-2">Попробуйте другие ключевые слова</p>
                 </motion.div>
               )}
