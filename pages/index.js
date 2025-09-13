@@ -11,33 +11,44 @@ import { useCart } from '../lib/CartContext'
 import { ArrowLeft, X, ChevronRight, RotateCcw } from 'lucide-react'
 import NewsletterSignup from '../components/NewsletterSignup'
 import LoadingSpinner from '../components/LoadingSpinner'
+import TestimonialsCarousel from '../components/TestimonialsCarousel'
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false)
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false)
   const [isSubscription, setIsSubscription] = useState(false)
-  const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [openFaqs, setOpenFaqs] = useState(new Set())
   const [quizStep, setQuizStep] = useState(1)
   const [quizRecommendation, setQuizRecommendation] = useState(null)
   const [isProductsOpen, setIsProductsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [currentTestimonial, setCurrentTestimonial] = useState(0)
 
   const router = useRouter()
   const { addToCart } = useCart()
 
   const headerRef = useRef(null)
 
-  // Sample data (assuming these are defined or fetched)
+  // Add testimonials data
   const testimonials = [
-    { quote: "Энергии стало в разы больше, тренировки проходят легче, а восстановление быстрее. Это то, что я искал.", name: "Алексей П.", role: "Профессиональный спортсмен", avatar: "А" },
-    { quote: "Работаю в IT, постоянные дедлайны. С этим комплексом голова стала яснее, и к вечеру остаются силы на семью.", name: "Михаил В.", role: "Предприниматель", avatar: "М" },
-    { quote: "Либидо вернулось на уровень 20-летнего. Жена довольна, я тоже. Спасибо, ребята!", name: "Игорь С.", role: "45 лет", avatar: "И" },
-    { quote: "Совмещаю учебу и работу. С ARPOZAN концентрация выросла, а после смены есть силы на подготовку к экзаменам.", name: "Дмитрий К.", role: "Студент", avatar: "Д" },
-    { quote: "В 52 года думал, что пик формы позади. Этот комплекс вернул бодрость и мужскую уверенность.", name: "Владимир Н.", role: "52 года", avatar: "В" },
-    { quote: "Пропал &apos;туман&apos; в голове. Как дизайнер, я снова могу часами работать над проектами, не теряя фокуса.", name: "Сергей Л.", role: "Креативный директор", avatar: "С" }
+    {
+      name: "Алексей М.",
+      text: "После месяца приема ARPOZAN почувствовал прилив энергии и уверенности. Результат превзошел ожидания!",
+      rating: 5
+    },
+    {
+      name: "Дмитрий К.",
+      text: "Отличное качество продукции. Заметил улучшение в тренировках и общем самочувствии.",
+      rating: 5
+    },
+    {
+      name: "Михаил П.",
+      text: "ARPOZAN помог вернуть энергию молодости. Рекомендую всем мужчинам после 30!",
+      rating: 5
+    }
   ]
+
   const recommendations = {
     energy: { 
       name: 'ARPOZAN Yohimbe', 
@@ -531,79 +542,8 @@ export default function Home() {
               </div>
             </section>
 
-            {/* Testimonials Section */}
-            <section id="testimonial" className="py-16 md:py-24 col-span-12 reveal">
-              <div className="grid grid-cols-12 gap-x-6">
-                <div className="col-span-12">
-                  <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading">
-                    Что говорят наши клиенты
-                  </h2>
-                </div>
-                <div id="testimonial-carousel" className="col-span-12 relative">
-                  <div className="overflow-hidden carousel-container">
-                    <div className="flex transition-transform duration-500 ease-in-out">
-                      {testimonials.map((testimonial, index) => (
-                        <div key={index} className="w-full flex-shrink-0 px-4">
-                          <div className="grid grid-cols-12 gap-x-6 items-center h-full">
-                            <div className="col-span-12 md:col-span-8">
-                              <p className="text-3xl md:text-4xl font-bold text-white leading-tight">
-                                &quot;{testimonial.quote}&quot;
-                              </p>
-                            </div>
-                            <div className="col-span-12 md:col-span-4 md:pl-8 mt-6 md:mt-0">
-                              <div className="flex items-center">
-                                <Image
-                                  src={`https://placehold.co/48x48/333/fff?text=${testimonial.avatar}`}
-                                  width={48}
-                                  height={48}
-                                  className="rounded-full mr-4"
-                                  alt={`${testimonial.name} avatar`}
-                                  placeholder="blur"
-                                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
-                                />
-                                <div>
-                                  <p className="font-bold text-white">{testimonial.name}</p>
-                                  <p className="text-sm text-amber-400">{testimonial.role}</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setCurrentTestimonial((currentTestimonial - 1 + testimonials.length) % testimonials.length)}
-                    className="absolute top-1/2 -left-4 md:-left-12 transform -translate-y-1/2 bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors z-10"
-                    aria-label="Предыдущий отзыв"
-                  >
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
-                    </svg>
-                  </button>
-                  <button
-                    onClick={() => setCurrentTestimonial((currentTestimonial + 1) % testimonials.length)}
-                    className="absolute top-1/2 -right-4 md:-right-12 transform -translate-y-1/2 bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors z-10"
-                    aria-label="Следний отзыв"
-                  >
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
-                    </svg>
-                  </button>
-                  <div className="flex justify-center mt-8 space-x-2" role="tablist" aria-label="Навигация по отзывам">
-                    {testimonials.map((_, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setCurrentTestimonial(index)}
-                        className={`w-3 h-3 rounded-full bg-white/20 transition-colors ${index === currentTestimonial ? '!bg-amber-400' : ''}`}
-                        aria-label={`Перейти к отзыву ${index + 1}`}
-                        role="tab"
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
+            {/* Enhanced Testimonials Section */}
+            <TestimonialsCarousel autoPlay={true} interval={6000} />
 
             {/* FAQ Section */}
             <section id="faq" className="py-16 md:py-24 col-span-12 reveal">

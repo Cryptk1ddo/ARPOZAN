@@ -7,7 +7,6 @@ import { useAuth } from '../lib/AuthContext'
 import CartDrawer from './CartDrawer'
 import SearchBar from './SearchBar'
 import UserProfile from './UserProfile'
-import BackToTop from './BackToTop'
 import ToastContainer from './ToastContainer'
 import Footer from './Footer'
 import PromoBar from './PromoBar'
@@ -25,6 +24,7 @@ export default function Layout({ children }) {
   const [touchEnd, setTouchEnd] = useState(null)
   const [promoBarVisible, setPromoBarVisible] = useState(true)
   const [promoBarHeight, setPromoBarHeight] = useState(40)  // Default height for SSR
+  const [navTransitioning, setNavTransitioning] = useState(false)
   const searchInputRef = useRef(null)
 
   // Destructure functions from hooks
@@ -113,26 +113,36 @@ export default function Layout({ children }) {
     }
   }
 
-  // Combined useEffect for scroll handling and promo bar logic (fixed nested useEffect)
+  // Combined useEffect for scroll handling and promo bar logic with enhanced sync
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY
       setIsScrolled(scrollTop > 50)
-      // Check promo bar visibility and adjust nav position
+      
+      // Check promo bar visibility and adjust nav position with transition
       const dismissed = typeof window !== 'undefined' ? localStorage.getItem('promoBarDismissed') : null
       const height = dismissed ? 0 : parseInt((typeof window !== 'undefined' ? localStorage.getItem('promoBarHeight') : null) || '40')
-      setPromoBarVisible(scrollTop < height && !dismissed)
+      const newPromoBarVisible = scrollTop <= 10 && !dismissed
+      
+      // Trigger transition state when promo bar visibility changes
+      if (newPromoBarVisible !== promoBarVisible) {
+        setNavTransitioning(true)
+        setTimeout(() => setNavTransitioning(false), 300) // Match animation duration
+      }
+      
+      setPromoBarVisible(newPromoBarVisible)
     }
-    window.addEventListener('scroll', handleScroll)
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     // Initial check (runs once on mount)
     const dismissed = typeof window !== 'undefined' ? localStorage.getItem('promoBarDismissed') : null
     const height = dismissed ? 0 : parseInt((typeof window !== 'undefined' ? localStorage.getItem('promoBarHeight') : null) || '40')
     setPromoBarHeight(height)
-    setPromoBarVisible(window.scrollY < height && !dismissed)
+    setPromoBarVisible(window.scrollY <= 10 && !dismissed)
 
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [promoBarVisible])
 
   // Close mobile menu on escape key
   useEffect(() => {
@@ -170,26 +180,31 @@ export default function Layout({ children }) {
       <PromoBar />
 
       <nav 
-        className={`fixed w-full z-40 bg-black/80 backdrop-blur-md transition-all duration-300 ${
+        className={`fixed w-full z-40 backdrop-blur-md transition-all duration-300 ease-out ${
           promoBarVisible ? 'top-[40px]' : 'top-0'
+        } ${navTransitioning ? 'nav-syncing' : ''} ${
+          isScrolled ? 'bg-black/90 shadow-2xl shadow-black/50' : 'bg-black/80'
         }`}
         style={{
-          animation: promoBarVisible ? 'promoSlideIn 0.3s ease-out forwards' : 'promoSlideOut 0.3s ease-out forwards'
+          borderBottom: isScrolled ? '1px solid rgba(248, 248, 248, 0.08)' : 'none',
+          boxShadow: isScrolled 
+            ? '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(248, 248, 248, 0.05)' 
+            : 'none'
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile Navigation */}
           <div className="md:hidden flex justify-between items-center h-16">
             {/* Logo - Left */}
-            <Link href="/" className="text-xl font-bold gradient-text">
+            <Link href="/" className="text-xl font-bold gradient-text transition-all duration-200 hover:scale-105">
               ARPOZAN
             </Link>
 
             {/* Search, Cart and Hamburger Icons - Right */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
               <button
                 onClick={() => setIsSearchOpen(true)}
-                className="relative text-white hover:text-blue-400 transition-colors p-2"
+                className="relative text-white hover:text-blue-400 transition-all duration-200 p-2 rounded-lg hover:bg-white/5 active:scale-95"
                 aria-label="Поиск"
               >
                 <Search size={20} />
@@ -197,40 +212,45 @@ export default function Layout({ children }) {
 
               <button
                 onClick={() => setIsCartOpen(true)}
-                className="relative text-white hover:text-blue-400 transition-colors p-2"
+                className="relative text-white hover:text-blue-400 transition-all duration-200 p-2 rounded-lg hover:bg-white/5 active:scale-95"
                 aria-label="Корзина"
               >
                 <ShoppingCart size={20} />
                 {getTotalItems() > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs font-bold">
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold animate-pulse">
                     {getTotalItems()}
                   </span>
                 )}
               </button>
 
-              {/* Hamburger Menu - Now stays in place and becomes close button */}
+              {/* Enhanced Hamburger Menu */}
               <button
                 onClick={handleMenuToggle}
                 disabled={menuLoading}
-                className="relative w-10 h-10 flex flex-col justify-center items-center text-white transition-all duration-300 group rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed z-50"
+                className="relative w-11 h-11 flex flex-col justify-center items-center text-white transition-all duration-200 group rounded-xl p-2 disabled:opacity-50 disabled:cursor-not-allowed z-50 hover:bg-white/5"
                 aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
                 aria-expanded={isMenuOpen}
+                style={{
+                  transform: isMenuOpen ? 'scale(0.95)' : 'scale(1)'
+                }}
               >
                 {menuLoading ? (
                   <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                 ) : (
                   <>
-                    {/* Top line */}
-                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 ease-in-out transform origin-center ${
-                      isMenuOpen ? 'rotate-45 translate-y-0.5' : '-translate-y-1'
+                    {/* Enhanced hamburger lines with better animation */}
+                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 ease-out transform ${
+                      isMenuOpen ? 'rotate-45 translate-y-0 absolute' : 'relative -translate-y-1.5'
                     }`}></div>
-                    {/* Bottom line */}
-                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 ease-in-out transform origin-center ${
-                      isMenuOpen ? '-rotate-45 -translate-y-0.5' : 'translate-y-1'
+                    <div className={`w-5 h-0.5 bg-current transition-all duration-200 ease-out ${
+                      isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
+                    }`}></div>
+                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 ease-out transform ${
+                      isMenuOpen ? '-rotate-45 translate-y-0 absolute' : 'relative translate-y-1.5'
                     }`}></div>
 
-                    {/* Ripple effect */}
-                    <div className="absolute inset-0 rounded-lg opacity-0 group-active:opacity-20 group-active:bg-white transition-all duration-200 ease-out"></div>
+                    {/* Touch feedback ripple */}
+                    <div className="absolute inset-0 rounded-xl opacity-0 group-active:opacity-20 group-active:bg-white transition-all duration-150 ease-out scale-75 group-active:scale-100"></div>
                   </>
                 )}
               </button>
@@ -295,89 +315,140 @@ export default function Layout({ children }) {
             </div>
           </div>
 
+          {/* Enhanced Mobile Menu */}
           {isMenuOpen && (
             <div
-              className="absolute top-full left-0 right-0 z-30 bg-gradient-to-b from-black via-black/95 to-black border-t border-white/10 shadow-2xl"
+              className="absolute top-full left-0 right-0 z-30 bg-gradient-to-b from-black via-black/95 to-black/90 border-t border-white/10 shadow-2xl backdrop-blur-xl"
               role="dialog"
               aria-modal="true"
               aria-label="Мобильная навигация"
               style={{
                 animation: isMenuOpen
-                  ? 'slideDownMenu 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
-                  : 'slideUpMenu 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
-                transform: isMenuOpen ? 'translateY(0)' : 'translateY(-10px)',
-                opacity: isMenuOpen ? 1 : 0
+                  ? 'enhancedMenuEnter 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+                  : 'enhancedMenuExit 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
+                minHeight: 'calc(100vh - 64px)',
+                maxHeight: 'calc(100vh - 64px)',
+                overflowY: 'auto',
+                WebkitOverflowScrolling: 'touch'
               }}
               onTouchStart={onTouchStart}
               onTouchMove={onTouchMove}
               onTouchEnd={onTouchEnd}
             >
-              {/* Background pattern - subtle */}
+              {/* Enhanced background pattern */}
               <div className="absolute inset-0 opacity-5">
-                <div className="absolute top-8 left-10 w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full blur-2xl animate-pulse"></div>
-                <div className="absolute bottom-8 right-10 w-20 h-20 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute top-8 left-10 w-32 h-32 bg-gradient-to-br from-white to-gray-300 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-8 right-10 w-28 h-28 bg-gradient-to-br from-gray-200 to-gray-400 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-gradient-to-br from-white/50 to-gray-300/50 rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
               </div>
 
-              {/* Menu content */}
-              <div className="relative px-4 py-6">
-                {/* Navigation items */}
-                <ul className="space-y-2" role="none">
+              {/* Menu content with enhanced spacing */}
+              <div className="relative px-6 py-8">
+                {/* Welcome message */}
+                <div
+                  className="mb-6 text-center"
+                  style={{
+                    animation: isMenuOpen ? `enhancedFadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
+                    animationDelay: '0.1s',
+                    opacity: 0
+                  }}
+                >
+                  <p className="text-gray-400 text-sm">Добро пожаловать в</p>
+                  <h3 className="gradient-text text-lg font-bold">ARPOZAN</h3>
+                </div>
+
+                {/* Navigation items with enhanced styling */}
+                <ul className="space-y-3 mb-8" role="none">
                   {navigation.map((item, idx) => (
                     <li
                       key={item.name}
                       className="mobile-menu-focusable"
                       role="listitem"
                       style={{
-                        animation: isMenuOpen ? `appleCascadeSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
-                        animationDelay: isMenuOpen ? `${0.1 + idx * 0.06}s` : '0s',
-                        opacity: isMenuOpen ? 1 : 0,
-                        transform: isMenuOpen ? 'translateX(0)' : 'translateX(-15px)'
+                        animation: isMenuOpen ? `enhancedSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
+                        animationDelay: isMenuOpen ? `${0.2 + idx * 0.08}s` : '0s',
+                        opacity: 0,
+                        transform: 'translateX(-20px)'
                       }}
                     >
                       <a
                         href={item.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="flex items-center justify-between text-white text-lg font-light py-3 px-4 rounded-lg hover:bg-white/5 transition-colors"
+                        className="flex items-center justify-between text-white text-lg font-medium py-4 px-5 rounded-2xl hover:bg-white/8 active:bg-white/12 transition-all duration-200 group"
                         role="menuitem"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(248, 248, 248, 0.02) 0%, rgba(248, 248, 248, 0.01) 100%)',
+                          border: '1px solid rgba(248, 248, 248, 0.05)'
+                        }}
                       >
-                        <span>{item.name}</span>
-                        <span className="ml-4 inline-flex items-center">
-                          <svg height="16" viewBox="0 0 9 48" width="7" xmlns="http://www.w3.org/2000/svg"><path d="m8.1155 30.358a.6.6 0 1 1 -.831.8653l-7-6.7242a.6.6 0 0 1 -.0045-.8613l7-6.8569a.6.6 0 1 1 .84.8574l-6.5582 6.4238z"/></svg>
-                        </span>
+                        <span className="group-hover:text-blue-400 transition-colors duration-200">{item.name}</span>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-white/20 rounded-full group-hover:bg-blue-400/50 transition-all duration-200"></div>
+                          <svg className="w-4 h-4 text-white/40 group-hover:text-blue-400/70 group-hover:translate-x-1 transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
                       </a>
                     </li>
                   ))}
-
-                  {/* Quick Actions */}
-                  <li
-                    className="mt-6 pt-4 border-t border-white/10"
-                    style={{
-                      animation: isMenuOpen ? `appleCascadeSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
-                      animationDelay: isMenuOpen ? `${0.1 + navigation.length * 0.06 + 0.1}s` : '0s',
-                      opacity: isMenuOpen ? 1 : 0,
-                      transform: isMenuOpen ? 'translateX(0)' : 'translateX(-15px)'
-                    }}
-                  >
-                    <div className="grid grid-cols-4 gap-3">
-                      <button onClick={() => { setIsSearchOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-3 rounded-lg bg-white/3 hover:bg-white/6 transition-colors">
-                        <Search size={18} />
-                        <span className="text-xs mt-1">Поиск</span>
-                      </button>
-                      <button onClick={() => { setIsProfileOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-3 rounded-lg bg-white/3 hover:bg-white/6 transition-colors">
-                        <User size={18} />
-                        <span className="text-xs mt-1">Профиль</span>
-                      </button>
-                      <Link href="/wishlist" onClick={() => setIsMenuOpen(false)} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-3 rounded-lg bg-white/3 hover:bg-white/6 transition-colors">
-                        <Heart size={18} />
-                        <span className="text-xs mt-1">Избранное</span>
-                      </Link>
-                      <button onClick={() => { setIsCartOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-3 rounded-lg bg-white/3 hover:bg-white/6 transition-colors">
-                        <ShoppingCart size={18} />
-                        <span className="text-xs mt-1">Корзина</span>
-                      </button>
-                    </div>
-                  </li>
                 </ul>
+
+                {/* Quick Actions with better design */}
+                <div
+                  className="border-t border-white/10 pt-6"
+                  style={{
+                    animation: isMenuOpen ? `enhancedSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
+                    animationDelay: isMenuOpen ? `${0.2 + navigation.length * 0.08 + 0.1}s` : '0s',
+                    opacity: 0,
+                    transform: 'translateY(20px)'
+                  }}
+                >
+                  <p className="text-gray-400 text-sm mb-4 text-center">Быстрые действия</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <button 
+                      onClick={() => { setIsSearchOpen(true); setIsMenuOpen(false); }} 
+                      className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all duration-200 border border-white/5 group"
+                    >
+                      <div className="w-10 h-10 bg-white/8 rounded-xl flex items-center justify-center mb-2 group-hover:bg-white/15 transition-all duration-200">
+                        <Search size={18} />
+                      </div>
+                      <span className="text-sm font-medium">Поиск</span>
+                    </button>
+                    <button 
+                      onClick={() => { setIsProfileOpen(true); setIsMenuOpen(false); }} 
+                      className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all duration-200 border border-white/5 group"
+                    >
+                      <div className="w-10 h-10 bg-white/8 rounded-xl flex items-center justify-center mb-2 group-hover:bg-white/15 transition-all duration-200">
+                        <User size={18} />
+                      </div>
+                      <span className="text-sm font-medium">Профиль</span>
+                    </button>
+                    <Link 
+                      href="/wishlist" 
+                      onClick={() => setIsMenuOpen(false)} 
+                      className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all duration-200 border border-white/5 group"
+                    >
+                      <div className="w-10 h-10 bg-white/8 rounded-xl flex items-center justify-center mb-2 group-hover:bg-white/15 transition-all duration-200">
+                        <Heart size={18} />
+                      </div>
+                      <span className="text-sm font-medium">Избранное</span>
+                    </Link>
+                    <button 
+                      onClick={() => { setIsCartOpen(true); setIsMenuOpen(false); }} 
+                      className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all duration-200 border border-white/5 group relative"
+                    >
+                      <div className="w-10 h-10 bg-white/8 rounded-xl flex items-center justify-center mb-2 group-hover:bg-white/15 transition-all duration-200">
+                        <ShoppingCart size={18} />
+                        {getTotalItems() > 0 && (
+                          <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold animate-pulse">
+                            {getTotalItems()}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-sm font-medium">Корзина</span>
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -404,8 +475,6 @@ export default function Layout({ children }) {
         isOpen={isProfileOpen}
         onClose={() => setIsProfileOpen(false)}
       />
-
-      <BackToTop />
 
       <ToastContainer />
     </div>

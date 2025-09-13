@@ -37,21 +37,30 @@ export default function PromoBar() {
   }, [promos.length])
 
   useEffect(() => {
-    // Handle scroll visibility
+    // Handle scroll visibility with enhanced sync
     const handleScroll = () => {
       const scrollTop = window.scrollY
-      // Show only when at the very top (within 10px of top)
-      setIsVisible(scrollTop <= 10)
+      const newVisibility = scrollTop <= 10
+      
+      // Only update if visibility actually changes to prevent unnecessary re-renders
+      if (newVisibility !== isVisible) {
+        setIsVisible(newVisibility)
+        
+        // Dispatch custom event for nav bar sync
+        window.dispatchEvent(new CustomEvent('promoBarVisibilityChange', {
+          detail: { visible: newVisibility, height: 40 }
+        }))
+      }
     }
 
-    // Add scroll listener
+    // Add scroll listener with passive option for better performance
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     // Initial check
     handleScroll()
 
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [isVisible])
 
   const nextPromo = () => {
     setCurrentPromoIndex((prev) => (prev + 1) % promos.length)
@@ -66,10 +75,15 @@ export default function PromoBar() {
   return (
     <div
       ref={promoRef}
-      className={`fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white transition-transform duration-300 ease-in-out border-b border-white/10 ${
-        isVisible ? 'translate-y-0' : '-translate-y-full'
+      className={`fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white transition-all duration-300 ease-out border-b border-white/10 ${
+        isVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'
       }`}
-      style={{ height: '40px' }}
+      style={{ 
+        height: '40px',
+        boxShadow: isVisible 
+          ? '0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(248, 248, 248, 0.05)' 
+          : 'none'
+      }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
         <div className="flex items-center justify-between h-full">

@@ -239,14 +239,62 @@ h1, h2, h3, button, .font-heading { font-family: 'Inter', sans-serif; }
 }
 
 @keyframes promoSlideOut {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100%); opacity: 0; }
+}
+
+/* Enhanced mobile navigation animations */
+@keyframes enhancedMenuEnter {
+    0% { 
+        transform: translateY(-20px); 
+        opacity: 0; 
+        backdropFilter: blur(0px);
+    }
+    100% { 
+        transform: translateY(0); 
+        opacity: 1; 
+        backdropFilter: blur(24px);
+    }
+}
+
+@keyframes enhancedMenuExit {
+    0% { 
+        transform: translateY(0); 
+        opacity: 1; 
+        backdropFilter: blur(24px);
+    }
+    100% { 
+        transform: translateY(-20px); 
+        opacity: 0; 
+        backdropFilter: blur(0px);
+    }
+}
+
+@keyframes enhancedSlideIn {
+    0% { 
+        transform: translateX(-20px); 
+        opacity: 0; 
+    }
+    100% { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+@keyframes enhancedFadeIn {
+    0% { 
+        opacity: 0; 
+        transform: translateY(10px);
+    }
+    100% { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
+}
+
+/* Navigation sync animation */
+.nav-syncing {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
 }
 
 /* Smooth transitions for all interactive elements */
@@ -580,3 +628,192 @@ html {
 .toggle-icon { transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
 
 .carousel-container { touch-action: pan-y; }
+
+/* Premium Testimonials Animations */
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+@keyframes testimonialFloat {
+    0%, 100% {
+        transform: translateY(0px) rotateX(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateX(2deg);
+    }
+}
+
+@keyframes testimonialGlow {
+    0%, 100% {
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+    }
+    50% {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6),
+                    0 0 30px rgba(255, 255, 255, 0.1);
+    }
+}
+
+@keyframes testimonialShimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.testimonial-card {
+    animation: testimonialFloat 6s ease-in-out infinite,
+               testimonialGlow 4s ease-in-out infinite;
+    background-size: 200% 100%;
+}
+
+.testimonial-card:hover {
+    animation-play-state: paused;
+    transform: translateY(-5px) rotateY(5deg) scale(1.02);
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.glass-card {
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.glass-card:hover {
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Smooth curve animations for testimonial transitions */
+@keyframes testimonialSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(100px) rotateY(20deg) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg) scale(1);
+    }
+}
+
+@keyframes testimonialSlideOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-100px) rotateY(-20deg) scale(0.9);
+    }
+}
+
+/* Enhanced button hover effects */
+.testimonial-nav-btn {
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    backdrop-filter: blur(10px);
+}
+
+.testimonial-nav-btn:hover {
+    backdrop-filter: blur(15px);
+    transform: scale(1.1) rotateZ(5deg);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.testimonial-nav-btn:active {
+    transform: scale(0.95) rotateZ(-2deg);
+}
+
+/* Progressive blur effect for background elements */
+.testimonial-bg-blur {
+    filter: blur(0px);
+    transition: filter 2s ease-in-out;
+}
+
+.testimonial-bg-blur.active {
+    filter: blur(3px);
+}
+
+/* Custom scrollbar for testimonials container */
+.testimonials-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.testimonials-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.testimonials-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #F59E0B, #EF4444);
+    border-radius: 10px;
+}
+
+.testimonials-container::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #D97706, #DC2626);
+}
+
+/* Magnetic button effect */
+.magnetic-btn {
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.magnetic-btn:hover {
+    transition: transform 0.1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Premium pulse animation for active indicators */
+@keyframes premiumPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
+    }
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(245, 158, 11, 0);
+    }
+}
+
+.testimonial-dot.active {
+    animation: premiumPulse 2s ease-in-out infinite;
+}
+
+/* Smooth text reveal animation */
+@keyframes textReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.testimonial-text {
+    animation: textReveal 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* Enhanced star rating animations */
+@keyframes starTwinkle {
+    0%, 100% {
+        transform: scale(1) rotateZ(0deg);
+        filter: brightness(1);
+    }
+    50% {
+        transform: scale(1.2) rotateZ(180deg);
+        filter: brightness(1.3);
+    }
+}
+
+.star-rating .star {
+    transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.star-rating .star:hover {
+    animation: starTwinkle 0.6s ease-in-out;
+    transform: scale(1.1);
+}
