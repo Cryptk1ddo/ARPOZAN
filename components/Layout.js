@@ -145,17 +145,17 @@ export default function Layout({ children }) {
     return () => document.removeEventListener('keydown', handleEscape)
   }, [isMenuOpen])
 
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-    return () => {
-      document.body.style.overflow = 'unset'
-    }
-  }, [isMenuOpen])
+  // Prevent body scroll when mobile menu is open (removed for dropdown menu)
+  // useEffect(() => {
+  //   if (isMenuOpen) {
+  //     document.body.style.overflow = 'hidden'
+  //   } else {
+  //     document.body.style.overflow = 'unset'
+  //   }
+  //   return () => {
+  //     document.body.style.overflow = 'unset'
+  //   }
+  // }, [isMenuOpen])
 
   const navigation = [
     { name: 'Главная', href: '/' },
@@ -169,7 +169,14 @@ export default function Layout({ children }) {
     <div className="min-h-screen bg-black">
       <PromoBar />
 
-      <nav className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-md transition-all duration-300">
+      <nav 
+        className={`fixed w-full z-40 bg-black/80 backdrop-blur-md transition-all duration-300 ${
+          promoBarVisible ? 'top-[40px]' : 'top-0'
+        }`}
+        style={{
+          animation: promoBarVisible ? 'promoSlideIn 0.3s ease-out forwards' : 'promoSlideOut 0.3s ease-out forwards'
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile Navigation */}
           <div className="md:hidden flex justify-between items-center h-16">
@@ -201,11 +208,11 @@ export default function Layout({ children }) {
                 )}
               </button>
 
-              {/* Hamburger Menu */}
+              {/* Hamburger Menu - Now stays in place and becomes close button */}
               <button
                 onClick={handleMenuToggle}
                 disabled={menuLoading}
-                className="relative w-10 h-10 flex flex-col justify-center items-center text-white transition-all duration-300 group rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="relative w-10 h-10 flex flex-col justify-center items-center text-white transition-all duration-300 group rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed z-50"
                 aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
                 aria-expanded={isMenuOpen}
               >
@@ -290,153 +297,94 @@ export default function Layout({ children }) {
 
           {isMenuOpen && (
             <div
-              className="fixed inset-0 z-[9999]"
+              className="absolute top-full left-0 right-0 z-30 bg-gradient-to-b from-black via-black/95 to-black border-t border-white/10 shadow-2xl"
               role="dialog"
               aria-modal="true"
               aria-label="Мобильная навигация"
+              style={{
+                animation: isMenuOpen
+                  ? 'slideDownMenu 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
+                  : 'slideUpMenu 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
+                transform: isMenuOpen ? 'translateY(0)' : 'translateY(-10px)',
+                opacity: isMenuOpen ? 1 : 0
+              }}
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
             >
-              {/* Backdrop with premium fade */}
-              <div
-                className="absolute inset-0 bg-black/80 backdrop-blur-lg"
-                onClick={(e) => {
-                  if (e.target === e.currentTarget) {
-                    setIsMenuOpen(false)
-                  }
-                }}
-                style={{
-                  animation: isMenuOpen ? 'fadeInBackdrop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'fadeOutBackdrop 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
-                }}
-              />
+              {/* Background pattern - subtle */}
+              <div className="absolute inset-0 opacity-5">
+                <div className="absolute top-8 left-10 w-24 h-24 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full blur-2xl animate-pulse"></div>
+                <div className="absolute bottom-8 right-10 w-20 h-20 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+              </div>
 
-              {/* Mobile Menu - Full Screen (Apple-style globalnav) */}
-              <div
-                className="absolute inset-0 h-screen min-h-screen bg-gradient-to-b from-black via-black/95 to-black overflow-hidden"
-                role="dialog"
-                aria-modal="true"
-                tabIndex={-1}
-                aria-label="Menu"
-                style={{
-                  animation: isMenuOpen
-                    ? 'slideDownFullScreen 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards'
-                    : 'slideUpFullScreen 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
-                  transform: isMenuOpen ? 'translateY(0)' : 'translateY(-100%)',
-                  ['--r-globalnav-flyout-rate']: '450.5ms'
-                }}
-                onTouchStart={onTouchStart}
-                onTouchMove={onTouchMove}
-                onTouchEnd={onTouchEnd}
-              >
-                {/* Background pattern - Full screen (kept) */}
-                <div className="absolute inset-0 opacity-5">
-                  <div className="absolute top-32 left-20 w-48 h-48 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="absolute bottom-40 right-20 w-40 h-40 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-                  <div className="absolute top-1/3 left-1/3 transform -translate-x-1/2 -translate-y-1/2 w-56 h-56 bg-gradient-to-br from-orange-400 to-red-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-                  <div className="absolute top-2/3 right-1/4 w-32 h-32 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '3s' }}></div>
-                </div>
-
-                {/* Globalnav content wrapper */}
-                <div className="globalnav-content flex flex-col h-full relative overflow-y-auto">
-                  {/* Menuback - left top back button */}
-                  <div className="globalnav-item globalnav-menuback flex items-center h-16 px-4">
-                    <button
-                      aria-label="Main menu"
-                      className="globalnav-menuback-button mobile-menu-focusable text-white/80 hover:text-white transition-all duration-300 p-2 rounded-full"
-                      onClick={() => setIsMenuOpen(false)}
+              {/* Menu content */}
+              <div className="relative px-4 py-6">
+                {/* Navigation items */}
+                <ul className="space-y-2" role="none">
+                  {navigation.map((item, idx) => (
+                    <li
+                      key={item.name}
+                      className="mobile-menu-focusable"
+                      role="listitem"
+                      style={{
+                        animation: isMenuOpen ? `appleCascadeSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
+                        animationDelay: isMenuOpen ? `${0.1 + idx * 0.06}s` : '0s',
+                        opacity: isMenuOpen ? 1 : 0,
+                        transform: isMenuOpen ? 'translateX(0)' : 'translateX(-15px)'
+                      }}
                     >
-                      <span className="globalnav-chevron-icon inline-block align-middle">
-                        {/* Chevron SVG (left) */}
-                        <svg height="24" viewBox="0 0 9 48" width="8" xmlns="http://www.w3.org/2000/svg"><path d="m1.5618 24.0621 6.5581-6.4238c.2368-.2319.2407-.6118.0088-.8486-.2324-.2373-.6123-.2407-.8486-.0088l-7 6.8569c-.1157.1138-.1807.2695-.1802.4316.001.1621.0674.3174.1846.4297l7 6.7241c.1162.1118.2661.1675.4155.1675.1577 0 .3149-.062.4326-.1846.2295-.2388.2222-.6187-.0171-.8481z"/></svg>
-                      </span>
-                    </button>
-
-                    {/* Keep close button on right inside same header (for muscle-memory) */}
-                    <div className="ml-auto">
-                      <button
+                      <a
+                        href={item.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="mobile-menu-focusable text-white/80 hover:text-white transition-all duration-300 p-2"
-                        aria-label="Закрыть меню"
+                        className="flex items-center justify-between text-white text-lg font-light py-3 px-4 rounded-lg hover:bg-white/5 transition-colors"
+                        role="menuitem"
                       >
-                        <div className="w-5 h-5 flex flex-col justify-center items-center">
-                          <div className="w-5 h-0.5 bg-current transition-all duration-300 ease-in-out transform origin-center rotate-45 translate-y-0.5"></div>
-                          <div className="w-5 h-0.5 bg-current transition-all duration-300 ease-in-out transform origin-center -rotate-45 -translate-y-0.5"></div>
-                        </div>
+                        <span>{item.name}</span>
+                        <span className="ml-4 inline-flex items-center">
+                          <svg height="16" viewBox="0 0 9 48" width="7" xmlns="http://www.w3.org/2000/svg"><path d="m8.1155 30.358a.6.6 0 1 1 -.831.8653l-7-6.7242a.6.6 0 0 1 -.0045-.8613l7-6.8569a.6.6 0 1 1 .84.8574l-6.5582 6.4238z"/></svg>
+                        </span>
+                      </a>
+                    </li>
+                  ))}
+
+                  {/* Quick Actions */}
+                  <li
+                    className="mt-6 pt-4 border-t border-white/10"
+                    style={{
+                      animation: isMenuOpen ? `appleCascadeSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
+                      animationDelay: isMenuOpen ? `${0.1 + navigation.length * 0.06 + 0.1}s` : '0s',
+                      opacity: isMenuOpen ? 1 : 0,
+                      transform: isMenuOpen ? 'translateX(0)' : 'translateX(-15px)'
+                    }}
+                  >
+                    <div className="grid grid-cols-4 gap-3">
+                      <button onClick={() => { setIsSearchOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-3 rounded-lg bg-white/3 hover:bg-white/6 transition-colors">
+                        <Search size={18} />
+                        <span className="text-xs mt-1">Поиск</span>
+                      </button>
+                      <button onClick={() => { setIsProfileOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-3 rounded-lg bg-white/3 hover:bg-white/6 transition-colors">
+                        <User size={18} />
+                        <span className="text-xs mt-1">Профиль</span>
+                      </button>
+                      <Link href="/wishlist" onClick={() => setIsMenuOpen(false)} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-3 rounded-lg bg-white/3 hover:bg-white/6 transition-colors">
+                        <Heart size={18} />
+                        <span className="text-xs mt-1">Избранное</span>
+                      </Link>
+                      <button onClick={() => { setIsCartOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-3 rounded-lg bg-white/3 hover:bg-white/6 transition-colors">
+                        <ShoppingCart size={18} />
+                        <span className="text-xs mt-1">Корзина</span>
                       </button>
                     </div>
-                  </div>
-
-                  {/* List container (matches globalnav-list semantic) */}
-                  <ul id="globalnav-list" className="globalnav-list px-4 pt-2 pb-8 space-y-4" role="none">
-                    {navigation.map((item, idx) => (
-                      <li
-                        key={item.name}
-                        className="globalnav-item globalnav-item-menu"
-                        role="listitem"
-                        style={{
-                          ['--r-globalnav-flyout-item-number']: idx,
-                          animation: isMenuOpen ? `appleCascadeSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
-                          animationDelay: isMenuOpen ? `${0.1 + idx * 0.08}s` : '0s',
-                          opacity: isMenuOpen ? 1 : 0,
-                          transform: isMenuOpen ? 'translateX(0)' : 'translateX(-20px)'
-                        }}
-                      >
-                        <a
-                          href={item.href}
-                          onClick={() => setIsMenuOpen(false)}
-                          className="globalnav-link flex items-center justify-between text-white text-2xl font-light py-3 px-3 rounded-lg hover:bg-white/5 transition-colors"
-                          role="menuitem"
-                        >
-                          <span className="globalnav-link-text">{item.name}</span>
-                          <span className="globalnav-link-chevron ml-4 inline-flex items-center">
-                            <svg height="18" viewBox="0 0 9 48" width="8" xmlns="http://www.w3.org/2000/svg"><path d="m8.1155 30.358a.6.6 0 1 1 -.831.8653l-7-6.7242a.6.6 0 0 1 -.0045-.8613l7-6.8569a.6.6 0 1 1 .84.8574l-6.5582 6.4238z"/></svg>
-                          </span>
-                        </a>
-                      </li>
-                    ))}
-
-                    {/* Optional group: Quick Actions */}
-                    <li className="globalnav-item" role="listitem">
-                      <div
-                        className="mt-6 grid grid-cols-4 gap-4 px-1"
-                        style={{
-                          animation: isMenuOpen ? `appleCascadeSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
-                          animationDelay: isMenuOpen ? `${0.1 + navigation.length * 0.08 + 0.1}s` : '0s',
-                          opacity: isMenuOpen ? 1 : 0,
-                          transform: isMenuOpen ? 'translateX(0)' : 'translateX(-20px)'
-                        }}
-                      >
-                        <button onClick={() => { setIsSearchOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-lg bg-white/3 hover:bg-white/6">
-                          <Search size={20} />
-                          <span className="text-xs mt-2">Поиск</span>
-                        </button>
-                        <button onClick={() => { setIsProfileOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-lg bg-white/3 hover:bg-white/6">
-                          <User size={20} />
-                          <span className="text-xs mt-2">Профиль</span>
-                        </button>
-                        <Link href="/wishlist" onClick={() => setIsMenuOpen(false)} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-lg bg-white/3 hover:bg-white/6">
-                          <Heart size={20} />
-                          <span className="text-xs mt-2">Избранное</span>
-                        </Link>
-                        <button onClick={() => { setIsCartOpen(true); setIsMenuOpen(false); }} className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-lg bg-white/3 hover:bg-white/6">
-                          <ShoppingCart size={20} />
-                          <span className="text-xs mt-2">Корзина</span>
-                        </button>
-                      </div>
-                    </li>
-                  </ul>
-
-                  {/* Footer area */}
-                  <div className="pb-12 pt-6 px-6 text-center text-white/60 text-sm">
-                    © 2025 ARPOZAN
-                  </div>
-                </div>
-
+                  </li>
+                </ul>
               </div>
             </div>
           )}
         </div>
       </nav>
 
-      <main className="transition-all duration-300" style={{ paddingTop: promoBarVisible ? `${64 + promoBarHeight}px` : '64px' }}>
+      <main className="transition-all duration-300" style={{ paddingTop: promoBarVisible ? '104px' : '64px' }}>
         {children}
       </main>
 
