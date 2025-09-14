@@ -27,7 +27,9 @@ export default function WishlistButton({ product, className = '' }) {
       }`}
       whileTap={{ scale: 0.95 }}
       whileHover={{ scale: 1.05 }}
-      aria-label={isWishlisted ? 'Удалить из избранного' : 'Добавить в избранное'}
+      aria-label={
+        isWishlisted ? 'Удалить из избранного' : 'Добавить в избранное'
+      }
     >
       <motion.div
         animate={{ scale: isWishlisted ? [1, 1.2, 1] : 1 }}

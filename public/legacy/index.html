@@ -1,452 +1,1125 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ARPOZAN - Энергия для победителей</title>
-        <link rel="canonical" href="index.html">
+    <link rel="canonical" href="index.html" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Manrope:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
-    
+
     <style>
-        body {
-            font-family: 'Manrope', sans-serif;
-            background-color: #050505;
-            color: #E5E7EB;
-            overflow-x: hidden;
+      body {
+        font-family: "Manrope", sans-serif;
+        background-color: #050505;
+        color: #e5e7eb;
+        overflow-x: hidden;
+      }
+      #background-particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -2;
+      }
+      h1,
+      h2,
+      h3,
+      button,
+      .font-heading {
+        font-family: "Inter", sans-serif;
+      }
+      .gradient-text {
+        background: linear-gradient(90deg, #ffddaa, #f5a623);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+      .glow-button {
+        background: linear-gradient(90deg, #f5a623, #ffc53d);
+        box-shadow:
+          0 0 20px rgba(245, 166, 35, 0.4),
+          0 0 30px rgba(245, 166, 35, 0.2);
+        transition: all 0.3s ease-in-out;
+      }
+      .glow-button:hover {
+        transform: scale(1.05);
+        box-shadow:
+          0 0 30px rgba(245, 166, 35, 0.6),
+          0 0 45px rgba(245, 166, 35, 0.3);
+      }
+      .glass-card {
+        background: rgba(16, 16, 16, 0.6);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+      }
+      .product-image-container {
+        perspective: 1500px;
+      }
+      #productImage {
+        transition: transform 0.2s ease-out;
+      }
+      .animated-gradient-hero {
+        background: radial-gradient(
+          ellipse 80% 50% at 50% -20%,
+          rgba(245, 166, 35, 0.15),
+          transparent
+        );
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+      }
+      .faq-item .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-in-out;
+      }
+      .faq-item.open .faq-answer {
+        max-height: 200px;
+      }
+      .faq-item.open .faq-icon {
+        transform: rotate(180deg);
+      }
+      .faq-icon {
+        transition: transform 0.3s ease-in-out;
+      }
+      .pulse {
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
         }
-        #background-particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
-        h1, h2, h3, button, .font-heading { font-family: 'Inter', sans-serif; }
-        .gradient-text {
-            background: linear-gradient(90deg, #ffdDAA, #F5A623);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text; text-fill-color: transparent;
+        50% {
+          transform: scale(1.05);
+          opacity: 0.9;
         }
-        .glow-button {
-            background: linear-gradient(90deg, #F5A623, #FFC53D);
-            box-shadow: 0 0 20px rgba(245, 166, 35, 0.4), 0 0 30px rgba(245, 166, 35, 0.2);
-            transition: all 0.3s ease-in-out;
-        }
-        .glow-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(245, 166, 35, 0.6), 0 0 45px rgba(245, 166, 35, 0.3);
-        }
-        .glass-card {
-            background: rgba(16, 16, 16, 0.6); backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
-        }
-        .product-image-container { perspective: 1500px; }
-        #productImage { transition: transform 0.2s ease-out; }
-        .animated-gradient-hero {
-            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(245, 166, 35, 0.15), transparent);
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: -1;
-        }
-        .faq-item .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out; }
-        .faq-item.open .faq-answer { max-height: 200px; }
-        .faq-item.open .faq-icon { transform: rotate(180deg); }
-        .faq-icon { transition: transform 0.3s ease-in-out; }
-        .pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: .9; } }
-        
-        .nav-link { position: relative; padding-bottom: 4px; }
-        .nav-link::after {
-            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 0; height: 2px; background-color: #F5A623; transition: width 0.3s ease-in-out;
-        }
-        .nav-link:hover::after { width: 100%; }
+      }
 
-        #mobile-menu { transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1); }
-        #mobile-menu .mobile-link { opacity: 0; transform: translateX(20px); transition: opacity 0.4s ease, transform 0.4s ease; }
-        #mobile-menu.active .mobile-link { opacity: 1; transform: translateX(0); }
-        #mobile-menu.active .mobile-link:nth-child(1) { transition-delay: 0.1s; }
-        #mobile-menu.active .mobile-link:nth-child(2) { transition-delay: 0.15s; }
-        #mobile-menu.active .mobile-link:nth-child(3) { transition-delay: 0.2s; }
-        #mobile-menu.active .mobile-link:nth-child(4) { transition-delay: 0.25s; }
-        #mobile-menu.active .mobile-link:nth-child(5) { transition-delay: 0.3s; }
-        #mobile-menu.active .mobile-link:nth-child(6) { transition-delay: 0.35s; }
-        #mobile-menu.active .mobile-link:nth-child(7) { transition-delay: 0.4s; }
+      .nav-link {
+        position: relative;
+        padding-bottom: 4px;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background-color: #f5a623;
+        transition: width 0.3s ease-in-out;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
 
-        .toggle-handle { transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
-        .toggle-icon { transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+      #mobile-menu {
+        transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
+      }
+      #mobile-menu .mobile-link {
+        opacity: 0;
+        transform: translateX(20px);
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s ease;
+      }
+      #mobile-menu.active .mobile-link {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      #mobile-menu.active .mobile-link:nth-child(1) {
+        transition-delay: 0.1s;
+      }
+      #mobile-menu.active .mobile-link:nth-child(2) {
+        transition-delay: 0.15s;
+      }
+      #mobile-menu.active .mobile-link:nth-child(3) {
+        transition-delay: 0.2s;
+      }
+      #mobile-menu.active .mobile-link:nth-child(4) {
+        transition-delay: 0.25s;
+      }
+      #mobile-menu.active .mobile-link:nth-child(5) {
+        transition-delay: 0.3s;
+      }
+      #mobile-menu.active .mobile-link:nth-child(6) {
+        transition-delay: 0.35s;
+      }
+      #mobile-menu.active .mobile-link:nth-child(7) {
+        transition-delay: 0.4s;
+      }
 
-        .carousel-container { touch-action: pan-y; }
+      .toggle-handle {
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      }
+      .toggle-icon {
+        transition:
+          opacity 0.4s ease,
+          transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      }
+
+      .carousel-container {
+        touch-action: pan-y;
+      }
     </style>
-</head>
-<body class="antialiased">
+  </head>
+  <body class="antialiased">
     <canvas id="background-particles"></canvas>
     <div class="animated-gradient-hero"></div>
-    
+
     <div class="container mx-auto px-6">
-        <header id="main-header" class="grid grid-cols-12 gap-x-6 sticky top-0 z-50 py-4 transition-all duration-300">
-            <div class="col-span-6 md:col-span-3 flex items-center">
-                <a href="#" class="text-xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</a>
-            </div>
-            <nav class="hidden md:flex col-span-6 justify-center items-center">
-                <div class="flex space-x-8 text-sm">
-                    <a href="#science" class="nav-link text-gray-300 hover:text-amber-400 transition-colors">Наука</a>
-                    <a href="#catalog" class="nav-link text-gray-300 hover:text-amber-400 transition-colors">Каталог</a>
-                    <a href="#pricing" class="nav-link text-gray-300 hover:text-amber-400 transition-colors">Цены</a>
-                    <a href="#faq" class="nav-link text-gray-300 hover:text-amber-400 transition-colors">FAQ</a>
-                </div>
-            </nav>
-            <div class="hidden md:flex col-span-3 justify-end items-center space-x-4">
-                <button id="open-quiz-btn-desktop" class="bg-white/10 text-white font-bold py-2 px-4 rounded-lg hover:bg-white/20 transition-colors whitespace-nowrap text-sm">Подобрать продукт</button>
-                <a href="#pricing" class="glow-button text-black font-bold uppercase px-6 py-2 rounded-lg text-sm tracking-wider order-btn">Заказать</a>
-            </div>
-            <div class="md:hidden col-span-6 flex justify-end items-center">
-                <button id="menu-btn" class="z-50">
-                    <svg id="menu-open-icon" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
-                    <svg id="menu-close-icon" class="h-6 w-6 text-white hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-            </div>
-        </header>
+      <header
+        id="main-header"
+        class="grid grid-cols-12 gap-x-6 sticky top-0 z-50 py-4 transition-all duration-300"
+      >
+        <div class="col-span-6 md:col-span-3 flex items-center">
+          <a
+            href="#"
+            class="text-xl font-bold gradient-text font-heading tracking-wider"
+            >ARPOZAN</a
+          >
+        </div>
+        <nav class="hidden md:flex col-span-6 justify-center items-center">
+          <div class="flex space-x-8 text-sm">
+            <a
+              href="#science"
+              class="nav-link text-gray-300 hover:text-amber-400 transition-colors"
+              >Наука</a
+            >
+            <a
+              href="#catalog"
+              class="nav-link text-gray-300 hover:text-amber-400 transition-colors"
+              >Каталог</a
+            >
+            <a
+              href="#pricing"
+              class="nav-link text-gray-300 hover:text-amber-400 transition-colors"
+              >Цены</a
+            >
+            <a
+              href="#faq"
+              class="nav-link text-gray-300 hover:text-amber-400 transition-colors"
+              >FAQ</a
+            >
+          </div>
+        </nav>
+        <div
+          class="hidden md:flex col-span-3 justify-end items-center space-x-4"
+        >
+          <button
+            id="open-quiz-btn-desktop"
+            class="bg-white/10 text-white font-bold py-2 px-4 rounded-lg hover:bg-white/20 transition-colors whitespace-nowrap text-sm"
+          >
+            Подобрать продукт
+          </button>
+          <a
+            href="#pricing"
+            class="glow-button text-black font-bold uppercase px-6 py-2 rounded-lg text-sm tracking-wider order-btn"
+            >Заказать</a
+          >
+        </div>
+        <div class="md:hidden col-span-6 flex justify-end items-center">
+          <button id="menu-btn" class="z-50">
+            <svg
+              id="menu-open-icon"
+              class="h-6 w-6 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+            <svg
+              id="menu-close-icon"
+              class="h-6 w-6 text-white hidden"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+      </header>
     </div>
 
-    <div id="mobile-menu" class="fixed inset-0 z-40 flex flex-col items-end justify-center bg-black/95 backdrop-blur-xl text-white opacity-0 invisible scale-95 transition-all duration-500 pr-8">
-        <div class="flex flex-col items-end space-y-6 text-right">
-            <a href="#science" class="mobile-link text-2xl">Наука</a>
-            <a href="#catalog" class="mobile-link text-2xl">Каталог</a>
-            <a href="#pricing" class="mobile-link text-2xl">Цены</a>
-            <a href="#faq" class="mobile-link text-2xl">FAQ</a>
-            <button id="open-quiz-btn-mobile" class="mobile-link bg-white/10 text-white font-bold py-3 px-6 rounded-lg text-lg">Подобрать продукт</button>
-            <a href="#pricing" class="mobile-link glow-button text-black font-bold uppercase px-8 py-3 rounded-lg text-lg tracking-wider mt-4 order-btn">Заказать</a>
-        </div>
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 z-40 flex flex-col items-end justify-center bg-black/95 backdrop-blur-xl text-white opacity-0 invisible scale-95 transition-all duration-500 pr-8"
+    >
+      <div class="flex flex-col items-end space-y-6 text-right">
+        <a href="#science" class="mobile-link text-2xl">Наука</a>
+        <a href="#catalog" class="mobile-link text-2xl">Каталог</a>
+        <a href="#pricing" class="mobile-link text-2xl">Цены</a>
+        <a href="#faq" class="mobile-link text-2xl">FAQ</a>
+        <button
+          id="open-quiz-btn-mobile"
+          class="mobile-link bg-white/10 text-white font-bold py-3 px-6 rounded-lg text-lg"
+        >
+          Подобрать продукт
+        </button>
+        <a
+          href="#pricing"
+          class="mobile-link glow-button text-black font-bold uppercase px-8 py-3 rounded-lg text-lg tracking-wider mt-4 order-btn"
+          >Заказать</a
+        >
+      </div>
     </div>
 
     <main class="relative overflow-hidden">
-        <div class="container mx-auto x-6">
-            <section id="hero" class="grid grid-cols-12 gap-x-6 py-16 md:py-24">
-                <div class="col-span-12 md:col-span-6 flex flex-col justify-center">
-                    <div class="flex items-center gap-2 mb-4">
-                        <div class="flex text-amber-400">
-                           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
-                           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
-                           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
-                           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
-                           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"></path></svg>
-                        </div>
-                        <p class="text-sm text-gray-400">Более 10,000+ довольных клиентов</p>
-                    </div>
-                    <h1 class="text-4xl md:text-7xl font-black uppercase tracking-tighter text-white mb-6">Твоя энергия — <span class="gradient-text">твой капитал</span></h1>
-                    <p class="text-lg text-gray-400 max-w-lg mb-8">Разработано экспертами-нутрициологами для обеспечения вас всеми необходимыми питательными веществами в течение дня.</p>
-                    <div class="flex flex-col sm:flex-row items-start gap-4">
-                        <a href="#pricing" class="glow-button w-full sm:w-auto text-black font-bold text-base uppercase px-10 py-4 rounded-lg tracking-wider order-btn">Купить ARPOZAN</a>
-                        <button id="hero-quiz-btn" class="w-full sm:w-auto bg-transparent border border-white/30 text-white font-bold text-base uppercase px-10 py-4 rounded-lg tracking-wider hover:bg-white/10 transition-colors">Подобрать продукт</button>
-                    </div>
-                </div>
-                <div class="col-span-12 md:col-span-6 product-image-container flex items-center justify-center mt-12 md:mt-0">
-                    <img id="productImage" src="assets/imgs/Maka peruvian.png" alt="Product bottle" class="h-[450px] md:h-[600px] object-contain drop-shadow-2xl">
-                </div>
-            </section>
+      <div class="container mx-auto x-6">
+        <section id="hero" class="grid grid-cols-12 gap-x-6 py-16 md:py-24">
+          <div class="col-span-12 md:col-span-6 flex flex-col justify-center">
+            <div class="flex items-center gap-2 mb-4">
+              <div class="flex text-amber-400">
+                <svg
+                  aria-hidden="true"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="#F59E0B"
+                >
+                  <path
+                    d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"
+                  ></path>
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="#F59E0B"
+                >
+                  <path
+                    d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"
+                  ></path>
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="#F59E0B"
+                >
+                  <path
+                    d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"
+                  ></path>
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="#F59E0B"
+                >
+                  <path
+                    d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"
+                  ></path>
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="#F59E0B"
+                >
+                  <path
+                    d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z"
+                  ></path>
+                </svg>
+              </div>
+              <p class="text-sm text-gray-400">
+                Более 10,000+ довольных клиентов
+              </p>
+            </div>
+            <h1
+              class="text-4xl md:text-7xl font-black uppercase tracking-tighter text-white mb-6"
+            >
+              Твоя энергия — <span class="gradient-text">твой капитал</span>
+            </h1>
+            <p class="text-lg text-gray-400 max-w-lg mb-8">
+              Разработано экспертами-нутрициологами для обеспечения вас всеми
+              необходимыми питательными веществами в течение дня.
+            </p>
+            <div class="flex flex-col sm:flex-row items-start gap-4">
+              <a
+                href="#pricing"
+                class="glow-button w-full sm:w-auto text-black font-bold text-base uppercase px-10 py-4 rounded-lg tracking-wider order-btn"
+                >Купить ARPOZAN</a
+              >
+              <button
+                id="hero-quiz-btn"
+                class="w-full sm:w-auto bg-transparent border border-white/30 text-white font-bold text-base uppercase px-10 py-4 rounded-lg tracking-wider hover:bg-white/10 transition-colors"
+              >
+                Подобрать продукт
+              </button>
+            </div>
+          </div>
+          <div
+            class="col-span-12 md:col-span-6 product-image-container flex items-center justify-center mt-12 md:mt-0"
+          >
+            <img
+              id="productImage"
+              src="assets/imgs/Maka peruvian.png"
+              alt="Product bottle"
+              class="h-[450px] md:h-[600px] object-contain drop-shadow-2xl"
+            />
+          </div>
+        </section>
 
-            <section id="science" class="grid grid-cols-12 gap-x-6 py-16 md:py-24">
-                <div class="col-span-12">
-                    <h2 class="text-3xl md:text-5xl font-bold text-white font-heading">Научный подход <span class="gradient-text">ARPOZAN</span></h2>
-                    <p class="text-gray-400 mt-6 max-w-3xl">Мы отказались от компромиссов. ARPOZAN — это чистые, мощные экстракты в дозировках, подтвержденных исследованиями, для тех, кто требует от жизни большего.</p>
-                </div>
-                 <div class="col-span-12 grid grid-cols-12 gap-6 mt-12">
-                    <div class="col-span-12 md:col-span-4">
-                        <div class="glass-card rounded-2xl p-6 h-full">
-                            <h3 class="font-bold text-white text-lg">Проверено в лаборатории</h3>
-                            <p class="text-gray-400 mt-2 text-sm">Каждая партия проходит строгий контроль качества и чистоты.</p>
-                        </div>
-                    </div>
-                    <div class="col-span-12 md:col-span-4">
-                        <div class="glass-card rounded-2xl p-6 h-full">
-                            <h3 class="font-bold text-white text-lg">Натуральные ингредиенты</h3>
-                            <p class="text-gray-400 mt-2 text-sm">Мы используем только силу природы, без синтетических добавок.</p>
-                        </div>
-                    </div>
-                    <div class="col-span-12 md:col-span-4">
-                        <div class="glass-card rounded-2xl p-6 h-full">
-                            <h3 class="font-bold text-white text-lg">Эффективные дозировки</h3>
-                            <p class="text-gray-400 mt-2 text-sm">Только рабочие дозы для реального результата.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <section id="science" class="grid grid-cols-12 gap-x-6 py-16 md:py-24">
+          <div class="col-span-12">
+            <h2 class="text-3xl md:text-5xl font-bold text-white font-heading">
+              Научный подход <span class="gradient-text">ARPOZAN</span>
+            </h2>
+            <p class="text-gray-400 mt-6 max-w-3xl">
+              Мы отказались от компромиссов. ARPOZAN — это чистые, мощные
+              экстракты в дозировках, подтвержденных исследованиями, для тех,
+              кто требует от жизни большего.
+            </p>
+          </div>
+          <div class="col-span-12 grid grid-cols-12 gap-6 mt-12">
+            <div class="col-span-12 md:col-span-4">
+              <div class="glass-card rounded-2xl p-6 h-full">
+                <h3 class="font-bold text-white text-lg">
+                  Проверено в лаборатории
+                </h3>
+                <p class="text-gray-400 mt-2 text-sm">
+                  Каждая партия проходит строгий контроль качества и чистоты.
+                </p>
+              </div>
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <div class="glass-card rounded-2xl p-6 h-full">
+                <h3 class="font-bold text-white text-lg">
+                  Натуральные ингредиенты
+                </h3>
+                <p class="text-gray-400 mt-2 text-sm">
+                  Мы используем только силу природы, без синтетических добавок.
+                </p>
+              </div>
+            </div>
+            <div class="col-span-12 md:col-span-4">
+              <div class="glass-card rounded-2xl p-6 h-full">
+                <h3 class="font-bold text-white text-lg">
+                  Эффективные дозировки
+                </h3>
+                <p class="text-gray-400 mt-2 text-sm">
+                  Только рабочие дозы для реального результата.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <section id="catalog" class="grid grid-cols-12 gap-6 py-16 md:py-24">
-                <div class="col-span-12">
-                    <h2 class="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading">Наша линейка продуктов</h2>
-                </div>
-                <div class="col-span-12 md:col-span-3">
-                    <div class="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
-                        <img src="assets/imgs/Yohimbin 1.png" alt="ARPOZAN Yohimbe" class="h-40 w-40 object-contain mb-4">
-                        <h3 class="font-bold text-xl text-white font-heading">ARPOZAN Yohimbe</h3>
-                        <p class="text-gray-400 text-sm my-2 flex-grow">Адреналиновый заряд для ваших самых амбициозных целей.</p>
-                        <p class="text-2xl font-bold text-white my-4">2990₽</p>
-                        <div class="w-full mt-auto">
-                            <a href="Yohimbin.html" class="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1">Подробнее</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-span-12 md:col-span-3">
-                     <div class="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
-                         <img src="assets/imgs/Maka peruvian.png" alt="ARPOZAN Maca" class="h-40 w-40 object-contain mb-4">
-                         <h3 class="font-bold text-xl text-white font-heading">ARPOZAN Maca</h3>
-                         <p class="text-gray-400 text-sm my-2 flex-grow">Природный бустер либидо и сексуальной энергии.</p>
-                         <p class="text-2xl font-bold text-white my-4">1990₽</p>
-                         <div class="w-full mt-auto">
-                            <a href="maca.html" class="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1">Подробнее</a>
-                         </div>
-                     </div>
-                </div>
-                <div class="col-span-12 md:col-span-3">
-                     <div class="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
-                         <img src="assets/imgs/Zink.png" alt="ARPOZAN Zinc" class="h-40 w-40 object-contain mb-4">
-                         <h3 class="font-bold text-xl text-white font-heading">ARPOZAN Zinc</h3>
-                         <p class="text-gray-400 text-sm my-2 flex-grow">Базовый элемент мужского здоровья и тестостерона.</p>
-                         <p class="text-2xl font-bold text-white my-4">1990₽</p>
-                         <div class="w-full mt-auto">
-                            <a href="zinc.html" class="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1">Подробнее</a>
-                         </div>
-                     </div>
-                </div>
-                 <div class="col-span-12 md:col-span-3">
-                     <div class="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
-                         <img src="assets/imgs/Tongkat Ali.png" alt="ARPOZAN Tongkat Ali" class="h-40 w-40 object-contain mb-4">
-                         <h3 class="font-bold text-xl text-white font-heading">ARPOZAN Tongkat Ali</h3>
-                         <p class="text-gray-400 text-sm my-2 flex-grow">Природный стимулятор тестостерона и мышечного роста.</p>
-                         <p class="text-2xl font-bold text-white my-4">2990₽</p>
-                         <div class="w-full mt-auto">
-                            <a href="Long-jack.html" class="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1">Подробнее</a>
-                         </div>
-                     </div>
-                </div>
-            </section>
+        <section id="catalog" class="grid grid-cols-12 gap-6 py-16 md:py-24">
+          <div class="col-span-12">
+            <h2
+              class="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading"
+            >
+              Наша линейка продуктов
+            </h2>
+          </div>
+          <div class="col-span-12 md:col-span-3">
+            <div
+              class="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full"
+            >
+              <img
+                src="assets/imgs/Yohimbin 1.png"
+                alt="ARPOZAN Yohimbe"
+                class="h-40 w-40 object-contain mb-4"
+              />
+              <h3 class="font-bold text-xl text-white font-heading">
+                ARPOZAN Yohimbe
+              </h3>
+              <p class="text-gray-400 text-sm my-2 flex-grow">
+                Адреналиновый заряд для ваших самых амбициозных целей.
+              </p>
+              <p class="text-2xl font-bold text-white my-4">2990₽</p>
+              <div class="w-full mt-auto">
+                <a
+                  href="Yohimbin.html"
+                  class="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1"
+                  >Подробнее</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-span-12 md:col-span-3">
+            <div
+              class="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full"
+            >
+              <img
+                src="assets/imgs/Maka peruvian.png"
+                alt="ARPOZAN Maca"
+                class="h-40 w-40 object-contain mb-4"
+              />
+              <h3 class="font-bold text-xl text-white font-heading">
+                ARPOZAN Maca
+              </h3>
+              <p class="text-gray-400 text-sm my-2 flex-grow">
+                Природный бустер либидо и сексуальной энергии.
+              </p>
+              <p class="text-2xl font-bold text-white my-4">1990₽</p>
+              <div class="w-full mt-auto">
+                <a
+                  href="maca.html"
+                  class="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1"
+                  >Подробнее</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-span-12 md:col-span-3">
+            <div
+              class="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full"
+            >
+              <img
+                src="assets/imgs/Zink.png"
+                alt="ARPOZAN Zinc"
+                class="h-40 w-40 object-contain mb-4"
+              />
+              <h3 class="font-bold text-xl text-white font-heading">
+                ARPOZAN Zinc
+              </h3>
+              <p class="text-gray-400 text-sm my-2 flex-grow">
+                Базовый элемент мужского здоровья и тестостерона.
+              </p>
+              <p class="text-2xl font-bold text-white my-4">1990₽</p>
+              <div class="w-full mt-auto">
+                <a
+                  href="zinc.html"
+                  class="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1"
+                  >Подробнее</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-span-12 md:col-span-3">
+            <div
+              class="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full"
+            >
+              <img
+                src="assets/imgs/Tongkat Ali.png"
+                alt="ARPOZAN Tongkat Ali"
+                class="h-40 w-40 object-contain mb-4"
+              />
+              <h3 class="font-bold text-xl text-white font-heading">
+                ARPOZAN Tongkat Ali
+              </h3>
+              <p class="text-gray-400 text-sm my-2 flex-grow">
+                Природный стимулятор тестостерона и мышечного роста.
+              </p>
+              <p class="text-2xl font-bold text-white my-4">2990₽</p>
+              <div class="w-full mt-auto">
+                <a
+                  href="Long-jack.html"
+                  class="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1"
+                  >Подробнее</a
+                >
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <section id="pricing" class="grid grid-cols-12 gap-x-6 py-16 md:py-24 items-center">
-                <div class="col-span-12 md:col-span-6">
-                    <img src="assets/imgs/Ultimate Pack.png" alt="Ultimate Men's Pack" class="rounded-2xl w-full">
-                </div>
-                <div class="col-span-12 md:col-span-6 md:pl-12 mt-8 md:mt-0">
-                     <h2 class="text-3xl md:text-5xl font-bold text-white font-heading">ULTIMATE MEN’S PACK</h2>
-                     <p class="text-gray-400 mt-4 max-w-lg">Полный набор для максимального синергетического эффекта. Поддержите гормональную систему, энергию, интимную жизнь и восстановление.</p>
-                     <div class="flex items-center justify-start space-x-4 my-6">
-                        <span class="text-gray-400 text-sm">Разовая покупка</span>
-                        <label for="subscription-toggle" class="relative inline-flex items-center cursor-pointer w-16 h-8">
-                            <input type="checkbox" id="subscription-toggle" class="sr-only peer" checked>
-                            <div class="w-full h-full bg-gray-600 rounded-full peer-checked:bg-amber-500 transition-colors duration-300"></div>
-                            <div class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full shadow-md transform peer-checked:translate-x-8 toggle-handle"></div>
-                        </label>
-                        <span class="font-semibold gradient-text text-sm">Подписка (-10%)</span>
-                    </div>
-                     <div class="flex items-center justify-between bg-black/30 rounded-lg p-4">
-                        <div><p id="original-price" class="text-gray-500 line-through text-lg">9,960 ₽</p><p id="display-price" class="text-4xl font-bold text-white">8,990 ₽</p><p id="saving-text" class="gradient-text font-semibold">Экономия 970 ₽</p></div>
-                        <a href="#" class="glow-button text-black font-bold uppercase px-8 py-4 rounded-lg tracking-wider order-btn">Заказать</a>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="testimonial" class="py-16 md:py-24 col-span-12">
-                <div class="grid grid-cols-12 gap-x-6">
-                    <div class="col-span-12">
-                         <h2 class="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading">Что говорят наши клиенты</h2>
-                    </div>
-                    <div id="testimonial-carousel" class="col-span-12 relative">
-                         <div class="overflow-hidden carousel-container">
-                             <div id="testimonial-track" class="flex transition-transform duration-500 ease-in-out">
-                                <!-- Testimonials will be dynamically injected here -->
-                             </div>
-                         </div>
-                         <button id="testimonial-prev" class="absolute top-1/2 -left-4 md:-left-12 transform -translate-y-1/2 bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors z-10">
-                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                         </button>
-                         <button id="testimonial-next" class="absolute top-1/2 -right-4 md:-right-12 transform -translate-y-1/2 bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors z-10">
-                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                         </button>
-                         <div id="testimonial-dots" class="flex justify-center mt-8 space-x-2"></div>
-                     </div>
-                </div>
-            </section>
+        <section
+          id="pricing"
+          class="grid grid-cols-12 gap-x-6 py-16 md:py-24 items-center"
+        >
+          <div class="col-span-12 md:col-span-6">
+            <img
+              src="assets/imgs/Ultimate Pack.png"
+              alt="Ultimate Men's Pack"
+              class="rounded-2xl w-full"
+            />
+          </div>
+          <div class="col-span-12 md:col-span-6 md:pl-12 mt-8 md:mt-0">
+            <h2 class="text-3xl md:text-5xl font-bold text-white font-heading">
+              ULTIMATE MEN’S PACK
+            </h2>
+            <p class="text-gray-400 mt-4 max-w-lg">
+              Полный набор для максимального синергетического эффекта.
+              Поддержите гормональную систему, энергию, интимную жизнь и
+              восстановление.
+            </p>
+            <div class="flex items-center justify-start space-x-4 my-6">
+              <span class="text-gray-400 text-sm">Разовая покупка</span>
+              <label
+                for="subscription-toggle"
+                class="relative inline-flex items-center cursor-pointer w-16 h-8"
+              >
+                <input
+                  type="checkbox"
+                  id="subscription-toggle"
+                  class="sr-only peer"
+                  checked
+                />
+                <div
+                  class="w-full h-full bg-gray-600 rounded-full peer-checked:bg-amber-500 transition-colors duration-300"
+                ></div>
+                <div
+                  class="absolute top-1 left-1 bg-white w-6 h-6 rounded-full shadow-md transform peer-checked:translate-x-8 toggle-handle"
+                ></div>
+              </label>
+              <span class="font-semibold gradient-text text-sm"
+                >Подписка (-10%)</span
+              >
+            </div>
+            <div
+              class="flex items-center justify-between bg-black/30 rounded-lg p-4"
+            >
+              <div>
+                <p
+                  id="original-price"
+                  class="text-gray-500 line-through text-lg"
+                >
+                  9,960 ₽
+                </p>
+                <p id="display-price" class="text-4xl font-bold text-white">
+                  8,990 ₽
+                </p>
+                <p id="saving-text" class="gradient-text font-semibold">
+                  Экономия 970 ₽
+                </p>
+              </div>
+              <a
+                href="#"
+                class="glow-button text-black font-bold uppercase px-8 py-4 rounded-lg tracking-wider order-btn"
+                >Заказать</a
+              >
+            </div>
+          </div>
+        </section>
 
-            <section id="faq" class="grid grid-cols-12 gap-x-6 py-16 md:py-24">
-                <div class="col-span-12 md:col-span-4">
-                    <h2 class="text-3xl md:text-5xl font-bold text-white font-heading">Частые<br>вопросы</h2>
+        <section id="testimonial" class="py-16 md:py-24 col-span-12">
+          <div class="grid grid-cols-12 gap-x-6">
+            <div class="col-span-12">
+              <h2
+                class="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading"
+              >
+                Что говорят наши клиенты
+              </h2>
+            </div>
+            <div id="testimonial-carousel" class="col-span-12 relative">
+              <div class="overflow-hidden carousel-container">
+                <div
+                  id="testimonial-track"
+                  class="flex transition-transform duration-500 ease-in-out"
+                >
+                  <!-- Testimonials will be dynamically injected here -->
                 </div>
-                <div class="col-span-12 md:col-span-8 mt-8 md:mt-0">
-                    <div class="space-y-4">
-                        <div class="faq-item border-b border-white/10 pb-4">
-                            <div class="faq-question cursor-pointer flex justify-between items-center"><h3 class="text-lg font-bold text-white">Чем ULTIMATE MEN’S PACK лучше?</h3><span class="faq-icon text-2xl font-normal text-amber-400">+</span></div>
-                            <div class="faq-answer pt-4"><p class="text-gray-400">Комплекс обеспечивает синергетический эффект — компоненты усиливают действие друг друга.</p></div>
-                        </div>
-                         <div class="faq-item border-b border-white/10 pb-4">
-                            <div class="faq-question cursor-pointer flex justify-between items-center"><h3 class="text-lg font-bold text-white">Нужно ли делать перерыв в приеме?</h3><span class="faq-icon text-2xl font-normal text-amber-400">+</span></div>
-                            <div class="faq-answer pt-4"><p class="text-gray-400">Мы рекомендуем принимать продукты курсами по 2-3 месяца с перерывом в 1 месяц.</p></div>
-                        </div>
-                         <div class="faq-item border-b border-white/10 pb-4">
-                            <div class="faq-question cursor-pointer flex justify-between items-center"><h3 class="text-lg font-bold text-white">Есть ли противопоказания?</h3><span class="faq-icon text-2xl font-normal text-amber-400">+</span></div>
-                            <div class="faq-answer pt-4"><p class="text-gray-400">Не рекомендуется лицам до 18 лет. Перед применением проконсультируйтесь со специалистом.</p></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+              </div>
+              <button
+                id="testimonial-prev"
+                class="absolute top-1/2 -left-4 md:-left-12 transform -translate-y-1/2 bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors z-10"
+              >
+                <svg
+                  class="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 19l-7-7 7-7"
+                  ></path>
+                </svg>
+              </button>
+              <button
+                id="testimonial-next"
+                class="absolute top-1/2 -right-4 md:-right-12 transform -translate-y-1/2 bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors z-10"
+              >
+                <svg
+                  class="w-6 h-6 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </button>
+              <div
+                id="testimonial-dots"
+                class="flex justify-center mt-8 space-x-2"
+              ></div>
+            </div>
+          </div>
+        </section>
 
-        </div>
+        <section id="faq" class="grid grid-cols-12 gap-x-6 py-16 md:py-24">
+          <div class="col-span-12 md:col-span-4">
+            <h2 class="text-3xl md:text-5xl font-bold text-white font-heading">
+              Частые<br />вопросы
+            </h2>
+          </div>
+          <div class="col-span-12 md:col-span-8 mt-8 md:mt-0">
+            <div class="space-y-4">
+              <div class="faq-item border-b border-white/10 pb-4">
+                <div
+                  class="faq-question cursor-pointer flex justify-between items-center"
+                >
+                  <h3 class="text-lg font-bold text-white">
+                    Чем ULTIMATE MEN’S PACK лучше?
+                  </h3>
+                  <span class="faq-icon text-2xl font-normal text-amber-400"
+                    >+</span
+                  >
+                </div>
+                <div class="faq-answer pt-4">
+                  <p class="text-gray-400">
+                    Комплекс обеспечивает синергетический эффект — компоненты
+                    усиливают действие друг друга.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item border-b border-white/10 pb-4">
+                <div
+                  class="faq-question cursor-pointer flex justify-between items-center"
+                >
+                  <h3 class="text-lg font-bold text-white">
+                    Нужно ли делать перерыв в приеме?
+                  </h3>
+                  <span class="faq-icon text-2xl font-normal text-amber-400"
+                    >+</span
+                  >
+                </div>
+                <div class="faq-answer pt-4">
+                  <p class="text-gray-400">
+                    Мы рекомендуем принимать продукты курсами по 2-3 месяца с
+                    перерывом в 1 месяц.
+                  </p>
+                </div>
+              </div>
+              <div class="faq-item border-b border-white/10 pb-4">
+                <div
+                  class="faq-question cursor-pointer flex justify-between items-center"
+                >
+                  <h3 class="text-lg font-bold text-white">
+                    Есть ли противопоказания?
+                  </h3>
+                  <span class="faq-icon text-2xl font-normal text-amber-400"
+                    >+</span
+                  >
+                </div>
+                <div class="faq-answer pt-4">
+                  <p class="text-gray-400">
+                    Не рекомендуется лицам до 18 лет. Перед применением
+                    проконсультируйтесь со специалистом.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
-    
+
     <!-- Modals -->
-    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden"><div class="glass-card rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center"><h3 class="text-2xl font-bold text-white mb-2">Отличный выбор!</h3><p class="text-gray-400 mb-6">Перенаправляем на страницу заказа...</p><div class="w-12 h-12 mx-auto border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div></div></div>
-    <div id="leadModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden"><div class="glass-card rounded-2xl shadow-2xl p-8 max-w-md w-full text-center relative"><button id="closeLeadModalBtn" class="absolute top-4 right-4 text-gray-500 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" /></svg></button><h3 class="text-2xl font-bold gradient-text mb-2">Добро пожаловать!</h3><p class="text-gray-300 mb-4">Получите <span class="text-amber-400 font-bold">скидку 10%</span> на первый заказ.</p><form id="leadForm"><input type="email" placeholder="Ваш E-mail" required class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white mb-4"><button type="submit" class="glow-button w-full text-black font-bold py-3 rounded-lg">Получить скидку</button></form></div></div>
-    <div id="quizModal" class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden"><div id="quizModalContent" class="glass-card rounded-2xl shadow-2xl p-8 max-w-lg w-full relative"><button id="closeQuizModalBtn" class="absolute top-4 right-4 text-gray-500 hover:text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" /></svg></button><div id="quiz-step-1"><h3 class="text-2xl font-bold text-center text-white mb-8">Какова ваша главная цель?</h3><div class="space-y-4"><button class="quiz-answer-btn w-full text-left bg-white/5 border border-white/20 rounded-lg p-4 hover:border-amber-500" data-answer="energy">Энергия и выносливость</button><button class="quiz-answer-btn w-full text-left bg-white/5 border border-white/20 rounded-lg p-4 hover:border-amber-500" data-answer="libido">Повышение либидо</button><button class="quiz-answer-btn w-full text-left bg-white/5 border border-white/20 rounded-lg p-4 hover:border-amber-500" data-answer="testosterone">Поддержка тестостерона</button></div></div><div id="quiz-step-result" class="hidden text-center"><h3 class="text-2xl font-bold text-white mb-4">Ваш идеальный продукт!</h3><div id="quiz-result-content" class="mb-6"></div><button id="quiz-reset-btn" class="text-sm text-gray-500">Пройти заново</button></div></div></div>
-
-
-        <footer class="bg-black bg-opacity-20 border-t border-gray-800">
-        <div class="container mx-auto px-4 lg:px-8 py-12 text-gray-400">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
-                <div class="md:col-span-4">
-                    <h3 class="text-xl font-bold gradient-text font-heading tracking-wider">ARPOZAN</h3>
-                    <p class="mt-4 text-sm">Природные решения для вашей силы и здоровья.</p>
-                </div>
-                <div class="md:col-span-2 md:col-start-7">
-                    <h4 class="font-bold text-white">Навигация</h4>
-                    <ul class="mt-4 space-y-2 text-sm">
-                        <li><a href="#product" class="hover:text-yellow-400 transition-colors">Продукт</a></li>
-                        <li><a href="#components" class="hover:text-yellow-400 transition-colors">Компоненты</a></li>
-                        <li><a href="#faq" class="hover:text-yellow-400 transition-colors">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="md:col-span-2">
-                    <h4 class="font-bold text-white">Поддержка</h4>
-                    <ul class="mt-4 space-y-2 text-sm">
-                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Связаться с нами</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Политика возврата</a></li>
-                        <li><a href="#" class="hover:text-yellow-400 transition-colors">Доставка</a></li>
-                    </ul>
-                </div>
-                <div class="md:col-span-2">
-                    <h4 class="font-bold text-white">Соцсети</h4>
-                    <div class="flex space-x-4 mt-4">
-                        <a href="#" class="hover:text-yellow-400 transition-colors"><i data-lucide="instagram"></i></a>
-                        <a href="#" class="hover:text-yellow-400 transition-colors"><i data-lucide="send"></i></a>
-                        <a href="#" class="hover:text-yellow-400 transition-colors"><i data-lucide="facebook"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
-                 <p>&copy; 2024 ARPOZAN. Все права защищены.</p>
-            </div>
+    <div
+      id="orderModal"
+      class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden"
+    >
+      <div
+        class="glass-card rounded-2xl shadow-2xl p-8 max-w-sm w-full text-center"
+      >
+        <h3 class="text-2xl font-bold text-white mb-2">Отличный выбор!</h3>
+        <p class="text-gray-400 mb-6">Перенаправляем на страницу заказа...</p>
+        <div
+          class="w-12 h-12 mx-auto border-4 border-amber-500 border-t-transparent rounded-full animate-spin"
+        ></div>
+      </div>
+    </div>
+    <div
+      id="leadModal"
+      class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden"
+    >
+      <div
+        class="glass-card rounded-2xl shadow-2xl p-8 max-w-md w-full text-center relative"
+      >
+        <button
+          id="closeLeadModalBtn"
+          class="absolute top-4 right-4 text-gray-500 hover:text-white"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <h3 class="text-2xl font-bold gradient-text mb-2">Добро пожаловать!</h3>
+        <p class="text-gray-300 mb-4">
+          Получите <span class="text-amber-400 font-bold">скидку 10%</span> на
+          первый заказ.
+        </p>
+        <form id="leadForm">
+          <input
+            type="email"
+            placeholder="Ваш E-mail"
+            required
+            class="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white mb-4"
+          /><button
+            type="submit"
+            class="glow-button w-full text-black font-bold py-3 rounded-lg"
+          >
+            Получить скидку
+          </button>
+        </form>
+      </div>
+    </div>
+    <div
+      id="quizModal"
+      class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 hidden"
+    >
+      <div
+        id="quizModalContent"
+        class="glass-card rounded-2xl shadow-2xl p-8 max-w-lg w-full relative"
+      >
+        <button
+          id="closeQuizModalBtn"
+          class="absolute top-4 right-4 text-gray-500 hover:text-white"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <div id="quiz-step-1">
+          <h3 class="text-2xl font-bold text-center text-white mb-8">
+            Какова ваша главная цель?
+          </h3>
+          <div class="space-y-4">
+            <button
+              class="quiz-answer-btn w-full text-left bg-white/5 border border-white/20 rounded-lg p-4 hover:border-amber-500"
+              data-answer="energy"
+            >
+              Энергия и выносливость</button
+            ><button
+              class="quiz-answer-btn w-full text-left bg-white/5 border border-white/20 rounded-lg p-4 hover:border-amber-500"
+              data-answer="libido"
+            >
+              Повышение либидо</button
+            ><button
+              class="quiz-answer-btn w-full text-left bg-white/5 border border-white/20 rounded-lg p-4 hover:border-amber-500"
+              data-answer="testosterone"
+            >
+              Поддержка тестостерона
+            </button>
+          </div>
         </div>
+        <div id="quiz-step-result" class="hidden text-center">
+          <h3 class="text-2xl font-bold text-white mb-4">
+            Ваш идеальный продукт!
+          </h3>
+          <div id="quiz-result-content" class="mb-6"></div>
+          <button id="quiz-reset-btn" class="text-sm text-gray-500">
+            Пройти заново
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-black bg-opacity-20 border-t border-gray-800">
+      <div class="container mx-auto px-4 lg:px-8 py-12 text-gray-400">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div class="md:col-span-4">
+            <h3
+              class="text-xl font-bold gradient-text font-heading tracking-wider"
+            >
+              ARPOZAN
+            </h3>
+            <p class="mt-4 text-sm">
+              Природные решения для вашей силы и здоровья.
+            </p>
+          </div>
+          <div class="md:col-span-2 md:col-start-7">
+            <h4 class="font-bold text-white">Навигация</h4>
+            <ul class="mt-4 space-y-2 text-sm">
+              <li>
+                <a
+                  href="#product"
+                  class="hover:text-yellow-400 transition-colors"
+                  >Продукт</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#components"
+                  class="hover:text-yellow-400 transition-colors"
+                  >Компоненты</a
+                >
+              </li>
+              <li>
+                <a href="#faq" class="hover:text-yellow-400 transition-colors"
+                  >FAQ</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="md:col-span-2">
+            <h4 class="font-bold text-white">Поддержка</h4>
+            <ul class="mt-4 space-y-2 text-sm">
+              <li>
+                <a href="#" class="hover:text-yellow-400 transition-colors"
+                  >Связаться с нами</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-yellow-400 transition-colors"
+                  >Политика возврата</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-yellow-400 transition-colors"
+                  >Доставка</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="md:col-span-2">
+            <h4 class="font-bold text-white">Соцсети</h4>
+            <div class="flex space-x-4 mt-4">
+              <a href="#" class="hover:text-yellow-400 transition-colors"
+                ><i data-lucide="instagram"></i
+              ></a>
+              <a href="#" class="hover:text-yellow-400 transition-colors"
+                ><i data-lucide="send"></i
+              ></a>
+              <a href="#" class="hover:text-yellow-400 transition-colors"
+                ><i data-lucide="facebook"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-700 text-center text-sm">
+          <p>&copy; 2024 ARPOZAN. Все права защищены.</p>
+        </div>
+      </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const canvas = document.getElementById('background-particles');
-            if(canvas) {
-                const ctx = canvas.getContext('2d');
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-                let particles = [];
-                const particleCount = 50;
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push({x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 1.5 + 0.5, vx: Math.random() * 0.5 - 0.25, vy: Math.random() * 0.5 - 0.25 });
-                }
-                function drawParticles() {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.fillStyle = 'rgba(245, 166, 35, 0.2)';
-                    particles.forEach(p => {
-                        ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2); ctx.fill();
-                        p.x += p.vx; p.y += p.vy;
-                        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-                    });
-                    requestAnimationFrame(drawParticles);
-                }
-                drawParticles();
-                window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
-            }
-            
-            const menuBtn = document.getElementById('menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (menuBtn && mobileMenu) {
-                 const openIcon = document.getElementById('menu-open-icon');
-                 const closeIcon = document.getElementById('menu-close-icon');
-                 const toggleMenu = () => {
-                    const isActive = mobileMenu.classList.contains('active');
-                    mobileMenu.classList.toggle('active', !isActive);
-                    mobileMenu.classList.toggle('opacity-0', isActive);
-                    mobileMenu.classList.toggle('invisible', isActive);
-                    mobileMenu.classList.toggle('scale-95', isActive);
-                    if(openIcon) openIcon.classList.toggle('hidden');
-                    if(closeIcon) closeIcon.classList.toggle('hidden');
-                };
-                menuBtn.addEventListener('click', toggleMenu);
-                document.querySelectorAll('#mobile-menu a, #mobile-menu button').forEach(link => {
-                    link.addEventListener('click', () => {
-                        if (mobileMenu.classList.contains('active')) {
-                            toggleMenu();
-                        }
-                    });
-                });
-            }
-
-            const header = document.getElementById('main-header');
-            if(header){
-                const handleScroll = () => {
-                    header.classList.toggle('bg-black/50', window.scrollY > 50);
-                    header.classList.toggle('backdrop-blur-lg', window.scrollY > 50);
-                };
-                window.addEventListener('scroll', handleScroll);
-                handleScroll();
-            }
-
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => {
-                const question = item.querySelector('.faq-question');
-                if (question) question.addEventListener('click', () => item.classList.toggle('open'));
+      document.addEventListener("DOMContentLoaded", () => {
+        const canvas = document.getElementById("background-particles");
+        if (canvas) {
+          const ctx = canvas.getContext("2d");
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          let particles = [];
+          const particleCount = 50;
+          for (let i = 0; i < particleCount; i++) {
+            particles.push({
+              x: Math.random() * canvas.width,
+              y: Math.random() * canvas.height,
+              radius: Math.random() * 1.5 + 0.5,
+              vx: Math.random() * 0.5 - 0.25,
+              vy: Math.random() * 0.5 - 0.25,
             });
-            
-            // Modal Logic
-            const orderModal = document.getElementById('orderModal');
-            const leadModal = document.getElementById('leadModal');
-            const quizModal = document.getElementById('quizModal');
-            
-            const openModal = (modal) => { if(modal) modal.classList.remove('hidden'); };
-            const closeModal = (modal) => { if(modal) modal.classList.add('hidden'); };
+          }
+          function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(245, 166, 35, 0.2)";
+            particles.forEach((p) => {
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+              ctx.fill();
+              p.x += p.vx;
+              p.y += p.vy;
+              if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+              if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+            });
+            requestAnimationFrame(drawParticles);
+          }
+          drawParticles();
+          window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          });
+        }
 
-            // Order Modal
-            document.querySelectorAll('.order-btn').forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); openModal(orderModal); setTimeout(() => closeModal(orderModal), 2000); }));
-            
-            // Lead Modal
-            const closeLeadModalBtn = document.getElementById('closeLeadModalBtn');
-            const leadForm = document.getElementById('leadForm');
-            if(sessionStorage.getItem('leadModalShown') !== 'true') {
-                setTimeout(() => { openModal(leadModal); sessionStorage.setItem('leadModalShown', 'true'); }, 7000);
-            }
-            if(closeLeadModalBtn) closeLeadModalBtn.addEventListener('click', () => closeModal(leadModal));
-            if(leadForm) leadForm.addEventListener('submit', (e) => { e.preventDefault(); closeModal(leadModal); });
+        const menuBtn = document.getElementById("menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        if (menuBtn && mobileMenu) {
+          const openIcon = document.getElementById("menu-open-icon");
+          const closeIcon = document.getElementById("menu-close-icon");
+          const toggleMenu = () => {
+            const isActive = mobileMenu.classList.contains("active");
+            mobileMenu.classList.toggle("active", !isActive);
+            mobileMenu.classList.toggle("opacity-0", isActive);
+            mobileMenu.classList.toggle("invisible", isActive);
+            mobileMenu.classList.toggle("scale-95", isActive);
+            if (openIcon) openIcon.classList.toggle("hidden");
+            if (closeIcon) closeIcon.classList.toggle("hidden");
+          };
+          menuBtn.addEventListener("click", toggleMenu);
+          document
+            .querySelectorAll("#mobile-menu a, #mobile-menu button")
+            .forEach((link) => {
+              link.addEventListener("click", () => {
+                if (mobileMenu.classList.contains("active")) {
+                  toggleMenu();
+                }
+              });
+            });
+        }
 
-            // Quiz Modal
-            const quizTriggers = ['open-quiz-btn-desktop', 'open-quiz-btn-mobile', 'hero-quiz-btn'];
-            quizTriggers.forEach(id => { const btn = document.getElementById(id); if(btn) btn.addEventListener('click', () => openModal(quizModal)); });
-            
-            const closeQuizModalBtn = document.getElementById('closeQuizModalBtn');
-            if(closeQuizModalBtn) closeQuizModalBtn.addEventListener('click', () => closeModal(quizModal));
+        const header = document.getElementById("main-header");
+        if (header) {
+          const handleScroll = () => {
+            header.classList.toggle("bg-black/50", window.scrollY > 50);
+            header.classList.toggle("backdrop-blur-lg", window.scrollY > 50);
+          };
+          window.addEventListener("scroll", handleScroll);
+          handleScroll();
+        }
 
-            const quizStep1 = document.getElementById('quiz-step-1');
-            const quizStepResult = document.getElementById('quiz-step-result');
-            const quizResultContent = document.getElementById('quiz-result-content');
-            const quizAnswerBtns = document.querySelectorAll('.quiz-answer-btn');
-            const quizResetBtn = document.getElementById('quiz-reset-btn');
+        const faqItems = document.querySelectorAll(".faq-item");
+        faqItems.forEach((item) => {
+          const question = item.querySelector(".faq-question");
+          if (question)
+            question.addEventListener("click", () =>
+              item.classList.toggle("open"),
+            );
+        });
 
-            const recommendations = {
-                energy: { name: 'ARPOZAN Yohimbe', image: 'assets/imgs/Yohimbin 1.png', imageAlt: 'ARPOZAN Yohimbe', link: 'Yohimbin.html', description: 'Адреналиновый заряд.', price: '2990₽' },
-                libido: { name: 'ARPOZAN Maca', image: 'assets/imgs/Maka peruvian.png', imageAlt: 'ARPOZAN Maca', link: 'Maca.html', description: 'Природный бустер либидо.', price: '1990₽' },
-                testosterone: { name: 'ARPOZAN Tongkat Ali', image: 'assets/imgs/Tongkat Ali.png', imageAlt: 'ARPOZAN Tongkat Ali', link: 'Tongkat.html', description: 'Стимулятор тестостерона.', price: '2990₽' }
-            };
+        // Modal Logic
+        const orderModal = document.getElementById("orderModal");
+        const leadModal = document.getElementById("leadModal");
+        const quizModal = document.getElementById("quizModal");
 
-            quizAnswerBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const answer = btn.dataset.answer;
-                    const rec = recommendations[answer];
-                    if(quizResultContent && rec) {
-                        quizResultContent.innerHTML = `
+        const openModal = (modal) => {
+          if (modal) modal.classList.remove("hidden");
+        };
+        const closeModal = (modal) => {
+          if (modal) modal.classList.add("hidden");
+        };
+
+        // Order Modal
+        document.querySelectorAll(".order-btn").forEach((btn) =>
+          btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            openModal(orderModal);
+            setTimeout(() => closeModal(orderModal), 2000);
+          }),
+        );
+
+        // Lead Modal
+        const closeLeadModalBtn = document.getElementById("closeLeadModalBtn");
+        const leadForm = document.getElementById("leadForm");
+        if (sessionStorage.getItem("leadModalShown") !== "true") {
+          setTimeout(() => {
+            openModal(leadModal);
+            sessionStorage.setItem("leadModalShown", "true");
+          }, 7000);
+        }
+        if (closeLeadModalBtn)
+          closeLeadModalBtn.addEventListener("click", () =>
+            closeModal(leadModal),
+          );
+        if (leadForm)
+          leadForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            closeModal(leadModal);
+          });
+
+        // Quiz Modal
+        const quizTriggers = [
+          "open-quiz-btn-desktop",
+          "open-quiz-btn-mobile",
+          "hero-quiz-btn",
+        ];
+        quizTriggers.forEach((id) => {
+          const btn = document.getElementById(id);
+          if (btn) btn.addEventListener("click", () => openModal(quizModal));
+        });
+
+        const closeQuizModalBtn = document.getElementById("closeQuizModalBtn");
+        if (closeQuizModalBtn)
+          closeQuizModalBtn.addEventListener("click", () =>
+            closeModal(quizModal),
+          );
+
+        const quizStep1 = document.getElementById("quiz-step-1");
+        const quizStepResult = document.getElementById("quiz-step-result");
+        const quizResultContent = document.getElementById(
+          "quiz-result-content",
+        );
+        const quizAnswerBtns = document.querySelectorAll(".quiz-answer-btn");
+        const quizResetBtn = document.getElementById("quiz-reset-btn");
+
+        const recommendations = {
+          energy: {
+            name: "ARPOZAN Yohimbe",
+            image: "assets/imgs/Yohimbin 1.png",
+            imageAlt: "ARPOZAN Yohimbe",
+            link: "Yohimbin.html",
+            description: "Адреналиновый заряд.",
+            price: "2990₽",
+          },
+          libido: {
+            name: "ARPOZAN Maca",
+            image: "assets/imgs/Maka peruvian.png",
+            imageAlt: "ARPOZAN Maca",
+            link: "Maca.html",
+            description: "Природный бустер либидо.",
+            price: "1990₽",
+          },
+          testosterone: {
+            name: "ARPOZAN Tongkat Ali",
+            image: "assets/imgs/Tongkat Ali.png",
+            imageAlt: "ARPOZAN Tongkat Ali",
+            link: "Tongkat.html",
+            description: "Стимулятор тестостерона.",
+            price: "2990₽",
+          },
+        };
+
+        quizAnswerBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const answer = btn.dataset.answer;
+            const rec = recommendations[answer];
+            if (quizResultContent && rec) {
+              quizResultContent.innerHTML = `
                             <div class="glass-card rounded-2xl p-6 flex flex-col text-center items-center">
                                 <img src="${rec.image}" alt="${rec.name}" class="h-32 w-32 object-contain mb-4">
                                 <h4 class="font-bold text-xl text-white">${rec.name}</h4>
@@ -455,54 +1128,109 @@
                                 <button class="glow-button w-full text-black font-bold py-2 rounded-lg order-btn">Заказать</button>
                             </div>
                         `;
-                        quizResultContent.querySelector('.order-btn').addEventListener('click', (e) => { e.preventDefault(); openModal(orderModal); setTimeout(() => closeModal(orderModal), 2000); });
-                    }
-                    if(quizStep1) quizStep1.classList.add('hidden');
-                    if(quizStepResult) quizStepResult.classList.remove('hidden');
+              quizResultContent
+                .querySelector(".order-btn")
+                .addEventListener("click", (e) => {
+                  e.preventDefault();
+                  openModal(orderModal);
+                  setTimeout(() => closeModal(orderModal), 2000);
                 });
-            });
-            if(quizResetBtn) quizResetBtn.addEventListener('click', () => {
-                if(quizStep1) quizStep1.classList.remove('hidden');
-                if(quizStepResult) quizStepResult.classList.add('hidden');
-            });
+            }
+            if (quizStep1) quizStep1.classList.add("hidden");
+            if (quizStepResult) quizStepResult.classList.remove("hidden");
+          });
+        });
+        if (quizResetBtn)
+          quizResetBtn.addEventListener("click", () => {
+            if (quizStep1) quizStep1.classList.remove("hidden");
+            if (quizStepResult) quizStepResult.classList.add("hidden");
+          });
 
-            const subscriptionToggle = document.getElementById('subscription-toggle');
-            const displayPrice = document.getElementById('display-price');
-            const originalPrice = document.getElementById('original-price');
-            const savingText = document.getElementById('saving-text');
-            const oneTimePrice = 8990, subscriptionPrice = Math.round(oneTimePrice * 0.9), originalFullPrice = 9960;
-            const updatePrice = () => {
-                if(displayPrice && originalPrice && savingText && subscriptionToggle) {
-                    if (subscriptionToggle.checked) {
-                        displayPrice.innerHTML = `${subscriptionPrice.toLocaleString('ru-RU')} ₽ <span class="text-lg font-normal text-gray-400">/ мес.</span>`;
-                        originalPrice.textContent = `${oneTimePrice.toLocaleString('ru-RU')} ₽`;
-                        savingText.textContent = `Экономия ${(originalFullPrice - subscriptionPrice).toLocaleString('ru-RU')} ₽`;
-                    } else {
-                        displayPrice.innerHTML = `${oneTimePrice.toLocaleString('ru-RU')} ₽`;
-                        originalPrice.textContent = `${originalFullPrice.toLocaleString('ru-RU')} ₽`;
-                        savingText.textContent = `Экономия ${(originalFullPrice - oneTimePrice).toLocaleString('ru-RU')} ₽`;
-                    }
-                }
-            };
-            if (subscriptionToggle) { subscriptionToggle.addEventListener('change', updatePrice); updatePrice(); }
-            
-             // Testimonial Carousel Logic
-            const carousel = document.getElementById('testimonial-carousel');
-            if (carousel) {
-                const track = document.getElementById('testimonial-track');
-                const testimonials = [
-                    { quote: "Энергии стало в разы больше, тренировки проходят легче, а восстановление быстрее. Это то, что я искал.", name: "Алексей П.", role: "Профессиональный спортсмен", avatar: "А" },
-                    { quote: "Работаю в IT, постоянные дедлайны. С этим комплексом голова стала яснее, и к вечеру остаются силы на семью.", name: "Михаил В.", role: "Предприниматель", avatar: "М" },
-                    { quote: "Либидо вернулось на уровень 20-летнего. Жена довольна, я тоже. Спасибо, ребята!", name: "Игорь С.", role: "45 лет", avatar: "И" },
-                    { quote: "Совмещаю учебу и работу. С ARPOZAN концентрация выросла, а после смены есть силы на подготовку к экзаменам.", name: "Дмитрий К.", role: "Студент", avatar: "Д" },
-                    { quote: "В 52 года думал, что пик формы позади. Этот комплекс вернул бодрость и мужскую уверенность.", name: "Владимир Н.", role: "52 года", avatar: "В" },
-                    { quote: "Пропал 'туман' в голове. Как дизайнер, я снова могу часами работать над проектами, не теряя фокуса.", name: "Сергей Л.", role: "Креативный директор", avatar: "С" }
-                ];
+        const subscriptionToggle = document.getElementById(
+          "subscription-toggle",
+        );
+        const displayPrice = document.getElementById("display-price");
+        const originalPrice = document.getElementById("original-price");
+        const savingText = document.getElementById("saving-text");
+        const oneTimePrice = 8990,
+          subscriptionPrice = Math.round(oneTimePrice * 0.9),
+          originalFullPrice = 9960;
+        const updatePrice = () => {
+          if (
+            displayPrice &&
+            originalPrice &&
+            savingText &&
+            subscriptionToggle
+          ) {
+            if (subscriptionToggle.checked) {
+              displayPrice.innerHTML = `${subscriptionPrice.toLocaleString("ru-RU")} ₽ <span class="text-lg font-normal text-gray-400">/ мес.</span>`;
+              originalPrice.textContent = `${oneTimePrice.toLocaleString("ru-RU")} ₽`;
+              savingText.textContent = `Экономия ${(originalFullPrice - subscriptionPrice).toLocaleString("ru-RU")} ₽`;
+            } else {
+              displayPrice.innerHTML = `${oneTimePrice.toLocaleString("ru-RU")} ₽`;
+              originalPrice.textContent = `${originalFullPrice.toLocaleString("ru-RU")} ₽`;
+              savingText.textContent = `Экономия ${(originalFullPrice - oneTimePrice).toLocaleString("ru-RU")} ₽`;
+            }
+          }
+        };
+        if (subscriptionToggle) {
+          subscriptionToggle.addEventListener("change", updatePrice);
+          updatePrice();
+        }
 
-                testimonials.forEach(t => {
-                    const slide = document.createElement('div');
-                    slide.className = 'w-full flex-shrink-0 px-4';
-                    slide.innerHTML = `
+        // Testimonial Carousel Logic
+        const carousel = document.getElementById("testimonial-carousel");
+        if (carousel) {
+          const track = document.getElementById("testimonial-track");
+          const testimonials = [
+            {
+              quote:
+                "Энергии стало в разы больше, тренировки проходят легче, а восстановление быстрее. Это то, что я искал.",
+              name: "Алексей П.",
+              role: "Профессиональный спортсмен",
+              avatar: "А",
+            },
+            {
+              quote:
+                "Работаю в IT, постоянные дедлайны. С этим комплексом голова стала яснее, и к вечеру остаются силы на семью.",
+              name: "Михаил В.",
+              role: "Предприниматель",
+              avatar: "М",
+            },
+            {
+              quote:
+                "Либидо вернулось на уровень 20-летнего. Жена довольна, я тоже. Спасибо, ребята!",
+              name: "Игорь С.",
+              role: "45 лет",
+              avatar: "И",
+            },
+            {
+              quote:
+                "Совмещаю учебу и работу. С ARPOZAN концентрация выросла, а после смены есть силы на подготовку к экзаменам.",
+              name: "Дмитрий К.",
+              role: "Студент",
+              avatar: "Д",
+            },
+            {
+              quote:
+                "В 52 года думал, что пик формы позади. Этот комплекс вернул бодрость и мужскую уверенность.",
+              name: "Владимир Н.",
+              role: "52 года",
+              avatar: "В",
+            },
+            {
+              quote:
+                "Пропал 'туман' в голове. Как дизайнер, я снова могу часами работать над проектами, не теряя фокуса.",
+              name: "Сергей Л.",
+              role: "Креативный директор",
+              avatar: "С",
+            },
+          ];
+
+          testimonials.forEach((t) => {
+            const slide = document.createElement("div");
+            slide.className = "w-full flex-shrink-0 px-4";
+            slide.innerHTML = `
                         <div class="grid grid-cols-12 gap-x-6 items-center h-full">
                             <div class="col-span-12 md:col-span-8">
                                 <p class="text-3xl md:text-4xl font-bold text-white leading-tight">"${t.quote}"</p>
@@ -518,61 +1246,85 @@
                             </div>
                         </div>
                     `;
-                    track.appendChild(slide);
-                });
+            track.appendChild(slide);
+          });
 
-                const prevBtn = document.getElementById('testimonial-prev');
-                const nextBtn = document.getElementById('testimonial-next');
-                const dotsContainer = document.getElementById('testimonial-dots');
-                
-                let slides = Array.from(track.children);
-                let totalSlides = slides.length;
-                let currentPage = 0;
+          const prevBtn = document.getElementById("testimonial-prev");
+          const nextBtn = document.getElementById("testimonial-next");
+          const dotsContainer = document.getElementById("testimonial-dots");
 
-                const setupCarousel = () => {
-                    track.style.width = `${totalSlides * 100}%`;
-                    slides.forEach(slide => {
-                        slide.style.width = `${100 / totalSlides}%`;
-                    });
-                    updateDots();
-                    moveToPage(currentPage);
-                }
-                
-                const updateDots = () => {
-                    dotsContainer.innerHTML = '';
-                    for (let i = 0; i < totalSlides; i++) {
-                        const dot = document.createElement('button');
-                        dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-white/20', 'transition-colors');
-                        if (i === currentPage) dot.classList.add('!bg-amber-400');
-                        dot.addEventListener('click', () => moveToPage(i));
-                        dotsContainer.appendChild(dot);
-                    }
-                }
+          let slides = Array.from(track.children);
+          let totalSlides = slides.length;
+          let currentPage = 0;
 
-                const moveToPage = (pageIndex) => {
-                    currentPage = pageIndex;
-                    track.style.transform = `translateX(-${currentPage * (100 / totalSlides)}%)`;
-                    const dots = Array.from(dotsContainer.children);
-                    dots.forEach((dot, index) => dot.classList.toggle('!bg-amber-400', index === currentPage));
-                }
+          const setupCarousel = () => {
+            track.style.width = `${totalSlides * 100}%`;
+            slides.forEach((slide) => {
+              slide.style.width = `${100 / totalSlides}%`;
+            });
+            updateDots();
+            moveToPage(currentPage);
+          };
 
-                prevBtn.addEventListener('click', () => moveToPage((currentPage - 1 + totalSlides) % totalSlides));
-                nextBtn.addEventListener('click', () => moveToPage((currentPage + 1) % totalSlides));
-                
-                let touchStartX = 0; let touchEndX = 0;
-                const carouselContainer = document.querySelector('.carousel-container');
-                if(carouselContainer){
-                    carouselContainer.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
-                    carouselContainer.addEventListener('touchmove', (e) => { touchEndX = e.touches[0].clientX; });
-                    carouselContainer.addEventListener('touchend', () => {
-                        const diff = touchStartX - touchEndX;
-                        if (Math.abs(diff) > 50) { if (diff > 0) { nextBtn.click(); } else { prevBtn.click(); } }
-                    });
-                }
-                setupCarousel();
+          const updateDots = () => {
+            dotsContainer.innerHTML = "";
+            for (let i = 0; i < totalSlides; i++) {
+              const dot = document.createElement("button");
+              dot.classList.add(
+                "w-3",
+                "h-3",
+                "rounded-full",
+                "bg-white/20",
+                "transition-colors",
+              );
+              if (i === currentPage) dot.classList.add("!bg-amber-400");
+              dot.addEventListener("click", () => moveToPage(i));
+              dotsContainer.appendChild(dot);
             }
+          };
 
-        });
+          const moveToPage = (pageIndex) => {
+            currentPage = pageIndex;
+            track.style.transform = `translateX(-${currentPage * (100 / totalSlides)}%)`;
+            const dots = Array.from(dotsContainer.children);
+            dots.forEach((dot, index) =>
+              dot.classList.toggle("!bg-amber-400", index === currentPage),
+            );
+          };
+
+          prevBtn.addEventListener("click", () =>
+            moveToPage((currentPage - 1 + totalSlides) % totalSlides),
+          );
+          nextBtn.addEventListener("click", () =>
+            moveToPage((currentPage + 1) % totalSlides),
+          );
+
+          let touchStartX = 0;
+          let touchEndX = 0;
+          const carouselContainer = document.querySelector(
+            ".carousel-container",
+          );
+          if (carouselContainer) {
+            carouselContainer.addEventListener("touchstart", (e) => {
+              touchStartX = e.touches[0].clientX;
+            });
+            carouselContainer.addEventListener("touchmove", (e) => {
+              touchEndX = e.touches[0].clientX;
+            });
+            carouselContainer.addEventListener("touchend", () => {
+              const diff = touchStartX - touchEndX;
+              if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                  nextBtn.click();
+                } else {
+                  prevBtn.click();
+                }
+              }
+            });
+          }
+          setupCarousel();
+        }
+      });
     </script>
-</body>
+  </body>
 </html>

@@ -10,17 +10,26 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-xl font-bold gradient-text">ARPOZAN</h3>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Натуральные добавки для мужского здоровья и энергии.
-              Качество, эффективность и безопасность в каждом продукте.
+              Натуральные добавки для мужского здоровья и энергии. Качество,
+              эффективность и безопасность в каждом продукте.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-yellow-400 transition-colors"
+              >
                 <Facebook size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-yellow-400 transition-colors"
+              >
                 <Instagram size={20} />
               </a>
-              <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-yellow-400 transition-colors"
+              >
                 <Twitter size={20} />
               </a>
             </div>
@@ -30,16 +39,28 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-white">Продукты</h4>
             <div className="space-y-2">
-              <Link href="/maca" className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+              <Link
+                href="/maca"
+                className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm"
+              >
                 Мака перуанская
               </Link>
-              <Link href="/Yohimbin" className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+              <Link
+                href="/Yohimbin"
+                className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm"
+              >
                 Йохимбин Premium
               </Link>
-              <Link href="/zinc" className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+              <Link
+                href="/zinc"
+                className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm"
+              >
                 Цинк пиколинат
               </Link>
-              <Link href="/Long-jack" className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+              <Link
+                href="/Long-jack"
+                className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm"
+              >
                 Тонгкат Али
               </Link>
             </div>
@@ -49,16 +70,28 @@ export default function Footer() {
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-white">Поддержка</h4>
             <div className="space-y-2">
-              <a href="#" className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+              <a
+                href="#"
+                className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm"
+              >
                 Доставка и оплата
               </a>
-              <a href="#" className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+              <a
+                href="#"
+                className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm"
+              >
                 Возврат товара
               </a>
-              <a href="#" className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+              <a
+                href="#"
+                className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm"
+              >
                 FAQ
               </a>
-              <a href="#" className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm">
+              <a
+                href="#"
+                className="block text-gray-400 hover:text-yellow-400 transition-colors text-sm"
+              >
                 Контакты
               </a>
             </div>
@@ -91,10 +124,16 @@ export default function Footer() {
               © 2025 ARPOZAN. Все права защищены.
             </p>
             <div className="flex space-x-6 text-sm">
-              <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-yellow-400 transition-colors"
+              >
                 Политика конфиденциальности
               </a>
-              <a href="#" className="text-gray-400 hover:text-yellow-400 transition-colors">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-yellow-400 transition-colors"
+              >
                 Условия использования
               </a>
             </div>

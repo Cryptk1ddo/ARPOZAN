@@ -7,41 +7,65 @@ const productsData = {
     id: 'maca',
     name: 'Мака перуанская',
     price: { oneTime: 1990, subscription: 2691 },
-    benefits: ['Повышает либидо', 'Увеличивает энергию', 'Улучшает выносливость', 'Поддерживает гормональный баланс'],
+    benefits: [
+      'Повышает либидо',
+      'Увеличивает энергию',
+      'Улучшает выносливость',
+      'Поддерживает гормональный баланс',
+    ],
     ingredients: ['Мака перуанская', 'Витамины группы B', 'Аминокислоты'],
     rating: 4.8,
-    reviews: 1247
+    reviews: 1247,
   },
   yohimbin: {
     id: 'yohimbin',
     name: 'Йохимбин Premium',
     price: { oneTime: 1990, subscription: 2691 },
-    benefits: ['Сжигает жир', 'Повышает энергию', 'Улучшает концентрацию', 'Стимулирует метаболизм'],
+    benefits: [
+      'Сжигает жир',
+      'Повышает энергию',
+      'Улучшает концентрацию',
+      'Стимулирует метаболизм',
+    ],
     ingredients: ['Йохимбин', 'Кофеин', 'Зеленый чай'],
     rating: 4.7,
-    reviews: 892
+    reviews: 892,
   },
   zinc: {
     id: 'zinc',
     name: 'Цинк пиколинат',
     price: { oneTime: 1990, subscription: 2691 },
-    benefits: ['Поддерживает тестостерон', 'Укрепляет иммунитет', 'Улучшает кожу', 'Повышает фертильность'],
+    benefits: [
+      'Поддерживает тестостерон',
+      'Укрепляет иммунитет',
+      'Улучшает кожу',
+      'Повышает фертильность',
+    ],
     ingredients: ['Цинк пиколинат', 'Витамин C', 'Медь'],
     rating: 4.6,
-    reviews: 654
+    reviews: 654,
   },
   'long-jack': {
     id: 'long-jack',
     name: 'Тонгкат Али',
     price: { oneTime: 1990, subscription: 2691 },
-    benefits: ['Повышает тестостерон', 'Увеличивает силу', 'Улучшает восстановление', 'Повышает либидо'],
+    benefits: [
+      'Повышает тестостерон',
+      'Увеличивает силу',
+      'Улучшает восстановление',
+      'Повышает либидо',
+    ],
     ingredients: ['Тонгкат Али', 'Эурипептиды', 'Гликосапонины'],
     rating: 4.9,
-    reviews: 1103
-  }
+    reviews: 1103,
+  },
 }
 
-export default function ProductComparison({ isOpen, onClose, initialProducts = [] }) {
+export default function ProductComparison({
+  isOpen,
+  onClose,
+  initialProducts = [],
+}) {
   const [selectedProducts, setSelectedProducts] = useState(initialProducts)
 
   useEffect(() => {
@@ -55,7 +79,7 @@ export default function ProductComparison({ isOpen, onClose, initialProducts = [
   }
 
   const removeProduct = (productId) => {
-    setSelectedProducts(selectedProducts.filter(id => id !== productId))
+    setSelectedProducts(selectedProducts.filter((id) => id !== productId))
   }
 
   const getProductData = (id) => productsData[id]
@@ -80,7 +104,9 @@ export default function ProductComparison({ isOpen, onClose, initialProducts = [
         >
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-700">
-            <h2 className="text-2xl font-bold text-white">Сравнение продуктов</h2>
+            <h2 className="text-2xl font-bold text-white">
+              Сравнение продуктов
+            </h2>
             <button
               onClick={onClose}
               className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
@@ -92,7 +118,9 @@ export default function ProductComparison({ isOpen, onClose, initialProducts = [
           <div className="overflow-auto max-h-[calc(90vh-80px)]">
             {selectedProducts.length === 0 ? (
               <div className="p-8 text-center">
-                <p className="text-gray-400 mb-6">Выберите продукты для сравнения</p>
+                <p className="text-gray-400 mb-6">
+                  Выберите продукты для сравнения
+                </p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {Object.entries(productsData).map(([id, product]) => (
                     <button
@@ -100,8 +128,12 @@ export default function ProductComparison({ isOpen, onClose, initialProducts = [
                       onClick={() => addProduct(id)}
                       className="p-4 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-colors text-left"
                     >
-                      <h3 className="text-white font-medium mb-2">{product.name}</h3>
-                      <p className="text-gray-400 text-sm">От {product.price.oneTime}₽</p>
+                      <h3 className="text-white font-medium mb-2">
+                        {product.name}
+                      </h3>
+                      <p className="text-gray-400 text-sm">
+                        От {product.price.oneTime}₽
+                      </p>
                     </button>
                   ))}
                 </div>
@@ -113,11 +145,16 @@ export default function ProductComparison({ isOpen, onClose, initialProducts = [
                   <table className="w-full">
                     <thead>
                       <tr className="border-b border-gray-700">
-                        <th className="text-left py-4 px-2 text-gray-400 font-medium">Характеристики</th>
-                        {selectedProducts.map(productId => {
+                        <th className="text-left py-4 px-2 text-gray-400 font-medium">
+                          Характеристики
+                        </th>
+                        {selectedProducts.map((productId) => {
                           const product = getProductData(productId)
                           return (
-                            <th key={productId} className="text-center py-4 px-2 min-w-[200px]">
+                            <th
+                              key={productId}
+                              className="text-center py-4 px-2 min-w-[200px]"
+                            >
                               <div className="relative">
                                 <button
                                   onClick={() => removeProduct(productId)}
@@ -125,13 +162,24 @@ export default function ProductComparison({ isOpen, onClose, initialProducts = [
                                 >
                                   <X size={14} className="text-red-400" />
                                 </button>
-                                <h3 className="text-white font-medium mb-2">{product.name}</h3>
+                                <h3 className="text-white font-medium mb-2">
+                                  {product.name}
+                                </h3>
                                 <div className="flex items-center justify-center space-x-1 mb-2">
-                                  <Star size={14} className="text-yellow-500 fill-current" />
-                                  <span className="text-sm text-gray-300">{product.rating}</span>
-                                  <span className="text-sm text-gray-500">({product.reviews})</span>
+                                  <Star
+                                    size={14}
+                                    className="text-yellow-500 fill-current"
+                                  />
+                                  <span className="text-sm text-gray-300">
+                                    {product.rating}
+                                  </span>
+                                  <span className="text-sm text-gray-500">
+                                    ({product.reviews})
+                                  </span>
                                 </div>
-                                <p className="text-yellow-500 font-bold">{product.price.oneTime}₽</p>
+                                <p className="text-yellow-500 font-bold">
+                                  {product.price.oneTime}₽
+                                </p>
                               </div>
                             </th>
                           )
@@ -140,15 +188,23 @@ export default function ProductComparison({ isOpen, onClose, initialProducts = [
                     </thead>
                     <tbody>
                       <tr className="border-b border-gray-800">
-                        <td className="py-4 px-2 text-gray-300 font-medium">Преимущества</td>
-                        {selectedProducts.map(productId => {
+                        <td className="py-4 px-2 text-gray-300 font-medium">
+                          Преимущества
+                        </td>
+                        {selectedProducts.map((productId) => {
                           const product = getProductData(productId)
                           return (
                             <td key={productId} className="py-4 px-2">
                               <ul className="space-y-1">
                                 {product.benefits.map((benefit, index) => (
-                                  <li key={index} className="flex items-center space-x-2 text-sm text-gray-300">
-                                    <Check size={14} className="text-green-500 flex-shrink-0" />
+                                  <li
+                                    key={index}
+                                    className="flex items-center space-x-2 text-sm text-gray-300"
+                                  >
+                                    <Check
+                                      size={14}
+                                      className="text-green-500 flex-shrink-0"
+                                    />
                                     <span>{benefit}</span>
                                   </li>
                                 ))}
@@ -158,15 +214,24 @@ export default function ProductComparison({ isOpen, onClose, initialProducts = [
                         })}
                       </tr>
                       <tr className="border-b border-gray-800">
-                        <td className="py-4 px-2 text-gray-300 font-medium">Ингредиенты</td>
-                        {selectedProducts.map(productId => {
+                        <td className="py-4 px-2 text-gray-300 font-medium">
+                          Ингредиенты
+                        </td>
+                        {selectedProducts.map((productId) => {
                           const product = getProductData(productId)
                           return (
                             <td key={productId} className="py-4 px-2">
                               <ul className="space-y-1">
-                                {product.ingredients.map((ingredient, index) => (
-                                  <li key={index} className="text-sm text-gray-300">• {ingredient}</li>
-                                ))}
+                                {product.ingredients.map(
+                                  (ingredient, index) => (
+                                    <li
+                                      key={index}
+                                      className="text-sm text-gray-300"
+                                    >
+                                      • {ingredient}
+                                    </li>
+                                  )
+                                )}
                               </ul>
                             </td>
                           )
@@ -179,7 +244,9 @@ export default function ProductComparison({ isOpen, onClose, initialProducts = [
                 {/* Add More Products */}
                 {selectedProducts.length < 3 && (
                   <div className="mt-6 pt-6 border-t border-gray-700">
-                    <h3 className="text-white font-medium mb-4">Добавить к сравнению:</h3>
+                    <h3 className="text-white font-medium mb-4">
+                      Добавить к сравнению:
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {Object.entries(productsData)
                         .filter(([id]) => !selectedProducts.includes(id))

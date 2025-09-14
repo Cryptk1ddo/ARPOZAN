@@ -26,34 +26,37 @@ export default function LongJack() {
   const { push } = useToast()
 
   const images = [
-    "/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Product.png",
-    "/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Ingredients.png",
-    "/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Effects.png",
-    "/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-benefits.png",
-    "/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Science.png",
-    "/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Testimonials.png"
+    '/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Product.png',
+    '/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Ingredients.png',
+    '/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Effects.png',
+    '/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-benefits.png',
+    '/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Science.png',
+    '/assets/imgs/Tongkat-Ali-product-imgs/Tongkat-Ali-Testimonials.png',
   ]
 
   const benefits = {
-    testosterone: "Повышает уровень тестостерона и мужскую силу",
-    energy: "Увеличивает физическую и умственную энергию",
-    stamina: "Повышает выносливость и спортивные результаты",
-    recovery: "Ускоряет восстановление после тренировок"
+    testosterone: 'Повышает уровень тестостерона и мужскую силу',
+    energy: 'Увеличивает физическую и умственную энергию',
+    stamina: 'Повышает выносливость и спортивные результаты',
+    recovery: 'Ускоряет восстановление после тренировок',
   }
 
   const components = {
     eurypeptides: {
-      title: "Эурипептиды",
-      content: "Это уникальные биологически активные соединения, которые содержатся только в корне тонгкат али. Они стимулируют выработку тестостерона естественным путем, не вмешиваясь напрямую в гормональную систему."
+      title: 'Эурипептиды',
+      content:
+        'Это уникальные биологически активные соединения, которые содержатся только в корне тонгкат али. Они стимулируют выработку тестостерона естественным путем, не вмешиваясь напрямую в гормональную систему.',
     },
     glycosaponins: {
-      title: "Гликосапонины",
-      content: "Комплекс природных соединений, которые улучшают кровообращение и повышают уровень энергии. Они помогают организму лучше усваивать питательные вещества и поддерживают общий тонус."
+      title: 'Гликосапонины',
+      content:
+        'Комплекс природных соединений, которые улучшают кровообращение и повышают уровень энергии. Они помогают организму лучше усваивать питательные вещества и поддерживают общий тонус.',
     },
     alkaloids: {
-      title: "Алкалоиды",
-      content: "Природные вещества, которые обладают адаптогенными свойствами. Они помогают организму лучше справляться со стрессом, улучшают сон и повышают общую резистентность к негативным факторам."
-    }
+      title: 'Алкалоиды',
+      content:
+        'Природные вещества, которые обладают адаптогенными свойствами. Они помогают организму лучше справляться со стрессом, улучшают сон и повышают общую резистентность к негативным факторам.',
+    },
   }
 
   // Particles animation
@@ -74,7 +77,7 @@ export default function LongJack() {
         y: Math.random() * canvas.height,
         radius: Math.random() * 1.5 + 0.5,
         vx: Math.random() * 0.5 - 0.25,
-        vy: Math.random() * 0.5 - 0.25
+        vy: Math.random() * 0.5 - 0.25,
       })
     }
 
@@ -82,7 +85,7 @@ export default function LongJack() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.fillStyle = 'rgba(245, 166, 35, 0.2)'
 
-      particles.forEach(p => {
+      particles.forEach((p) => {
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
         ctx.fill()
@@ -131,17 +134,16 @@ export default function LongJack() {
 
     // Scroll reveal animations
     const revealElements = document.querySelectorAll('.reveal')
-    revealElements.forEach(el => {
+    revealElements.forEach((el) => {
       animations.scrollReveal(el)
     })
-
   }, [])
 
   // Intersection Observer for reveal animations (keeping original for compatibility)
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible')
           }
@@ -150,7 +152,7 @@ export default function LongJack() {
       { threshold: 0.1 }
     )
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [])
 
@@ -164,7 +166,7 @@ export default function LongJack() {
       name: 'Тонгкат Али',
       price: selectedPlan === 'subscription' ? 2691 : 1990,
       quantity: 1,
-      plan: selectedPlan
+      plan: selectedPlan,
     }
 
     // Use Lodash to validate and format data
@@ -180,8 +182,11 @@ export default function LongJack() {
     const addToCartBtn = document.querySelector('.glow-button')
     if (addToCartBtn) {
       const tl = gsap.timeline()
-      tl.to(addToCartBtn, { scale: 0.95, duration: 0.1 })
-        .to(addToCartBtn, { scale: 1, duration: 0.3, ease: "back.out(1.7)" })
+      tl.to(addToCartBtn, { scale: 0.95, duration: 0.1 }).to(addToCartBtn, {
+        scale: 1,
+        duration: 0.3,
+        ease: 'back.out(1.7)',
+      })
     }
   }
 
@@ -189,22 +194,31 @@ export default function LongJack() {
     id: 'long-jack',
     name: 'Тонгкат Али',
     oneTimePrice: 1990,
-    subscriptionPrice: 2691
+    subscriptionPrice: 2691,
   }
 
   return (
     <>
       <Head>
         <title>Тонгкат Али - ARPOZAN</title>
-        <meta name="description" content="Тонгкат Али для тестостерона и мужской силы от ARPOZAN. Природный бустер тестостерона из Малайзии." />
+        <meta
+          name="description"
+          content="Тонгкат Али для тестостерона и мужской силы от ARPOZAN. Природный бустер тестостерона из Малайзии."
+        />
       </Head>
 
       <Layout>
-        <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full pointer-events-none z-0" />
+        <canvas
+          ref={canvasRef}
+          className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+        />
 
         <main>
           <div className="relative">
-            <section id="product" className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-[25px]">
+            <section
+              id="product"
+              className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-[25px]"
+            >
               <div className="lg:sticky lg:top-[81px] h-[60vh] lg:h-[calc(100vh-81px)]">
                 <div className="relative reveal w-full h-full p-8 lg:p-16 flex items-center justify-center">
                   <Image
@@ -216,19 +230,48 @@ export default function LongJack() {
 
                   <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex items-center justify-between z-10">
                     <button
-                      onClick={() => handleImageChange((currentImageIndex - 1 + images.length) % images.length)}
+                      onClick={() =>
+                        handleImageChange(
+                          (currentImageIndex - 1 + images.length) %
+                            images.length
+                        )
+                      }
                       className="bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors"
                     >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M15 19l-7-7 7-7"
+                        />
                       </svg>
                     </button>
                     <button
-                      onClick={() => handleImageChange((currentImageIndex + 1) % images.length)}
+                      onClick={() =>
+                        handleImageChange(
+                          (currentImageIndex + 1) % images.length
+                        )
+                      }
                       className="bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors"
                     >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -239,7 +282,9 @@ export default function LongJack() {
                         key={index}
                         onClick={() => handleImageChange(index)}
                         className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                          index === currentImageIndex ? 'bg-white' : 'bg-gray-600 hover:bg-gray-400'
+                          index === currentImageIndex
+                            ? 'bg-white'
+                            : 'bg-gray-600 hover:bg-gray-400'
                         }`}
                       />
                     ))}
@@ -247,52 +292,111 @@ export default function LongJack() {
                 </div>
               </div>
 
-              <div className="flex flex-col justify-center py-16 px-4 sm:px-8" id="purchase-section">
+              <div
+                className="flex flex-col justify-center py-16 px-4 sm:px-8"
+                id="purchase-section"
+              >
                 <div className="max-w-[450px] w-full">
                   <div className="flex items-center gap-2">
                     <div className="flex text-gray-300">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} width="20" height="20" viewBox="0 0 24 24" fill="#D1D5DB">
+                        <svg
+                          key={i}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="#D1D5DB"
+                        >
                           <path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z" />
                         </svg>
                       ))}
                     </div>
-                    <span className="text-sm font-normal text-gray-400">978 отзывов</span>
+                    <span className="text-sm font-normal text-gray-400">
+                      978 отзывов
+                    </span>
                   </div>
-                  <h1 ref={titleRef} className="text-4xl lg:text-5xl font-bold gradient-text mt-2">Тонгкат Али</h1>
-                  <p className="mt-2 text-gray-400 text-lg">Природный бустер тестостерона</p>
+                  <h1
+                    ref={titleRef}
+                    className="text-4xl lg:text-5xl font-bold gradient-text mt-2"
+                  >
+                    Тонгкат Али
+                  </h1>
+                  <p className="mt-2 text-gray-400 text-lg">
+                    Природный бустер тестостерона
+                  </p>
 
-                  <p className="mt-6 text-gray-400">Мощный корень из джунглей Малайзии, который веками использовали мужчины для поддержания мужской силы и энергии.</p>
+                  <p className="mt-6 text-gray-400">
+                    Мощный корень из джунглей Малайзии, который веками
+                    использовали мужчины для поддержания мужской силы и энергии.
+                  </p>
 
                   <div className="mt-6">
-                    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-2" id="benefits-tabs">
-                      {Object.entries(benefits).map(([key, description], index) => (
-                        <button
-                          key={key}
-                          ref={el => benefitsRef.current[index] = el}
-                          onClick={() => setActiveBenefit(key)}
-                          className={`benefit-tab-btn p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-semibold border-2 transition min-h-[60px] sm:min-h-[auto] ${
-                            activeBenefit === key
-                              ? 'bg-yellow-500/10 text-yellow-300 border-yellow-500/30'
-                              : 'bg-gray-800/50 text-gray-300 border-transparent hover:bg-gray-700'
-                          }`}
-                        >
-                          <div className="flex flex-col items-center gap-1 sm:gap-2">
-                            <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              {key === 'testosterone' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />}
-                              {key === 'energy' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />}
-                              {key === 'stamina' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
-                              {key === 'recovery' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />}
-                            </svg>
-                            <span className="text-center leading-tight">
-                              {key === 'testosterone' && 'Тестостерон'}
-                              {key === 'energy' && 'Энергия'}
-                              {key === 'stamina' && 'Выносливость'}
-                              {key === 'recovery' && 'Восстановление'}
-                            </span>
-                          </div>
-                        </button>
-                      ))}
+                    <div
+                      className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-2"
+                      id="benefits-tabs"
+                    >
+                      {Object.entries(benefits).map(
+                        ([key, description], index) => (
+                          <button
+                            key={key}
+                            ref={(el) => (benefitsRef.current[index] = el)}
+                            onClick={() => setActiveBenefit(key)}
+                            className={`benefit-tab-btn p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-semibold border-2 transition min-h-[60px] sm:min-h-[auto] ${
+                              activeBenefit === key
+                                ? 'bg-yellow-500/10 text-yellow-300 border-yellow-500/30'
+                                : 'bg-gray-800/50 text-gray-300 border-transparent hover:bg-gray-700'
+                            }`}
+                          >
+                            <div className="flex flex-col items-center gap-1 sm:gap-2">
+                              <svg
+                                className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                {key === 'testosterone' && (
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                                  />
+                                )}
+                                {key === 'energy' && (
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                                  />
+                                )}
+                                {key === 'stamina' && (
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                )}
+                                {key === 'recovery' && (
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                  />
+                                )}
+                              </svg>
+                              <span className="text-center leading-tight">
+                                {key === 'testosterone' && 'Тестостерон'}
+                                {key === 'energy' && 'Энергия'}
+                                {key === 'stamina' && 'Выносливость'}
+                                {key === 'recovery' && 'Восстановление'}
+                              </span>
+                            </div>
+                          </button>
+                        )
+                      )}
                     </div>
                     <div className="mt-4 text-gray-400 text-sm min-h-[64px] leading-relaxed">
                       {benefits[activeBenefit]}
@@ -301,9 +405,13 @@ export default function LongJack() {
 
                   <form className="mt-8 space-y-6">
                     <fieldset>
-                      <legend className="font-bold text-lg mb-4">Выберите ваш план</legend>
+                      <legend className="font-bold text-lg mb-4">
+                        Выберите ваш план
+                      </legend>
 
-                      <div className={`p-4 glass-card rounded-lg mb-4 border ${selectedPlan === 'one-time' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}>
+                      <div
+                        className={`p-4 glass-card rounded-lg mb-4 border ${selectedPlan === 'one-time' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}
+                      >
                         <div className="flex items-center">
                           <input
                             type="radio"
@@ -314,17 +422,26 @@ export default function LongJack() {
                             onChange={(e) => setSelectedPlan(e.target.value)}
                             className="h-4 w-4 bg-transparent border-gray-600 text-white focus:ring-white"
                           />
-                          <label htmlFor="one-time" className="ml-4 flex-grow flex justify-between items-center cursor-pointer">
+                          <label
+                            htmlFor="one-time"
+                            className="ml-4 flex-grow flex justify-between items-center cursor-pointer"
+                          >
                             <div>
-                              <p className="font-bold text-gray-200">Разовая покупка</p>
+                              <p className="font-bold text-gray-200">
+                                Разовая покупка
+                              </p>
                               <p className="text-sm text-gray-400">60 капсул</p>
                             </div>
-                            <div className="text-lg font-bold text-gray-200">1.990 ₽</div>
+                            <div className="text-lg font-bold text-gray-200">
+                              1.990 ₽
+                            </div>
                           </label>
                         </div>
                       </div>
 
-                      <div className={`glass-card rounded-lg border ${selectedPlan === 'subscription' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}>
+                      <div
+                        className={`glass-card rounded-lg border ${selectedPlan === 'subscription' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}
+                      >
                         <div className="bg-white/10 px-4 py-2 text-center text-sm font-bold text-white rounded-t-lg">
                           <p>Экономьте 10% на каждой доставке</p>
                         </div>
@@ -339,58 +456,147 @@ export default function LongJack() {
                               onChange={(e) => setSelectedPlan(e.target.value)}
                               className="h-4 w-4 bg-transparent border-gray-600 text-white focus:ring-white"
                             />
-                            <label htmlFor="subscribe" className="ml-4 flex-grow flex justify-between items-center cursor-pointer">
+                            <label
+                              htmlFor="subscribe"
+                              className="ml-4 flex-grow flex justify-between items-center cursor-pointer"
+                            >
                               <div>
-                                <p className="font-bold text-gray-200">Подписка и скидка 10%</p>
-                                <p className="text-sm text-gray-400">60 капсул</p>
+                                <p className="font-bold text-gray-200">
+                                  Подписка и скидка 10%
+                                </p>
+                                <p className="text-sm text-gray-400">
+                                  60 капсул
+                                </p>
                               </div>
                               <div className="text-right">
-                                <p className="text-lg font-bold text-white">2.691 ₽</p>
-                                <p className="text-sm line-through text-gray-500">2.990 ₽</p>
+                                <p className="text-lg font-bold text-white">
+                                  2.691 ₽
+                                </p>
+                                <p className="text-sm line-through text-gray-500">
+                                  2.990 ₽
+                                </p>
                               </div>
                             </label>
                           </div>
                           <div className="mt-4 pl-8 border-t border-gray-700/50 pt-4">
-                            <p className="text-sm font-bold text-gray-300">Как работает подписка:</p>
+                            <p className="text-sm font-bold text-gray-300">
+                              Как работает подписка:
+                            </p>
                             <ul className="mt-2 mb-4 space-y-2 text-sm text-gray-400">
                               <li className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-yellow-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                  className="w-4 h-4 text-yellow-500 flex-shrink-0"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
                                 </svg>
                                 Самый выгодный вариант
                               </li>
                               <li className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-yellow-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                  className="w-4 h-4 text-yellow-500 flex-shrink-0"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
                                 </svg>
                                 Скидка 10% на все последующие заказы
                               </li>
                               <li className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-yellow-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                  className="w-4 h-4 text-yellow-500 flex-shrink-0"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
                                 </svg>
                                 Легко изменяйте или пропускайте доставку
                               </li>
                               <li className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-yellow-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                  className="w-4 h-4 text-yellow-500 flex-shrink-0"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
                                 </svg>
                                 Отмена в любое время
                               </li>
                             </ul>
-                            <p className="text-sm font-bold text-gray-300 mb-2">Доставка каждые:</p>
+                            <p className="text-sm font-bold text-gray-300 mb-2">
+                              Доставка каждые:
+                            </p>
                             <div className="grid grid-cols-3 gap-2 text-xs sm:text-sm">
                               <div>
-                                <input type="radio" id="freq4" name="frequency" value="4" className="hidden peer" />
-                                <label htmlFor="freq4" className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">4 недели</label>
+                                <input
+                                  type="radio"
+                                  id="freq4"
+                                  name="frequency"
+                                  value="4"
+                                  className="hidden peer"
+                                />
+                                <label
+                                  htmlFor="freq4"
+                                  className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition"
+                                >
+                                  4 недели
+                                </label>
                               </div>
                               <div>
-                                <input type="radio" id="freq6" name="frequency" value="6" className="hidden peer" defaultChecked />
-                                <label htmlFor="freq6" className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">6 недель</label>
+                                <input
+                                  type="radio"
+                                  id="freq6"
+                                  name="frequency"
+                                  value="6"
+                                  className="hidden peer"
+                                  defaultChecked
+                                />
+                                <label
+                                  htmlFor="freq6"
+                                  className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition"
+                                >
+                                  6 недель
+                                </label>
                               </div>
                               <div>
-                                <input type="radio" id="freq8" name="frequency" value="8" className="hidden peer" />
-                                <label htmlFor="freq8" className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition">8 недель</label>
+                                <input
+                                  type="radio"
+                                  id="freq8"
+                                  name="frequency"
+                                  value="8"
+                                  className="hidden peer"
+                                />
+                                <label
+                                  htmlFor="freq8"
+                                  className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-yellow-500 peer-checked:bg-yellow-500/10 cursor-pointer transition"
+                                >
+                                  8 недель
+                                </label>
                               </div>
                             </div>
                           </div>
@@ -410,14 +616,26 @@ export default function LongJack() {
                   </form>
 
                   <div className="mt-4 text-center text-sm text-gray-400 flex items-center justify-center gap-2">
-                    <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-5 h-5 text-green-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                     <span>30-дневная гарантия возврата денег</span>
                   </div>
 
                   <PaymentIcons />
-                  <div className="mt-2 text-center text-xs text-gray-500">✍🏼 По вопросам приобретения пишите</div>
+                  <div className="mt-2 text-center text-xs text-gray-500">
+                    ✍🏼 По вопросам приобретения пишите
+                  </div>
                 </div>
               </div>
             </section>
@@ -426,14 +644,18 @@ export default function LongJack() {
           <div className="container mx-auto px-4 lg:px-8">
             <section id="components" className="my-16 py-12 reveal">
               <div className="text-center">
-                <h2 className="text-3xl font-bold gradient-text">Ключевые компоненты силы</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Узнайте, что делает наш тонгкат али таким эффективным.</p>
+                <h2 className="text-3xl font-bold gradient-text">
+                  Ключевые компоненты силы
+                </h2>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+                  Узнайте, что делает наш тонгкат али таким эффективным.
+                </p>
                 <div className="mt-12 max-w-4xl mx-auto">
                   <div className="flex flex-col md:flex-row gap-4 justify-center mb-8">
                     {Object.entries(components).map(([key, data], index) => (
                       <button
                         key={key}
-                        ref={el => componentsRef.current[index] = el}
+                        ref={(el) => (componentsRef.current[index] = el)}
                         onClick={() => setActiveComponent(key)}
                         className={`font-bold py-3 px-6 rounded-lg text-lg flex-grow transition ${
                           activeComponent === key
@@ -448,8 +670,12 @@ export default function LongJack() {
                     ))}
                   </div>
                   <div className="glass-card rounded-lg p-8 text-left min-h-[200px]">
-                    <h3 className="text-2xl font-bold text-yellow-400">{components[activeComponent].title}</h3>
-                    <p className="mt-4 text-gray-300">{components[activeComponent].content}</p>
+                    <h3 className="text-2xl font-bold text-yellow-400">
+                      {components[activeComponent].title}
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      {components[activeComponent].content}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -457,66 +683,175 @@ export default function LongJack() {
 
             <section className="my-16 py-12 reveal">
               <div className="text-center">
-                <h2 className="text-3xl font-bold gradient-text">Преимущество ARPOZAN</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Мы предлагаем не просто тонгкат али, а гарантированное качество и эффективность.</p>
+                <h2 className="text-3xl font-bold gradient-text">
+                  Преимущество ARPOZAN
+                </h2>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+                  Мы предлагаем не просто тонгкат али, а гарантированное
+                  качество и эффективность.
+                </p>
                 <div className="mt-12 max-w-4xl mx-auto">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-gray-700 rounded-lg overflow-hidden glass-card border-0">
-                    <div className="bg-black/50 p-2 sm:p-4 font-bold text-sm sm:text-base">Параметр</div>
-                    <div className="bg-black/50 p-2 sm:p-4 font-bold gradient-text text-sm sm:text-base">ARPOZAN Тонгкат</div>
-                    <div className="bg-black/50 p-2 sm:p-4 font-bold text-gray-400 text-sm sm:text-base">Обычный Тонгкат</div>
-
-                    <div className="p-2 sm:p-4 text-left font-bold bg-black/30 text-sm sm:text-base">Происхождение</div>
-                    <div className="p-2 sm:p-4 bg-black/30 flex items-center justify-center">
-                      <svg className="w-4 h-4 sm:w-6 sm:h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="ml-2 text-sm sm:text-base">Малайзия</span>
+                    <div className="bg-black/50 p-2 sm:p-4 font-bold text-sm sm:text-base">
+                      Параметр
                     </div>
-                    <div className="p-2 sm:p-4 bg-black/30 flex items-center justify-center">
-                      <svg className="w-4 h-4 sm:w-6 sm:h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                      <span className="ml-2 text-sm sm:text-base">Неизвестно</span>
+                    <div className="bg-black/50 p-2 sm:p-4 font-bold gradient-text text-sm sm:text-base">
+                      ARPOZAN Тонгкат
+                    </div>
+                    <div className="bg-black/50 p-2 sm:p-4 font-bold text-gray-400 text-sm sm:text-base">
+                      Обычный Тонгкат
                     </div>
 
-                    <div className="p-2 sm:p-4 text-left font-bold bg-black/40 text-sm sm:text-base">Концентрация</div>
+                    <div className="p-2 sm:p-4 text-left font-bold bg-black/30 text-sm sm:text-base">
+                      Происхождение
+                    </div>
+                    <div className="p-2 sm:p-4 bg-black/30 flex items-center justify-center">
+                      <svg
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="ml-2 text-sm sm:text-base">
+                        Малайзия
+                      </span>
+                    </div>
+                    <div className="p-2 sm:p-4 bg-black/30 flex items-center justify-center">
+                      <svg
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                      <span className="ml-2 text-sm sm:text-base">
+                        Неизвестно
+                      </span>
+                    </div>
+
+                    <div className="p-2 sm:p-4 text-left font-bold bg-black/40 text-sm sm:text-base">
+                      Концентрация
+                    </div>
                     <div className="p-2 sm:p-4 bg-black/40 flex items-center justify-center">
-                      <svg className="w-4 h-4 sm:w-6 sm:h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                       <span className="ml-2 text-sm sm:text-base">200:1</span>
                     </div>
                     <div className="p-2 sm:p-4 bg-black/40 flex items-center justify-center">
-                      <svg className="w-4 h-4 sm:w-6 sm:h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                       <span className="ml-2 text-sm sm:text-base">50:1</span>
                     </div>
 
-                    <div className="p-2 sm:p-4 text-left font-bold bg-black/30 text-sm sm:text-base">Контроль качества</div>
-                    <div className="p-2 sm:p-4 bg-black/30 flex items-center justify-center">
-                      <svg className="w-4 h-4 sm:w-6 sm:h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="ml-2 text-sm sm:text-base">Лабораторные тесты</span>
+                    <div className="p-2 sm:p-4 text-left font-bold bg-black/30 text-sm sm:text-base">
+                      Контроль качества
                     </div>
                     <div className="p-2 sm:p-4 bg-black/30 flex items-center justify-center">
-                      <svg className="w-4 h-4 sm:w-6 sm:h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
-                      <span className="ml-2 text-sm sm:text-base">Отсутствует</span>
+                      <span className="ml-2 text-sm sm:text-base">
+                        Лабораторные тесты
+                      </span>
+                    </div>
+                    <div className="p-2 sm:p-4 bg-black/30 flex items-center justify-center">
+                      <svg
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                      <span className="ml-2 text-sm sm:text-base">
+                        Отсутствует
+                      </span>
                     </div>
 
-                    <div className="p-2 sm:p-4 text-left font-semibold bg-black/40 text-sm sm:text-base">Гарантия</div>
-                    <div className="p-2 sm:p-4 bg-black/40 flex items-center justify-center">
-                      <svg className="w-4 h-4 sm:w-6 sm:h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
-                      </svg>
-                      <span className="ml-2 text-sm sm:text-base">30 дней на возврат</span>
+                    <div className="p-2 sm:p-4 text-left font-semibold bg-black/40 text-sm sm:text-base">
+                      Гарантия
                     </div>
                     <div className="p-2 sm:p-4 bg-black/40 flex items-center justify-center">
-                      <svg className="w-4 h-4 sm:w-6 sm:h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      <span className="ml-2 text-sm sm:text-base">
+                        30 дней на возврат
+                      </span>
+                    </div>
+                    <div className="p-2 sm:p-4 bg-black/40 flex items-center justify-center">
+                      <svg
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                       <span className="ml-2 text-sm sm:text-base">Нет</span>
                     </div>
@@ -526,22 +861,42 @@ export default function LongJack() {
             </section>
 
             <section className="mb-16 text-center reveal">
-              <h2 className="text-3xl font-bold gradient-text">Простой путь к вашей энергии</h2>
+              <h2 className="text-3xl font-bold gradient-text">
+                Простой путь к вашей энергии
+              </h2>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 mt-12 max-w-4xl mx-auto">
                 <div className="flex flex-col items-center p-4 sm:p-6 glass-card rounded-lg">
-                  <span className="text-xl sm:text-2xl font-bold text-yellow-400">1</span>
-                  <h3 className="text-lg sm:text-xl font-bold">Примите 1 капсулу</h3>
-                  <p className="text-gray-400 mt-2 text-sm sm:text-base">Утром натощак для лучшего усвоения.</p>
+                  <span className="text-xl sm:text-2xl font-bold text-yellow-400">
+                    1
+                  </span>
+                  <h3 className="text-lg sm:text-xl font-bold">
+                    Примите 1 капсулу
+                  </h3>
+                  <p className="text-gray-400 mt-2 text-sm sm:text-base">
+                    Утром натощак для лучшего усвоения.
+                  </p>
                 </div>
                 <div className="flex flex-col items-center p-4 sm:p-6 glass-card rounded-lg">
-                  <span className="text-xl sm:text-2xl font-bold text-yellow-400">2</span>
-                  <h3 className="text-lg sm:text-xl font-bold">Поддерживайте курс</h3>
-                  <p className="text-gray-400 mt-2 text-sm sm:text-base">Регулярный прием для поддержания уровня тестостерона.</p>
+                  <span className="text-xl sm:text-2xl font-bold text-yellow-400">
+                    2
+                  </span>
+                  <h3 className="text-lg sm:text-xl font-bold">
+                    Поддерживайте курс
+                  </h3>
+                  <p className="text-gray-400 mt-2 text-sm sm:text-base">
+                    Регулярный прием для поддержания уровня тестостерона.
+                  </p>
                 </div>
                 <div className="flex flex-col items-center p-4 sm:p-6 glass-card rounded-lg">
-                  <span className="text-xl sm:text-2xl font-bold text-yellow-400">3</span>
-                  <h3 className="text-lg sm:text-xl font-bold">Почувствуйте силу</h3>
-                  <p className="text-gray-400 mt-2 text-sm sm:text-base">Увеличение энергии и мужской силы.</p>
+                  <span className="text-xl sm:text-2xl font-bold text-yellow-400">
+                    3
+                  </span>
+                  <h3 className="text-lg sm:text-xl font-bold">
+                    Почувствуйте силу
+                  </h3>
+                  <p className="text-gray-400 mt-2 text-sm sm:text-base">
+                    Увеличение энергии и мужской силы.
+                  </p>
                 </div>
               </div>
             </section>
@@ -550,63 +905,103 @@ export default function LongJack() {
               <div className="container mx-auto px-6 lg:px-12">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                   <div className="glass-card rounded-lg p-4">
-                    <Image 
-                        src="/assets/imgs/Tongkat Ali.png" 
-                        alt="Научное исследование Тонгкат Али" 
-                        width={800} 
-                        height={500} 
-                        className="rounded-md w-full max-h-[500px] object-contain" 
+                    <Image
+                      src="/assets/imgs/Tongkat Ali.png"
+                      alt="Научное исследование Тонгкат Али"
+                      width={800}
+                      height={500}
+                      className="rounded-md w-full max-h-[500px] object-contain"
                     />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold gradient-text">Научный подход к вашей силе</h2>
-                    <p className="mt-4 text-lg text-gray-400">Тонгкат али содержит эурипептиды — уникальные биологически активные соединения, которые стимулируют естественную выработку тестостерона.</p>
-                    <p className="mt-4 text-gray-400">Клинические исследования подтверждают эффективность тонгкат али в повышении уровня тестостерона, улучшении физической формы и увеличении мышечной массы у мужчин.</p>
+                    <h2 className="text-3xl font-bold gradient-text">
+                      Научный подход к вашей силе
+                    </h2>
+                    <p className="mt-4 text-lg text-gray-400">
+                      Тонгкат али содержит эурипептиды — уникальные биологически
+                      активные соединения, которые стимулируют естественную
+                      выработку тестостерона.
+                    </p>
+                    <p className="mt-4 text-gray-400">
+                      Клинические исследования подтверждают эффективность
+                      тонгкат али в повышении уровня тестостерона, улучшении
+                      физической формы и увеличении мышечной массы у мужчин.
+                    </p>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section id="faq" className="grid grid-cols-12 gap-x-6 py-16 md:py-24">
+            <section
+              id="faq"
+              className="grid grid-cols-12 gap-x-6 py-16 md:py-24"
+            >
               <div className="col-span-12 md:col-span-4">
-                <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">Частые<br />вопросы</h2>
+                <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">
+                  Частые
+                  <br />
+                  вопросы
+                </h2>
               </div>
               <div className="col-span-12 md:col-span-8 mt-8 md:mt-0">
                 <div className="space-y-4">
                   <details className="glass-card rounded-lg p-4">
                     <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
                       Есть ли противопоказания?
-                      <span className="text-2xl font-normal text-amber-400">+</span>
+                      <span className="text-2xl font-normal text-amber-400">
+                        +
+                      </span>
                     </summary>
                     <div className="mt-3 text-gray-400">
-                      <p>Не рекомендуется принимать при индивидуальной непереносимости компонентов. Перед применением рекомендуется проконсультироваться с врачом.</p>
+                      <p>
+                        Не рекомендуется принимать при индивидуальной
+                        непереносимости компонентов. Перед применением
+                        рекомендуется проконсультироваться с врачом.
+                      </p>
                     </div>
                   </details>
                   <details className="glass-card rounded-lg p-4">
                     <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
                       Как долго длится курс?
-                      <span className="text-2xl font-normal text-amber-400">+</span>
+                      <span className="text-2xl font-normal text-amber-400">
+                        +
+                      </span>
                     </summary>
                     <div className="mt-3 text-gray-400">
-                      <p>Рекомендуемый курс - 2-3 месяца. Можно принимать на постоянной основе с небольшими перерывами.</p>
+                      <p>
+                        Рекомендуемый курс - 2-3 месяца. Можно принимать на
+                        постоянной основе с небольшими перерывами.
+                      </p>
                     </div>
                   </details>
                   <details className="glass-card rounded-lg p-4">
                     <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
                       Можно ли совмещать с другими добавками?
-                      <span className="text-2xl font-normal text-amber-400">+</span>
+                      <span className="text-2xl font-normal text-amber-400">
+                        +
+                      </span>
                     </summary>
                     <div className="mt-3 text-gray-400">
-                      <p>Да, тонгкат али хорошо сочетается с цинком, витамином D и другими тестостерон-бустерами. Однако, для составления индивидуальной схемы лучше проконсультироваться со специалистом.</p>
+                      <p>
+                        Да, тонгкат али хорошо сочетается с цинком, витамином D
+                        и другими тестостерон-бустерами. Однако, для составления
+                        индивидуальной схемы лучше проконсультироваться со
+                        специалистом.
+                      </p>
                     </div>
                   </details>
                   <details className="glass-card rounded-lg p-4">
                     <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
                       Когда я увижу эффект?
-                      <span className="text-2xl font-normal text-amber-400">+</span>
+                      <span className="text-2xl font-normal text-amber-400">
+                        +
+                      </span>
                     </summary>
                     <div className="mt-3 text-gray-400">
-                      <p>Первые результаты обычно заметны через 2-4 недели регулярного приёма. Эффект накопительный.</p>
+                      <p>
+                        Первые результаты обычно заметны через 2-4 недели
+                        регулярного приёма. Эффект накопительный.
+                      </p>
                     </div>
                   </details>
                 </div>

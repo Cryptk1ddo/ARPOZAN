@@ -4,7 +4,7 @@ export default function LoadingSpinner({ size = 'md', text = 'Загрузка..
   const sizeClasses = {
     sm: 'w-4 h-4',
     md: 'w-8 h-8',
-    lg: 'w-12 h-12'
+    lg: 'w-12 h-12',
   }
 
   return (
@@ -12,7 +12,7 @@ export default function LoadingSpinner({ size = 'md', text = 'Загрузка..
       <motion.div
         className={`${sizeClasses[size]} border-2 border-gray-600 border-t-yellow-500 rounded-full`}
         animate={{ rotate: 360 }}
-        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
       />
       {text && (
         <motion.p
@@ -49,7 +49,7 @@ export function ButtonLoader({ text = 'Обработка...' }) {
       <motion.div
         className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
         animate={{ rotate: 360 }}
-        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
       />
       <span>{text}</span>
     </div>

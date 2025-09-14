@@ -13,7 +13,7 @@ const initialReviews = [
     product: 'Мака перуанская',
     date: '2024-01-15',
     verified: true,
-    helpful: 24
+    helpful: 24,
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const initialReviews = [
     product: 'Йохимбин Premium',
     date: '2024-01-12',
     verified: true,
-    helpful: 18
+    helpful: 18,
   },
   {
     id: 3,
@@ -33,8 +33,8 @@ const initialReviews = [
     product: 'Цинк пиколинат',
     date: '2024-01-10',
     verified: true,
-    helpful: 31
-  }
+    helpful: 31,
+  },
 ]
 
 export default function Reviews({ productId, limit = null }) {
@@ -43,7 +43,7 @@ export default function Reviews({ productId, limit = null }) {
   const [newReview, setNewReview] = useState({
     rating: 5,
     text: '',
-    product: ''
+    product: '',
   })
   const [sortBy, setSortBy] = useState('newest')
   const { user, isAuthenticated } = useAuth()
@@ -83,14 +83,16 @@ export default function Reviews({ productId, limit = null }) {
       product: newReview.product || 'Общий отзыв',
       date: new Date().toISOString().split('T')[0],
       verified: true,
-      helpful: 0
+      helpful: 0,
     }
 
     const updatedReviews = [review, ...reviews]
     setReviews(updatedReviews)
 
     // Save to localStorage
-    const customReviews = updatedReviews.filter(r => !initialReviews.find(ir => ir.id === r.id))
+    const customReviews = updatedReviews.filter(
+      (r) => !initialReviews.find((ir) => ir.id === r.id)
+    )
     localStorage.setItem(`reviews-${productId}`, JSON.stringify(customReviews))
 
     setNewReview({ rating: 5, text: '', product: '' })
@@ -99,11 +101,13 @@ export default function Reviews({ productId, limit = null }) {
   }
 
   const handleHelpful = (reviewId) => {
-    setReviews(prev => prev.map(review =>
-      review.id === reviewId
-        ? { ...review, helpful: review.helpful + 1 }
-        : review
-    ))
+    setReviews((prev) =>
+      prev.map((review) =>
+        review.id === reviewId
+          ? { ...review, helpful: review.helpful + 1 }
+          : review
+      )
+    )
   }
 
   const sortedReviews = [...reviews].sort((a, b) => {
@@ -124,14 +128,17 @@ export default function Reviews({ productId, limit = null }) {
   })
 
   const displayedReviews = limit ? sortedReviews.slice(0, limit) : sortedReviews
-  const averageRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
+  const averageRating =
+    reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
 
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
         <div>
-          <h3 className="text-2xl font-bold text-white mb-2">Отзывы клиентов</h3>
+          <h3 className="text-2xl font-bold text-white mb-2">
+            Отзывы клиентов
+          </h3>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-1">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -145,7 +152,9 @@ export default function Reviews({ productId, limit = null }) {
                   }`}
                 />
               ))}
-              <span className="text-white ml-2">{averageRating.toFixed(1)}</span>
+              <span className="text-white ml-2">
+                {averageRating.toFixed(1)}
+              </span>
             </div>
             <span className="text-gray-400">({reviews.length} отзывов)</span>
           </div>
@@ -185,16 +194,22 @@ export default function Reviews({ productId, limit = null }) {
             exit={{ opacity: 0, height: 0 }}
             className="bg-gray-800/50 rounded-lg p-6 border border-gray-700"
           >
-            <h4 className="text-lg font-semibold text-white mb-4">Написать отзыв</h4>
+            <h4 className="text-lg font-semibold text-white mb-4">
+              Написать отзыв
+            </h4>
             <form onSubmit={handleSubmitReview} className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Рейтинг</label>
+                <label className="block text-sm text-gray-400 mb-2">
+                  Рейтинг
+                </label>
                 <div className="flex space-x-1">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
-                      onClick={() => setNewReview(prev => ({ ...prev, rating: star }))}
+                      onClick={() =>
+                        setNewReview((prev) => ({ ...prev, rating: star }))
+                      }
                       className="focus:outline-none"
                     >
                       <Star
@@ -211,10 +226,17 @@ export default function Reviews({ productId, limit = null }) {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Продукт (необязательно)</label>
+                <label className="block text-sm text-gray-400 mb-2">
+                  Продукт (необязательно)
+                </label>
                 <select
                   value={newReview.product}
-                  onChange={(e) => setNewReview(prev => ({ ...prev, product: e.target.value }))}
+                  onChange={(e) =>
+                    setNewReview((prev) => ({
+                      ...prev,
+                      product: e.target.value,
+                    }))
+                  }
                   className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-yellow-500"
                 >
                   <option value="">Общий отзыв</option>
@@ -226,10 +248,14 @@ export default function Reviews({ productId, limit = null }) {
               </div>
 
               <div>
-                <label className="block text-sm text-gray-400 mb-2">Ваш отзыв</label>
+                <label className="block text-sm text-gray-400 mb-2">
+                  Ваш отзыв
+                </label>
                 <textarea
                   value={newReview.text}
-                  onChange={(e) => setNewReview(prev => ({ ...prev, text: e.target.value }))}
+                  onChange={(e) =>
+                    setNewReview((prev) => ({ ...prev, text: e.target.value }))
+                  }
                   placeholder="Расскажите о вашем опыте использования продукта..."
                   rows={4}
                   className="w-full bg-gray-700/50 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 resize-none"
@@ -275,7 +301,9 @@ export default function Reviews({ productId, limit = null }) {
                 </div>
                 <div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-white font-medium">{review.name}</span>
+                    <span className="text-white font-medium">
+                      {review.name}
+                    </span>
                     {review.verified && (
                       <span className="bg-green-500/20 text-green-400 text-xs px-2 py-1 rounded">
                         Проверенный покупатель
@@ -310,7 +338,10 @@ export default function Reviews({ productId, limit = null }) {
             </div>
 
             <div className="relative">
-              <Quote className="absolute -top-2 -left-2 text-gray-600" size={20} />
+              <Quote
+                className="absolute -top-2 -left-2 text-gray-600"
+                size={20}
+              />
               <p className="text-gray-300 pl-6">{review.text}</p>
             </div>
 

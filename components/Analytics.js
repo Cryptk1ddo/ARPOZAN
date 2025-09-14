@@ -7,28 +7,34 @@ export default function Analytics() {
   const getVisitorId = useCallback(() => {
     let visitorId = localStorage.getItem('arpofan-visitor-id')
     if (!visitorId) {
-      visitorId = 'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+      visitorId =
+        'visitor_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
       localStorage.setItem('arpofan-visitor-id', visitorId)
     }
     return visitorId
   }, [])
 
-  const trackPageView = useCallback((url) => {
-    // Store page view data in localStorage for demo purposes
-    const analyticsData = JSON.parse(localStorage.getItem('arpofan-analytics') || '{}')
-    const today = new Date().toISOString().split('T')[0]
+  const trackPageView = useCallback(
+    (url) => {
+      // Store page view data in localStorage for demo purposes
+      const analyticsData = JSON.parse(
+        localStorage.getItem('arpofan-analytics') || '{}'
+      )
+      const today = new Date().toISOString().split('T')[0]
 
-    if (!analyticsData[today]) {
-      analyticsData[today] = { pageViews: 0, uniqueVisitors: new Set() }
-    }
+      if (!analyticsData[today]) {
+        analyticsData[today] = { pageViews: 0, uniqueVisitors: new Set() }
+      }
 
-    analyticsData[today].pageViews += 1
-    analyticsData[today].uniqueVisitors.add(getVisitorId())
+      analyticsData[today].pageViews += 1
+      analyticsData[today].uniqueVisitors.add(getVisitorId())
 
-    localStorage.setItem('arpofan-analytics', JSON.stringify(analyticsData))
+      localStorage.setItem('arpofan-analytics', JSON.stringify(analyticsData))
 
-    console.log(`Page view tracked: ${url}`)
-  }, [getVisitorId])
+      console.log(`Page view tracked: ${url}`)
+    },
+    [getVisitorId]
+  )
 
   useEffect(() => {
     // Track page views
@@ -61,11 +67,13 @@ export default function Analytics() {
         element: element,
         timestamp: new Date().toISOString(),
         url: window.location.pathname,
-        ...data
+        ...data,
       }
 
       // Store interaction data
-      const interactions = JSON.parse(localStorage.getItem('arpofan-interactions') || '[]')
+      const interactions = JSON.parse(
+        localStorage.getItem('arpofan-interactions') || '[]'
+      )
       interactions.push(interactionData)
 
       // Keep only last 100 interactions
@@ -80,10 +88,13 @@ export default function Analytics() {
     const handleButtonClick = (e) => {
       if (e.target.closest('button') || e.target.closest('a')) {
         const element = e.target.closest('button') || e.target.closest('a')
-        const text = element.textContent?.trim() || element.getAttribute('aria-label') || 'Unknown'
+        const text =
+          element.textContent?.trim() ||
+          element.getAttribute('aria-label') ||
+          'Unknown'
         trackInteraction('click', text, {
           tagName: element.tagName.toLowerCase(),
-          href: element.getAttribute('href')
+          href: element.getAttribute('href'),
         })
       }
     }
@@ -112,11 +123,13 @@ export function useAnalytics() {
       name: eventName,
       parameters,
       timestamp: new Date().toISOString(),
-      url: typeof window !== 'undefined' ? window.location.pathname : ''
+      url: typeof window !== 'undefined' ? window.location.pathname : '',
     }
 
     // Store custom event data
-    const events = JSON.parse(localStorage.getItem('arpofan-custom-events') || '[]')
+    const events = JSON.parse(
+      localStorage.getItem('arpofan-custom-events') || '[]'
+    )
     events.push(eventData)
 
     // Keep only last 50 custom events

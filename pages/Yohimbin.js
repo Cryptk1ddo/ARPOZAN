@@ -26,34 +26,40 @@ export default function YohimbinNew() {
   const { push } = useToast()
 
   const images = [
-    "/assets/imgs/Yohimbin-product-imgs/Yohimbe-Product.png",
-    "/assets/imgs/Yohimbin-product-imgs/Yohimbe-benefits.png",
-    "/assets/imgs/Yohimbin-product-imgs/Yohimbe-Effects.png",
-    "/assets/imgs/Yohimbin-product-imgs/Yohimbe-Ingredients.png",
-    "/assets/imgs/Yohimbin-product-imgs/Yohimbe-Science.png",
-    "/assets/imgs/Yohimbin-product-imgs/Yohimbe-Testimonials.png"
+    '/assets/imgs/Yohimbin-product-imgs/Yohimbe-Product.png',
+    '/assets/imgs/Yohimbin-product-imgs/Yohimbe-benefits.png',
+    '/assets/imgs/Yohimbin-product-imgs/Yohimbe-Effects.png',
+    '/assets/imgs/Yohimbin-product-imgs/Yohimbe-Ingredients.png',
+    '/assets/imgs/Yohimbin-product-imgs/Yohimbe-Science.png',
+    '/assets/imgs/Yohimbin-product-imgs/Yohimbe-Testimonials.png',
   ]
 
   const benefits = {
-    fatburn: "Ускоренное жиросжигание, особенно в «упорных» зонах, таких как живот и бедра.",
-    libido: "Повышение либидо, улучшение эрекции и качества сексуальной жизни.",
-    energy: "Заметный приток энергии, повышение концентрации и улучшение настроения.",
-    stamina: "Увеличение выносливости и работоспособности, особенно во время тренировок."
+    fatburn:
+      'Ускоренное жиросжигание, особенно в «упорных» зонах, таких как живот и бедра.',
+    libido: 'Повышение либидо, улучшение эрекции и качества сексуальной жизни.',
+    energy:
+      'Заметный приток энергии, повышение концентрации и улучшение настроения.',
+    stamina:
+      'Увеличение выносливости и работоспособности, особенно во время тренировок.',
   }
 
   const components = {
     noradrenaline: {
-      title: "Выработка норадреналина",
-      content: "Йохимбин стимулирует выработку норадреналина - гормона, который ускоряет метаболизм и способствует активному жиросжиганию. Это позволяет организму эффективнее использовать жировые запасы как источник энергии."
+      title: 'Выработка норадреналина',
+      content:
+        'Йохимбин стимулирует выработку норадреналина - гормона, который ускоряет метаболизм и способствует активному жиросжиганию. Это позволяет организму эффективнее использовать жировые запасы как источник энергии.',
     },
     receptors: {
-      title: "Блокировка рецепторов",
-      content: "Йохимбин блокирует альфа-2 адренорецепторы, что приводит к расширению кровеносных сосудов и улучшению кровотока. Это особенно важно для областей с повышенным содержанием жира."
+      title: 'Блокировка рецепторов',
+      content:
+        'Йохимбин блокирует альфа-2 адренорецепторы, что приводит к расширению кровеносных сосудов и улучшению кровотока. Это особенно важно для областей с повышенным содержанием жира.',
     },
     bloodflow: {
-      title: "Усиление кровотока",
-      content: "Улучшенный кровоток обеспечивает лучшее питание тканей и более эффективное выведение продуктов метаболизма. Это создает оптимальные условия для процессов жиросжигания и восстановления."
-    }
+      title: 'Усиление кровотока',
+      content:
+        'Улучшенный кровоток обеспечивает лучшее питание тканей и более эффективное выведение продуктов метаболизма. Это создает оптимальные условия для процессов жиросжигания и восстановления.',
+    },
   }
 
   // Particles animation
@@ -74,7 +80,7 @@ export default function YohimbinNew() {
         y: Math.random() * canvas.height,
         radius: Math.random() * 1.5 + 0.5,
         vx: Math.random() * 0.5 - 0.25,
-        vy: Math.random() * 0.5 - 0.25
+        vy: Math.random() * 0.5 - 0.25,
       })
     }
 
@@ -82,7 +88,7 @@ export default function YohimbinNew() {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       ctx.fillStyle = 'rgba(245, 166, 35, 0.2)'
 
-      particles.forEach(p => {
+      particles.forEach((p) => {
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
         ctx.fill()
@@ -131,17 +137,16 @@ export default function YohimbinNew() {
 
     // Scroll reveal animations
     const revealElements = document.querySelectorAll('.reveal')
-    revealElements.forEach(el => {
+    revealElements.forEach((el) => {
       animations.scrollReveal(el)
     })
-
   }, [])
 
   // Intersection Observer for reveal animations (keeping original for compatibility)
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('visible')
           }
@@ -150,7 +155,7 @@ export default function YohimbinNew() {
       { threshold: 0.1 }
     )
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el))
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el))
     return () => observer.disconnect()
   }, [])
 
@@ -164,7 +169,7 @@ export default function YohimbinNew() {
       name: 'Йохимбин Premium',
       price: selectedPlan === 'subscription' ? 2691 : 1990,
       quantity: 1,
-      plan: selectedPlan
+      plan: selectedPlan,
     }
 
     // Use Lodash to validate and format data
@@ -180,8 +185,11 @@ export default function YohimbinNew() {
     const addToCartBtn = document.querySelector('.glow-button')
     if (addToCartBtn) {
       const tl = gsap.timeline()
-      tl.to(addToCartBtn, { scale: 0.95, duration: 0.1 })
-        .to(addToCartBtn, { scale: 1, duration: 0.3, ease: "back.out(1.7)" })
+      tl.to(addToCartBtn, { scale: 0.95, duration: 0.1 }).to(addToCartBtn, {
+        scale: 1,
+        duration: 0.3,
+        ease: 'back.out(1.7)',
+      })
     }
   }
 
@@ -189,24 +197,36 @@ export default function YohimbinNew() {
     id: 'yohimbin-new',
     name: 'Йохимбин Premium',
     oneTimePrice: 1990,
-    subscriptionPrice: 2691
+    subscriptionPrice: 2691,
   }
 
   return (
     <>
       <Head>
         <title>Йохимбин Premium - Натуральный жиросжигатель | ARPOZAN</title>
-        <meta name="description" content="Йохимбин Premium - мощный натуральный жиросжигатель для упорных зон. Ускоряет метаболизм, повышает энергию и либидо. Заказать с доставкой." />
-        <meta name="keywords" content="йохимбин, жиросжигатель, похудение, энергия, либидо, ARPOZAN" />
+        <meta
+          name="description"
+          content="Йохимбин Premium - мощный натуральный жиросжигатель для упорных зон. Ускоряет метаболизм, повышает энергию и либидо. Заказать с доставкой."
+        />
+        <meta
+          name="keywords"
+          content="йохимбин, жиросжигатель, похудение, энергия, либидо, ARPOZAN"
+        />
         <link rel="canonical" href="https://arpozan.com/yohimbin-new" />
       </Head>
 
       <Layout>
-        <canvas ref={canvasRef} className="fixed top-0 left-0 w-full h-full pointer-events-none z-0" />
+        <canvas
+          ref={canvasRef}
+          className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+        />
 
         <main>
           <div className="relative">
-            <section id="product" className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-[25px]">
+            <section
+              id="product"
+              className="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-[25px]"
+            >
               <div className="lg:sticky lg:top-[81px] h-[60vh] lg:h-[calc(100vh-81px)]">
                 <div className="relative reveal w-full h-full p-8 lg:p-16 flex items-center justify-center">
                   <Image
@@ -218,19 +238,48 @@ export default function YohimbinNew() {
 
                   <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex items-center justify-between z-10">
                     <button
-                      onClick={() => handleImageChange((currentImageIndex - 1 + images.length) % images.length)}
+                      onClick={() =>
+                        handleImageChange(
+                          (currentImageIndex - 1 + images.length) %
+                            images.length
+                        )
+                      }
                       className="bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors"
                     >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M15 19l-7-7 7-7"
+                        />
                       </svg>
                     </button>
                     <button
-                      onClick={() => handleImageChange((currentImageIndex + 1) % images.length)}
+                      onClick={() =>
+                        handleImageChange(
+                          (currentImageIndex + 1) % images.length
+                        )
+                      }
                       className="bg-gray-900/50 hover:bg-gray-900/80 p-2 rounded-full text-white transition-colors"
                     >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 5l7 7-7 7"
+                        />
                       </svg>
                     </button>
                   </div>
@@ -241,7 +290,9 @@ export default function YohimbinNew() {
                         key={index}
                         onClick={() => handleImageChange(index)}
                         className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                          index === currentImageIndex ? 'bg-white' : 'bg-gray-600 hover:bg-gray-400'
+                          index === currentImageIndex
+                            ? 'bg-white'
+                            : 'bg-gray-600 hover:bg-gray-400'
                         }`}
                       />
                     ))}
@@ -249,52 +300,111 @@ export default function YohimbinNew() {
                 </div>
               </div>
 
-              <div className="flex flex-col justify-center py-16 px-4 sm:px-8" id="purchase-section">
+              <div
+                className="flex flex-col justify-center py-16 px-4 sm:px-8"
+                id="purchase-section"
+              >
                 <div className="max-w-[450px] w-full">
                   <div className="flex items-center gap-2">
                     <div className="flex text-gray-300">
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} width="20" height="20" viewBox="0 0 24 24" fill="#D1D5DB">
+                        <svg
+                          key={i}
+                          width="20"
+                          height="20"
+                          viewBox="0 0 24 24"
+                          fill="#D1D5DB"
+                        >
                           <path d="M12 1.25a.91.91 0 01.8.4l2.5 5.2 5.8.8c.9.1 1.3 1.2.6 1.8l-4.2 4.1.9 5.8c.1.9-.8 1.6-1.6 1.2l-5.2-2.7-5.2 2.7c-.8.4-1.7-.3-1.6-1.2l.9-5.8-4.2-4.1c-.6-.6-.2-1.7.6-1.8l5.8-.8 2.5-5.2a.91.91 0 01.8-.4z" />
                         </svg>
                       ))}
                     </div>
-                    <span className="text-sm font-normal text-gray-400">978 отзывов</span>
+                    <span className="text-sm font-normal text-gray-400">
+                      978 отзывов
+                    </span>
                   </div>
-                  <h1 ref={titleRef} className="text-4xl lg:text-5xl font-bold gradient-text mt-2">Йохимбин Premium</h1>
-                  <p className="mt-2 text-gray-400 text-lg">Натуральный жиросжигатель</p>
+                  <h1
+                    ref={titleRef}
+                    className="text-4xl lg:text-5xl font-bold gradient-text mt-2"
+                  >
+                    Йохимбин Premium
+                  </h1>
+                  <p className="mt-2 text-gray-400 text-lg">
+                    Натуральный жиросжигатель
+                  </p>
 
-                  <p className="mt-6 text-gray-400">Мощный экстракт коры дерева йохимбе, который эффективно борется с упорным жиром в проблемных зонах тела.</p>
+                  <p className="mt-6 text-gray-400">
+                    Мощный экстракт коры дерева йохимбе, который эффективно
+                    борется с упорным жиром в проблемных зонах тела.
+                  </p>
 
                   <div className="mt-6">
-                    <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-2" id="benefits-tabs">
-                      {Object.entries(benefits).map(([key, description], index) => (
-                        <button
-                          key={key}
-                          ref={el => benefitsRef.current[index] = el}
-                          onClick={() => setActiveBenefit(key)}
-                          className={`benefit-tab-btn p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-semibold border-2 transition min-h-[60px] sm:min-h-[auto] ${
-                            activeBenefit === key
-                              ? 'bg-gray-500/10 text-gray-300 border-gray-500/30'
-                              : 'bg-gray-800/50 text-gray-300 border-transparent hover:bg-gray-700'
-                          }`}
-                        >
-                          <div className="flex flex-col items-center gap-1 sm:gap-2">
-                            <svg className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              {key === 'fatburn' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />}
-                              {key === 'libido' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />}
-                              {key === 'energy' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />}
-                              {key === 'stamina' && <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />}
-                            </svg>
-                            <span className="text-center leading-tight">
-                              {key === 'fatburn' && 'Жиросжигание'}
-                              {key === 'libido' && 'Либидо'}
-                              {key === 'energy' && 'Энергия'}
-                              {key === 'stamina' && 'Выносливость'}
-                            </span>
-                          </div>
-                        </button>
-                      ))}
+                    <div
+                      className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-4 gap-2"
+                      id="benefits-tabs"
+                    >
+                      {Object.entries(benefits).map(
+                        ([key, description], index) => (
+                          <button
+                            key={key}
+                            ref={(el) => (benefitsRef.current[index] = el)}
+                            onClick={() => setActiveBenefit(key)}
+                            className={`benefit-tab-btn p-2 sm:p-3 rounded-lg text-xs sm:text-sm font-semibold border-2 transition min-h-[60px] sm:min-h-[auto] ${
+                              activeBenefit === key
+                                ? 'bg-gray-500/10 text-gray-300 border-gray-500/30'
+                                : 'bg-gray-800/50 text-gray-300 border-transparent hover:bg-gray-700'
+                            }`}
+                          >
+                            <div className="flex flex-col items-center gap-1 sm:gap-2">
+                              <svg
+                                className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                {key === 'fatburn' && (
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
+                                  />
+                                )}
+                                {key === 'libido' && (
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                                  />
+                                )}
+                                {key === 'energy' && (
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                                  />
+                                )}
+                                {key === 'stamina' && (
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                )}
+                              </svg>
+                              <span className="text-center leading-tight">
+                                {key === 'fatburn' && 'Жиросжигание'}
+                                {key === 'libido' && 'Либидо'}
+                                {key === 'energy' && 'Энергия'}
+                                {key === 'stamina' && 'Выносливость'}
+                              </span>
+                            </div>
+                          </button>
+                        )
+                      )}
                     </div>
                     <div className="mt-4 text-gray-400 text-sm min-h-[64px] leading-relaxed">
                       {benefits[activeBenefit]}
@@ -303,9 +413,13 @@ export default function YohimbinNew() {
 
                   <form className="mt-8 space-y-6">
                     <fieldset>
-                      <legend className="font-bold text-lg mb-4">Выберите ваш план</legend>
+                      <legend className="font-bold text-lg mb-4">
+                        Выберите ваш план
+                      </legend>
 
-                      <div className={`p-4 glass-card rounded-lg mb-4 border ${selectedPlan === 'one-time' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}>
+                      <div
+                        className={`p-4 glass-card rounded-lg mb-4 border ${selectedPlan === 'one-time' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}
+                      >
                         <div className="flex items-center">
                           <input
                             type="radio"
@@ -316,17 +430,26 @@ export default function YohimbinNew() {
                             onChange={(e) => setSelectedPlan(e.target.value)}
                             className="h-4 w-4 bg-transparent border-gray-600 text-white focus:ring-white"
                           />
-                          <label htmlFor="one-time" className="ml-4 flex-grow flex justify-between items-center cursor-pointer">
+                          <label
+                            htmlFor="one-time"
+                            className="ml-4 flex-grow flex justify-between items-center cursor-pointer"
+                          >
                             <div>
-                              <p className="font-bold text-gray-200">Разовая покупка</p>
+                              <p className="font-bold text-gray-200">
+                                Разовая покупка
+                              </p>
                               <p className="text-sm text-gray-400">60 капсул</p>
                             </div>
-                            <div className="text-lg font-bold text-gray-200">1.990 ₽</div>
+                            <div className="text-lg font-bold text-gray-200">
+                              1.990 ₽
+                            </div>
                           </label>
                         </div>
                       </div>
 
-                      <div className={`glass-card rounded-lg border ${selectedPlan === 'subscription' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}>
+                      <div
+                        className={`glass-card rounded-lg border ${selectedPlan === 'subscription' ? 'border-white/50 ring-2 ring-white/20' : 'border-gray-700'}`}
+                      >
                         <div className="bg-white/10 px-4 py-2 text-center text-sm font-bold text-white rounded-t-lg">
                           <p>Экономьте 10% на каждой доставке</p>
                         </div>
@@ -341,58 +464,147 @@ export default function YohimbinNew() {
                               onChange={(e) => setSelectedPlan(e.target.value)}
                               className="h-4 w-4 bg-transparent border-gray-600 text-white focus:ring-white"
                             />
-                            <label htmlFor="subscribe" className="ml-4 flex-grow flex justify-between items-center cursor-pointer">
+                            <label
+                              htmlFor="subscribe"
+                              className="ml-4 flex-grow flex justify-between items-center cursor-pointer"
+                            >
                               <div>
-                                <p className="font-bold text-gray-200">Подписка и скидка 10%</p>
-                                <p className="text-sm text-gray-400">60 капсул</p>
+                                <p className="font-bold text-gray-200">
+                                  Подписка и скидка 10%
+                                </p>
+                                <p className="text-sm text-gray-400">
+                                  60 капсул
+                                </p>
                               </div>
                               <div className="text-right">
-                                <p className="text-lg font-bold text-white">2.691 ₽</p>
-                                <p className="text-sm line-through text-gray-500">2.990 ₽</p>
+                                <p className="text-lg font-bold text-white">
+                                  2.691 ₽
+                                </p>
+                                <p className="text-sm line-through text-gray-500">
+                                  2.990 ₽
+                                </p>
                               </div>
                             </label>
                           </div>
                           <div className="mt-4 pl-8 border-t border-gray-700/50 pt-4">
-                            <p className="text-sm font-bold text-gray-300">Как работает подписка:</p>
+                            <p className="text-sm font-bold text-gray-300">
+                              Как работает подписка:
+                            </p>
                             <ul className="mt-2 mb-4 space-y-2 text-sm text-gray-400">
                               <li className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                  className="w-4 h-4 text-gray-300 flex-shrink-0"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
                                 </svg>
                                 Самый выгодный вариант
                               </li>
                               <li className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                  className="w-4 h-4 text-gray-300 flex-shrink-0"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
                                 </svg>
                                 Скидка 10% на все последующие заказы
                               </li>
                               <li className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                  className="w-4 h-4 text-gray-300 flex-shrink-0"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
                                 </svg>
                                 Легко изменяйте или пропускайте доставку
                               </li>
                               <li className="flex items-center gap-2">
-                                <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <svg
+                                  className="w-4 h-4 text-gray-300 flex-shrink-0"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
                                 </svg>
                                 Отмена в любое время
                               </li>
                             </ul>
-                            <p className="text-sm font-bold text-gray-300 mb-2">Доставка каждые:</p>
+                            <p className="text-sm font-bold text-gray-300 mb-2">
+                              Доставка каждые:
+                            </p>
                             <div className="grid grid-cols-3 gap-1 sm:gap-2 text-xs sm:text-sm">
                               <div>
-                                <input type="radio" id="freq4" name="frequency" value="4" className="hidden peer" />
-                                <label htmlFor="freq4" className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-white peer-checked:bg-white/10 cursor-pointer transition text-xs sm:text-sm">4 недели</label>
+                                <input
+                                  type="radio"
+                                  id="freq4"
+                                  name="frequency"
+                                  value="4"
+                                  className="hidden peer"
+                                />
+                                <label
+                                  htmlFor="freq4"
+                                  className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-white peer-checked:bg-white/10 cursor-pointer transition text-xs sm:text-sm"
+                                >
+                                  4 недели
+                                </label>
                               </div>
                               <div>
-                                <input type="radio" id="freq6" name="frequency" value="6" className="hidden peer" defaultChecked />
-                                <label htmlFor="freq6" className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-white peer-checked:bg-white/10 cursor-pointer transition text-xs sm:text-sm">6 недель</label>
+                                <input
+                                  type="radio"
+                                  id="freq6"
+                                  name="frequency"
+                                  value="6"
+                                  className="hidden peer"
+                                  defaultChecked
+                                />
+                                <label
+                                  htmlFor="freq6"
+                                  className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-white peer-checked:bg-white/10 cursor-pointer transition text-xs sm:text-sm"
+                                >
+                                  6 недель
+                                </label>
                               </div>
                               <div>
-                                <input type="radio" id="freq8" name="frequency" value="8" className="hidden peer" />
-                                <label htmlFor="freq8" className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-white peer-checked:bg-white/10 cursor-pointer transition text-xs sm:text-sm">8 недель</label>
+                                <input
+                                  type="radio"
+                                  id="freq8"
+                                  name="frequency"
+                                  value="8"
+                                  className="hidden peer"
+                                />
+                                <label
+                                  htmlFor="freq8"
+                                  className="block text-center py-2 px-2 sm:px-4 rounded-lg border border-gray-600 peer-checked:border-white peer-checked:bg-white/10 cursor-pointer transition text-xs sm:text-sm"
+                                >
+                                  8 недель
+                                </label>
                               </div>
                             </div>
                           </div>
@@ -406,20 +618,34 @@ export default function YohimbinNew() {
                         onClick={handleAddToCart}
                         className="w-full glow-button font-bold px-4 sm:px-6 py-3 sm:py-0 rounded-lg text-base sm:text-lg shadow-lg h-10 sm:h-12 flex-grow flex items-center justify-center"
                       >
-                        <span className="whitespace-nowrap">Добавить в корзину</span>
+                        <span className="whitespace-nowrap">
+                          Добавить в корзину
+                        </span>
                       </button>
                     </div>
                   </form>
 
                   <div className="mt-4 text-center text-sm text-gray-400 flex items-center justify-center gap-2">
-                    <svg className="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <svg
+                      className="w-5 h-5 text-green-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
                     <span>30-дневная гарантия возврата денег</span>
                   </div>
 
                   <PaymentIcons />
-                  <div className="mt-2 text-center text-xs text-gray-500">✍🏼 По вопросам приобретения пишите</div>
+                  <div className="mt-2 text-center text-xs text-gray-500">
+                    ✍🏼 По вопросам приобретения пишите
+                  </div>
                 </div>
               </div>
             </section>
@@ -428,14 +654,18 @@ export default function YohimbinNew() {
           <div className="container mx-auto px-4 lg:px-8">
             <section id="components" className="my-16 py-12 reveal">
               <div className="text-center">
-                <h2 className="text-3xl font-bold gradient-text">Ключевые компоненты силы</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Узнайте, что делает наш йохимбин таким эффективным.</p>
+                <h2 className="text-3xl font-bold gradient-text">
+                  Ключевые компоненты силы
+                </h2>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+                  Узнайте, что делает наш йохимбин таким эффективным.
+                </p>
                 <div className="mt-12 max-w-4xl mx-auto">
                   <div className="flex flex-col md:flex-row gap-4 justify-center mb-8">
                     {Object.entries(components).map(([key, data], index) => (
                       <button
                         key={key}
-                        ref={el => componentsRef.current[index] = el}
+                        ref={(el) => (componentsRef.current[index] = el)}
                         onClick={() => setActiveComponent(key)}
                         className={`font-bold py-3 px-6 rounded-lg text-lg flex-grow transition ${
                           activeComponent === key
@@ -450,8 +680,12 @@ export default function YohimbinNew() {
                     ))}
                   </div>
                   <div className="glass-card rounded-lg p-8 text-left min-h-[200px]">
-                    <h3 className="text-2xl font-bold text-gray-300">{components[activeComponent].title}</h3>
-                    <p className="mt-4 text-gray-300">{components[activeComponent].content}</p>
+                    <h3 className="text-2xl font-bold text-gray-300">
+                      {components[activeComponent].title}
+                    </h3>
+                    <p className="mt-4 text-gray-300">
+                      {components[activeComponent].content}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -459,66 +693,163 @@ export default function YohimbinNew() {
 
             <section className="my-16 py-12 reveal">
               <div className="text-center">
-                <h2 className="text-3xl font-bold gradient-text">Преимущество ARPOZAN</h2>
-                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">Мы предлагаем не просто йохимбин, а гарантированное качество и эффективность.</p>
+                <h2 className="text-3xl font-bold gradient-text">
+                  Преимущество ARPOZAN
+                </h2>
+                <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-400">
+                  Мы предлагаем не просто йохимбин, а гарантированное качество и
+                  эффективность.
+                </p>
                 <div className="mt-12 max-w-4xl mx-auto">
                   <div className="grid grid-cols-3 gap-px bg-gray-700 rounded-lg overflow-hidden glass-card border-0">
                     <div className="bg-black/50 p-4 font-bold">Параметр</div>
-                    <div className="bg-black/50 p-4 font-bold gradient-text">ARPOZAN Йохимбин</div>
-                    <div className="bg-black/50 p-4 font-bold text-gray-400">Обычный Йохимбин</div>
+                    <div className="bg-black/50 p-4 font-bold gradient-text">
+                      ARPOZAN Йохимбин
+                    </div>
+                    <div className="bg-black/50 p-4 font-bold text-gray-400">
+                      Обычный Йохимбин
+                    </div>
 
-                    <div className="p-4 text-left font-bold bg-black/30">Происхождение</div>
+                    <div className="p-4 text-left font-bold bg-black/30">
+                      Происхождение
+                    </div>
                     <div className="p-4 bg-black/30 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-6 h-6 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                       <span className="ml-2">Африка</span>
                     </div>
                     <div className="p-4 bg-black/30 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="w-6 h-6 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                       <span className="ml-2">Неизвестно</span>
                     </div>
 
-                    <div className="p-4 text-left font-bold bg-black/40">Концентрация</div>
+                    <div className="p-4 text-left font-bold bg-black/40">
+                      Концентрация
+                    </div>
                     <div className="p-4 bg-black/40 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-6 h-6 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                       <span className="ml-2">98% чистоты</span>
                     </div>
                     <div className="p-4 bg-black/40 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="w-6 h-6 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                       <span className="ml-2">50-80%</span>
                     </div>
 
-                    <div className="p-4 text-left font-bold bg-black/30">Контроль качества</div>
+                    <div className="p-4 text-left font-bold bg-black/30">
+                      Контроль качества
+                    </div>
                     <div className="p-4 bg-black/30 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-6 h-6 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                       <span className="ml-2">Лабораторные тесты</span>
                     </div>
                     <div className="p-4 bg-black/30 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="w-6 h-6 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                       <span className="ml-2">Отсутствует</span>
                     </div>
 
-                    <div className="p-4 text-left font-semibold bg-black/40">Гарантия</div>
+                    <div className="p-4 text-left font-semibold bg-black/40">
+                      Гарантия
+                    </div>
                     <div className="p-4 bg-black/40 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        className="w-6 h-6 text-green-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                       <span className="ml-2">30 дней на возврат</span>
                     </div>
                     <div className="p-4 bg-black/40 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      <svg
+                        className="w-6 h-6 text-red-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                       <span className="ml-2">Нет</span>
                     </div>
@@ -528,22 +859,32 @@ export default function YohimbinNew() {
             </section>
 
             <section className="mb-16 text-center reveal">
-              <h2 className="text-3xl font-bold gradient-text">Простой путь к вашему жиросжиганию</h2>
+              <h2 className="text-3xl font-bold gradient-text">
+                Простой путь к вашему жиросжиганию
+              </h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 max-w-4xl mx-auto">
                 <div className="flex flex-col items-center p-6 glass-card rounded-lg">
                   <span className="text-2xl font-bold text-gray-300">1</span>
                   <h3 className="text-xl font-bold">Примите 1 капсулу</h3>
-                  <p className="text-gray-400 mt-2">Утром натощак для лучшего усвоения.</p>
+                  <p className="text-gray-400 mt-2">
+                    Утром натощак для лучшего усвоения.
+                  </p>
                 </div>
                 <div className="flex flex-col items-center p-6 glass-card rounded-lg">
                   <span className="text-2xl font-bold text-gray-300">2</span>
-                  <h3 className="text-xl font-bold">Поддерживайте активность</h3>
-                  <p className="text-gray-400 mt-2">Регулярные тренировки усиливают эффект.</p>
+                  <h3 className="text-xl font-bold">
+                    Поддерживайте активность
+                  </h3>
+                  <p className="text-gray-400 mt-2">
+                    Регулярные тренировки усиливают эффект.
+                  </p>
                 </div>
                 <div className="flex flex-col items-center p-6 glass-card rounded-lg">
                   <span className="text-2xl font-bold text-gray-300">3</span>
                   <h3 className="text-xl font-bold">Следите за результатами</h3>
-                  <p className="text-gray-400 mt-2">Жиросжигание в упорных зонах.</p>
+                  <p className="text-gray-400 mt-2">
+                    Жиросжигание в упорных зонах.
+                  </p>
                 </div>
               </div>
             </section>
@@ -552,63 +893,105 @@ export default function YohimbinNew() {
               <div className="container mx-auto px-6 lg:px-12">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                   <div className="glass-card rounded-lg p-4">
-                    <Image 
-                        src="/assets/imgs/Yohimbin 1.png" 
-                        alt="Научное исследование Йохимбина" 
-                        width={800} 
-                        height={500} 
-                        className="rounded-md w-full max-h-[500px] object-contain" 
+                    <Image
+                      src="/assets/imgs/Yohimbin 1.png"
+                      alt="Научное исследование Йохимбина"
+                      width={800}
+                      height={500}
+                      className="rounded-md w-full max-h-[500px] object-contain"
                     />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-bold gradient-text">Научный подход к вашему жиросжиганию</h2>
-                    <p className="mt-4 text-lg text-gray-400">Йохимбин - это алкалоид, извлекаемый из коры западноафриканского дерева Pausinystalia yohimbe. Многочисленные исследования подтверждают его эффективность в борьбе с упорным жиром.</p>
-                    <p className="mt-4 text-gray-400">Йохимбин блокирует альфа-2 адренорецепторы, что приводит к увеличению циркуляции норадреналина. Это стимулирует липолиз (расщепление жиров) и повышает термогенез, особенно в проблемных зонах.</p>
+                    <h2 className="text-3xl font-bold gradient-text">
+                      Научный подход к вашему жиросжиганию
+                    </h2>
+                    <p className="mt-4 text-lg text-gray-400">
+                      Йохимбин - это алкалоид, извлекаемый из коры
+                      западноафриканского дерева Pausinystalia yohimbe.
+                      Многочисленные исследования подтверждают его эффективность
+                      в борьбе с упорным жиром.
+                    </p>
+                    <p className="mt-4 text-gray-400">
+                      Йохимбин блокирует альфа-2 адренорецепторы, что приводит к
+                      увеличению циркуляции норадреналина. Это стимулирует
+                      липолиз (расщепление жиров) и повышает термогенез,
+                      особенно в проблемных зонах.
+                    </p>
                   </div>
                 </div>
               </div>
             </section>
 
-            <section id="faq" className="grid grid-cols-12 gap-x-6 py-16 md:py-24">
+            <section
+              id="faq"
+              className="grid grid-cols-12 gap-x-6 py-16 md:py-24"
+            >
               <div className="col-span-12 md:col-span-4">
-                <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">Частые<br />вопросы</h2>
+                <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">
+                  Частые
+                  <br />
+                  вопросы
+                </h2>
               </div>
               <div className="col-span-12 md:col-span-8 mt-8 md:mt-0">
                 <div className="space-y-4">
                   <details className="glass-card rounded-lg p-4">
                     <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
                       Есть ли противопоказания?
-                      <span className="text-2xl font-normal text-amber-400">+</span>
+                      <span className="text-2xl font-normal text-amber-400">
+                        +
+                      </span>
                     </summary>
                     <div className="mt-3 text-gray-400">
-                      <p>Не рекомендуется принимать при индивидуальной непереносимости компонентов. Перед применением рекомендуется проконсультироваться с врачом.</p>
+                      <p>
+                        Не рекомендуется принимать при индивидуальной
+                        непереносимости компонентов. Перед применением
+                        рекомендуется проконсультироваться с врачом.
+                      </p>
                     </div>
                   </details>
                   <details className="glass-card rounded-lg p-4">
                     <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
                       Как долго длится курс?
-                      <span className="text-2xl font-normal text-amber-400">+</span>
+                      <span className="text-2xl font-normal text-amber-400">
+                        +
+                      </span>
                     </summary>
                     <div className="mt-3 text-gray-400">
-                      <p>Рекомендуемый курс - 2-3 месяца. Можно принимать на постоянной основе с небольшими перерывами.</p>
+                      <p>
+                        Рекомендуемый курс - 2-3 месяца. Можно принимать на
+                        постоянной основе с небольшими перерывами.
+                      </p>
                     </div>
                   </details>
                   <details className="glass-card rounded-lg p-4">
                     <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
                       Можно ли совмещать с другими жиросжигателями?
-                      <span className="text-2xl font-normal text-amber-400">+</span>
+                      <span className="text-2xl font-normal text-amber-400">
+                        +
+                      </span>
                     </summary>
                     <div className="mt-3 text-gray-400">
-                      <p>Да, йохимбин хорошо сочетается с кофеином, зеленым чаем и L-карнитином. Однако, для составления индивидуальной схемы лучше проконсультироваться со специалистом.</p>
+                      <p>
+                        Да, йохимбин хорошо сочетается с кофеином, зеленым чаем
+                        и L-карнитином. Однако, для составления индивидуальной
+                        схемы лучше проконсультироваться со специалистом.
+                      </p>
                     </div>
                   </details>
                   <details className="glass-card rounded-lg p-4">
                     <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
                       Когда я увижу эффект?
-                      <span className="text-2xl font-normal text-amber-400">+</span>
+                      <span className="text-2xl font-normal text-amber-400">
+                        +
+                      </span>
                     </summary>
                     <div className="mt-3 text-gray-400">
-                      <p>Первые результаты обычно заметны через 2-4 недели регулярного приёма. Максимальный эффект достигается через 8-12 недель.</p>
+                      <p>
+                        Первые результаты обычно заметны через 2-4 недели
+                        регулярного приёма. Максимальный эффект достигается
+                        через 8-12 недель.
+                      </p>
                     </div>
                   </details>
                 </div>

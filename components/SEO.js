@@ -6,7 +6,7 @@ export default function SEO({
   keywords = 'тестостерон, либидо, энергия, мака, йохимбин, цинк, тонгкат али, мужское здоровье',
   image = '/assets/imgs/Artur.jpg',
   url = 'https://arpofan.ru',
-  type = 'website'
+  type = 'website',
 }) {
   const siteName = 'ARPOZAN'
   const twitterHandle = '@arpofan'
@@ -45,29 +45,33 @@ export default function SEO({
 
       {/* Favicon */}
       <link rel="icon" href="/favicon.ico" />
-      <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/apple-touch-icon.png"
+      />
 
       {/* Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "ARPOZAN",
-            "url": url,
-            "logo": `${url}/assets/imgs/Artur.jpg`,
-            "description": description,
-            "sameAs": [
-              "https://www.instagram.com/arpofan",
-              "https://www.facebook.com/arpofan"
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'ARPOZAN',
+            url: url,
+            logo: `${url}/assets/imgs/Artur.jpg`,
+            description: description,
+            sameAs: [
+              'https://www.instagram.com/arpofan',
+              'https://www.facebook.com/arpofan',
             ],
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "telephone": "+7-XXX-XXX-XX-XX",
-              "contactType": "customer service"
-            }
-          })
+            contactPoint: {
+              '@type': 'ContactPoint',
+              telephone: '+7-XXX-XXX-XX-XX',
+              contactType: 'customer service',
+            },
+          }),
         }}
       />
     </Head>

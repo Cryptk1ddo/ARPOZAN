@@ -1,97 +1,113 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Star, Quote, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react'
+import {
+  Star,
+  Quote,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Pause,
+} from 'lucide-react'
 import { animations } from '../lib/gsapUtils'
 import gsap from 'gsap'
 
 const testimonialData = [
   {
     id: 1,
-    quote: "Энергии стало в разы больше, тренировки проходят легче, а восстановление быстрее. Это то, что я искал.",
-    name: "Алексей П.",
-    role: "Профессиональный спортсмен",
-    age: "28 лет",
-    location: "Москва",
+    quote:
+      'Энергии стало в разы больше, тренировки проходят легче, а восстановление быстрее. Это то, что я искал.',
+    name: 'Алексей П.',
+    role: 'Профессиональный спортсмен',
+    age: '28 лет',
+    location: 'Москва',
     rating: 5,
-    date: "2024-01-15",
-    product: "Мака перуанская",
+    date: '2024-01-15',
+    product: 'Мака перуанская',
     verified: true,
-    image: "/assets/imgs/testimonials/alex.jpg",
-    background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+    image: '/assets/imgs/testimonials/alex.jpg',
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   },
   {
     id: 2,
-    quote: "Работаю в IT, постоянные дедлайны. С этим комплексом голова стала яснее, и к вечеру остаются силы на семью.",
-    name: "Михаил В.",
-    role: "Предприниматель",
-    age: "35 лет",
-    location: "Санкт-Петербург",
+    quote:
+      'Работаю в IT, постоянные дедлайны. С этим комплексом голова стала яснее, и к вечеру остаются силы на семью.',
+    name: 'Михаил В.',
+    role: 'Предприниматель',
+    age: '35 лет',
+    location: 'Санкт-Петербург',
     rating: 5,
-    date: "2024-01-12",
-    product: "Йохимбин Premium",
+    date: '2024-01-12',
+    product: 'Йохимбин Premium',
     verified: true,
-    image: "/assets/imgs/testimonials/mikhail.jpg",
-    background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
+    image: '/assets/imgs/testimonials/mikhail.jpg',
+    background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
   },
   {
     id: 3,
-    quote: "Либидо вернулось на уровень 20-летнего. Жена довольна, я тоже. Спасибо, ребята!",
-    name: "Игорь С.",
-    role: "Инженер",
-    age: "45 лет",
-    location: "Екатеринбург",
+    quote:
+      'Либидо вернулось на уровень 20-летнего. Жена довольна, я тоже. Спасибо, ребята!',
+    name: 'Игорь С.',
+    role: 'Инженер',
+    age: '45 лет',
+    location: 'Екатеринбург',
     rating: 5,
-    date: "2024-01-10",
-    product: "Тонгкат Али",
+    date: '2024-01-10',
+    product: 'Тонгкат Али',
     verified: true,
-    image: "/assets/imgs/testimonials/igor.jpg",
-    background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
+    image: '/assets/imgs/testimonials/igor.jpg',
+    background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
   },
   {
     id: 4,
-    quote: "Совмещаю учебу и работу. С ARPOZAN концентрация выросла, а после смены есть силы на подготовку к экзаменам.",
-    name: "Дмитрий К.",
-    role: "Студент",
-    age: "22 года",
-    location: "Новосибирск",
+    quote:
+      'Совмещаю учебу и работу. С ARPOZAN концентрация выросла, а после смены есть силы на подготовку к экзаменам.',
+    name: 'Дмитрий К.',
+    role: 'Студент',
+    age: '22 года',
+    location: 'Новосибирск',
     rating: 5,
-    date: "2024-01-08",
-    product: "Цинк пиколинат",
+    date: '2024-01-08',
+    product: 'Цинк пиколинат',
     verified: true,
-    image: "/assets/imgs/testimonials/dmitry.jpg",
-    background: "linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
+    image: '/assets/imgs/testimonials/dmitry.jpg',
+    background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
   },
   {
     id: 5,
-    quote: "В 52 года думал, что пик формы позади. Этот комплекс вернул бодрость и мужскую уверенность.",
-    name: "Владимир Н.",
-    role: "Бизнесмен",
-    age: "52 года",
-    location: "Казань",
+    quote:
+      'В 52 года думал, что пик формы позади. Этот комплекс вернул бодрость и мужскую уверенность.',
+    name: 'Владимир Н.',
+    role: 'Бизнесмен',
+    age: '52 года',
+    location: 'Казань',
     rating: 5,
-    date: "2024-01-05",
-    product: "Ultimate Pack",
+    date: '2024-01-05',
+    product: 'Ultimate Pack',
     verified: true,
-    image: "/assets/imgs/testimonials/vladimir.jpg",
-    background: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)"
+    image: '/assets/imgs/testimonials/vladimir.jpg',
+    background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
   },
   {
     id: 6,
-    quote: "Пропал 'туман' в голове. Как дизайнер, я снова могу часами работать над проектами, не теряя фокуса.",
-    name: "Сергей Л.",
-    role: "Креативный директор",
-    age: "38 лет",
-    location: "Ростов-на-Дону",
+    quote:
+      "Пропал 'туман' в голове. Как дизайнер, я снова могу часами работать над проектами, не теряя фокуса.",
+    name: 'Сергей Л.',
+    role: 'Креативный директор',
+    age: '38 лет',
+    location: 'Ростов-на-Дону',
     rating: 5,
-    date: "2024-01-03",
-    product: "Мака + Йохимбин",
+    date: '2024-01-03',
+    product: 'Мака + Йохимбин',
     verified: true,
-    image: "/assets/imgs/testimonials/sergey.jpg",
-    background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
-  }
+    image: '/assets/imgs/testimonials/sergey.jpg',
+    background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+  },
 ]
 
-export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 }) {
+export default function EnhancedTestimonials({
+  autoPlay = true,
+  interval = 5000,
+}) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(autoPlay)
   const [direction, setDirection] = useState(0)
@@ -114,13 +130,14 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
   useEffect(() => {
     if (!isPlaying || !progressRef.current) return
 
-    gsap.fromTo(progressRef.current, 
+    gsap.fromTo(
+      progressRef.current,
       { scaleX: 0 },
-      { 
-        scaleX: 1, 
+      {
+        scaleX: 1,
         duration: interval / 1000,
-        ease: "none",
-        transformOrigin: "left center"
+        ease: 'none',
+        transformOrigin: 'left center',
       }
     )
   }, [currentIndex, isPlaying, interval])
@@ -134,7 +151,9 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
 
   const handlePrevious = () => {
     setDirection(-1)
-    setCurrentIndex((prev) => (prev - 1 + testimonialData.length) % testimonialData.length)
+    setCurrentIndex(
+      (prev) => (prev - 1 + testimonialData.length) % testimonialData.length
+    )
   }
 
   const handleNext = () => {
@@ -156,22 +175,22 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
       x: direction > 0 ? 1000 : -1000,
       opacity: 0,
       scale: 0.8,
-      rotateY: direction > 0 ? 20 : -20
+      rotateY: direction > 0 ? 20 : -20,
     }),
     center: {
       zIndex: 1,
       x: 0,
       opacity: 1,
       scale: 1,
-      rotateY: 0
+      rotateY: 0,
     },
     exit: (direction) => ({
       zIndex: 0,
       x: direction < 0 ? 1000 : -1000,
       opacity: 0,
       scale: 0.8,
-      rotateY: direction < 0 ? 20 : -20
-    })
+      rotateY: direction < 0 ? 20 : -20,
+    }),
   }
 
   const cardVariants = {
@@ -179,17 +198,17 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
       scale: 1.02,
       y: -10,
       transition: {
-        type: "spring",
+        type: 'spring',
         stiffness: 300,
-        damping: 20
-      }
-    }
+        damping: 20,
+      },
+    },
   }
 
   const currentTestimonial = testimonialData[currentIndex]
 
   return (
-    <section 
+    <section
       ref={containerRef}
       className="py-16 md:py-24 relative overflow-hidden"
       onMouseEnter={() => setIsPlaying(false)}
@@ -198,17 +217,23 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
       {/* Background Elements */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-gradient-to-br from-green-400 to-blue-500 rounded-full blur-3xl opacity-30 animate-pulse" style={{ animationDelay: '4s' }}></div>
+        <div
+          className="absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: '2s' }}
+        ></div>
+        <div
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-gradient-to-br from-green-400 to-blue-500 rounded-full blur-3xl opacity-30 animate-pulse"
+          style={{ animationDelay: '4s' }}
+        ></div>
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
             className="text-3xl md:text-5xl font-bold text-white font-heading mb-4"
           >
             Что говорят наши <span className="gradient-text">клиенты</span>
@@ -216,10 +241,11 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
             className="text-gray-400 text-lg max-w-2xl mx-auto"
           >
-            Реальные отзывы реальных людей, которые изменили свою жизнь с ARPOZAN
+            Реальные отзывы реальных людей, которые изменили свою жизнь с
+            ARPOZAN
           </motion.p>
         </div>
 
@@ -235,21 +261,21 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
                 animate="center"
                 exit="exit"
                 transition={{
-                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  x: { type: 'spring', stiffness: 300, damping: 30 },
                   opacity: { duration: 0.3 },
-                  scale: { duration: 0.4, ease: "easeOut" },
-                  rotateY: { duration: 0.6, ease: "easeOut" }
+                  scale: { duration: 0.4, ease: 'easeOut' },
+                  rotateY: { duration: 0.6, ease: 'easeOut' },
                 }}
                 className="absolute inset-0"
               >
-                <motion.div 
+                <motion.div
                   variants={cardVariants}
                   whileHover="hover"
                   className="glass-card rounded-3xl p-8 md:p-12 h-full flex flex-col justify-between relative overflow-hidden"
-                  style={{ 
+                  style={{
                     background: currentTestimonial.background,
                     backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255,255,255,0.1)'
+                    border: '1px solid rgba(255,255,255,0.1)',
                   }}
                 >
                   {/* Quote Icon */}
@@ -266,16 +292,16 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
                           key={i}
                           initial={{ scale: 0, rotate: -180 }}
                           animate={{ scale: 1, rotate: 0 }}
-                          transition={{ 
+                          transition={{
                             delay: i * 0.1,
-                            type: "spring",
+                            type: 'spring',
                             stiffness: 500,
-                            damping: 15
+                            damping: 15,
                           }}
                         >
-                          <Star 
-                            size={24} 
-                            className="text-amber-400 fill-current mr-1" 
+                          <Star
+                            size={24}
+                            className="text-amber-400 fill-current mr-1"
                           />
                         </motion.div>
                       ))}
@@ -287,17 +313,17 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
                     </div>
 
                     {/* Quote */}
-                    <motion.blockquote 
+                    <motion.blockquote
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3, duration: 0.6 }}
                       className="text-2xl md:text-3xl font-medium text-white leading-relaxed mb-8"
                     >
-                      "{currentTestimonial.quote}"
+                      &ldquo;{currentTestimonial.quote}&rdquo;
                     </motion.blockquote>
 
                     {/* Customer Info */}
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.5, duration: 0.6 }}
@@ -309,9 +335,16 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
                         </span>
                       </div>
                       <div>
-                        <h3 className="text-white font-bold text-lg">{currentTestimonial.name}</h3>
-                        <p className="text-white/80">{currentTestimonial.role}, {currentTestimonial.age}</p>
-                        <p className="text-white/60 text-sm">{currentTestimonial.location} • {currentTestimonial.product}</p>
+                        <h3 className="text-white font-bold text-lg">
+                          {currentTestimonial.name}
+                        </h3>
+                        <p className="text-white/80">
+                          {currentTestimonial.role}, {currentTestimonial.age}
+                        </p>
+                        <p className="text-white/60 text-sm">
+                          {currentTestimonial.location} •{' '}
+                          {currentTestimonial.product}
+                        </p>
                       </div>
                     </motion.div>
                   </div>
@@ -326,7 +359,10 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
 
           {/* Navigation Buttons */}
           <motion.button
-            whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.2)" }}
+            whileHover={{
+              scale: 1.1,
+              backgroundColor: 'rgba(255,255,255,0.2)',
+            }}
             whileTap={{ scale: 0.95 }}
             onClick={handlePrevious}
             className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-md p-3 rounded-full transition-all duration-300 z-20"
@@ -336,7 +372,10 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
           </motion.button>
 
           <motion.button
-            whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.2)" }}
+            whileHover={{
+              scale: 1.1,
+              backgroundColor: 'rgba(255,255,255,0.2)',
+            }}
             whileTap={{ scale: 0.95 }}
             onClick={handleNext}
             className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/10 backdrop-blur-md p-3 rounded-full transition-all duration-300 z-20"
@@ -350,7 +389,7 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
         <div className="flex flex-col items-center mt-12 space-y-6">
           {/* Progress Bar */}
           <div className="w-64 h-1 bg-white/20 rounded-full overflow-hidden">
-            <div 
+            <div
               ref={progressRef}
               className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transform origin-left scale-x-0"
             ></div>
@@ -365,8 +404,8 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
                 whileTap={{ scale: 0.9 }}
                 onClick={() => goToSlide(index)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentIndex 
-                    ? 'bg-amber-400 scale-125' 
+                  index === currentIndex
+                    ? 'bg-amber-400 scale-125'
                     : 'bg-white/30 hover:bg-white/50'
                 }`}
                 aria-label={`Перейти к отзыву ${index + 1}`}
@@ -393,7 +432,7 @@ export default function EnhancedTestimonials({ autoPlay = true, interval = 5000 
         </div>
 
         {/* Statistics */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}

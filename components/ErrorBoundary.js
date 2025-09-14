@@ -13,7 +13,7 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     this.setState({
       error: error,
-      errorInfo: errorInfo
+      errorInfo: errorInfo,
     })
     // You can also log the error to an error reporting service here
     console.error('Error caught by boundary:', error, errorInfo)
@@ -29,9 +29,12 @@ class ErrorBoundary extends React.Component {
         <div className="min-h-screen bg-gray-900 flex items-center justify-center">
           <div className="text-center p-8 glass-card rounded-lg max-w-md mx-4">
             <div className="text-6xl mb-4">⚠️</div>
-            <h2 className="text-2xl font-bold gradient-text mb-4">Что-то пошло не так</h2>
+            <h2 className="text-2xl font-bold gradient-text mb-4">
+              Что-то пошло не так
+            </h2>
             <p className="text-gray-400 mb-6">
-              Произошла ошибка. Пожалуйста, попробуйте обновить страницу или повторить действие.
+              Произошла ошибка. Пожалуйста, попробуйте обновить страницу или
+              повторить действие.
             </p>
             <div className="flex gap-4 justify-center">
               <button
@@ -49,7 +52,9 @@ class ErrorBoundary extends React.Component {
             </div>
             {process.env.NODE_ENV === 'development' && (
               <details className="mt-6 text-left">
-                <summary className="text-gray-400 cursor-pointer">Детали ошибки (для разработчиков)</summary>
+                <summary className="text-gray-400 cursor-pointer">
+                  Детали ошибки (для разработчиков)
+                </summary>
                 <pre className="text-red-400 text-sm mt-2 whitespace-pre-wrap">
                   {this.state.error && this.state.error.toString()}
                   <br />

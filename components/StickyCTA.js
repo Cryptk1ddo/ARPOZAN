@@ -31,9 +31,12 @@ export default function StickyCTA({ product, onAddToCart }) {
       addToCart({
         id: product.id,
         name: product.name,
-        price: selectedPlan === 'subscription' ? product.subscriptionPrice : product.oneTimePrice,
+        price:
+          selectedPlan === 'subscription'
+            ? product.subscriptionPrice
+            : product.oneTimePrice,
         quantity: 1,
-        plan: selectedPlan
+        plan: selectedPlan,
       })
       onAddToCart?.()
     }

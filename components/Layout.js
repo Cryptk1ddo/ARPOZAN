@@ -23,7 +23,7 @@ export default function Layout({ children }) {
   const [touchStart, setTouchStart] = useState(null)
   const [touchEnd, setTouchEnd] = useState(null)
   const [promoBarVisible, setPromoBarVisible] = useState(true)
-  const [promoBarHeight, setPromoBarHeight] = useState(40)  // Default height for SSR
+  const [promoBarHeight, setPromoBarHeight] = useState(40) // Default height for SSR
   const [navTransitioning, setNavTransitioning] = useState(false)
   const searchInputRef = useRef(null)
 
@@ -55,7 +55,9 @@ export default function Layout({ children }) {
     if (!isMenuOpen) return
 
     const handleKeyDown = (e) => {
-      const focusableElements = document.querySelectorAll('.mobile-menu-focusable')
+      const focusableElements = document.querySelectorAll(
+        '.mobile-menu-focusable'
+      )
       const firstElement = focusableElements[0]
       const lastElement = focusableElements[focusableElements.length - 1]
 
@@ -118,26 +120,44 @@ export default function Layout({ children }) {
     const handleScroll = () => {
       const scrollTop = window.scrollY
       setIsScrolled(scrollTop > 50)
-      
+
       // Check promo bar visibility and adjust nav position with transition
-      const dismissed = typeof window !== 'undefined' ? localStorage.getItem('promoBarDismissed') : null
-      const height = dismissed ? 0 : parseInt((typeof window !== 'undefined' ? localStorage.getItem('promoBarHeight') : null) || '40')
+      const dismissed =
+        typeof window !== 'undefined'
+          ? localStorage.getItem('promoBarDismissed')
+          : null
+      const height = dismissed
+        ? 0
+        : parseInt(
+            (typeof window !== 'undefined'
+              ? localStorage.getItem('promoBarHeight')
+              : null) || '40'
+          )
       const newPromoBarVisible = scrollTop <= 10 && !dismissed
-      
+
       // Trigger transition state when promo bar visibility changes
       if (newPromoBarVisible !== promoBarVisible) {
         setNavTransitioning(true)
         setTimeout(() => setNavTransitioning(false), 300) // Match animation duration
       }
-      
+
       setPromoBarVisible(newPromoBarVisible)
     }
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true })
 
     // Initial check (runs once on mount)
-    const dismissed = typeof window !== 'undefined' ? localStorage.getItem('promoBarDismissed') : null
-    const height = dismissed ? 0 : parseInt((typeof window !== 'undefined' ? localStorage.getItem('promoBarHeight') : null) || '40')
+    const dismissed =
+      typeof window !== 'undefined'
+        ? localStorage.getItem('promoBarDismissed')
+        : null
+    const height = dismissed
+      ? 0
+      : parseInt(
+          (typeof window !== 'undefined'
+            ? localStorage.getItem('promoBarHeight')
+            : null) || '40'
+        )
     setPromoBarHeight(height)
     setPromoBarVisible(window.scrollY <= 10 && !dismissed)
 
@@ -179,24 +199,29 @@ export default function Layout({ children }) {
     <div className="min-h-screen bg-black">
       <PromoBar />
 
-      <nav 
+      <nav
         className={`fixed w-full z-40 backdrop-blur-md transition-all duration-300 ease-out ${
           promoBarVisible ? 'top-[40px]' : 'top-0'
         } ${navTransitioning ? 'nav-syncing' : ''} ${
           isScrolled ? 'bg-black/90 shadow-2xl shadow-black/50' : 'bg-black/80'
         }`}
         style={{
-          borderBottom: isScrolled ? '1px solid rgba(248, 248, 248, 0.08)' : 'none',
-          boxShadow: isScrolled 
-            ? '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(248, 248, 248, 0.05)' 
-            : 'none'
+          borderBottom: isScrolled
+            ? '1px solid rgba(248, 248, 248, 0.08)'
+            : 'none',
+          boxShadow: isScrolled
+            ? '0 8px 32px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(248, 248, 248, 0.05)'
+            : 'none',
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile Navigation */}
           <div className="md:hidden flex justify-between items-center h-16">
             {/* Logo - Left */}
-            <Link href="/" className="text-xl font-bold gradient-text transition-all duration-200 hover:scale-105">
+            <Link
+              href="/"
+              className="text-xl font-bold gradient-text transition-all duration-200 hover:scale-105"
+            >
               ARPOZAN
             </Link>
 
@@ -228,10 +253,10 @@ export default function Layout({ children }) {
                 onClick={handleMenuToggle}
                 disabled={menuLoading}
                 className="relative w-11 h-11 flex flex-col justify-center items-center text-white transition-all duration-200 group rounded-xl p-2 disabled:opacity-50 disabled:cursor-not-allowed z-50 hover:bg-white/5"
-                aria-label={isMenuOpen ? "Закрыть меню" : "Открыть меню"}
+                aria-label={isMenuOpen ? 'Закрыть меню' : 'Открыть меню'}
                 aria-expanded={isMenuOpen}
                 style={{
-                  transform: isMenuOpen ? 'scale(0.95)' : 'scale(1)'
+                  transform: isMenuOpen ? 'scale(0.95)' : 'scale(1)',
                 }}
               >
                 {menuLoading ? (
@@ -239,15 +264,27 @@ export default function Layout({ children }) {
                 ) : (
                   <>
                     {/* Enhanced hamburger lines with better animation */}
-                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 ease-out transform ${
-                      isMenuOpen ? 'rotate-45 translate-y-0 absolute' : 'relative -translate-y-1.5'
-                    }`}></div>
-                    <div className={`w-5 h-0.5 bg-current transition-all duration-200 ease-out ${
-                      isMenuOpen ? 'opacity-0 scale-0' : 'opacity-100 scale-100'
-                    }`}></div>
-                    <div className={`w-5 h-0.5 bg-current transition-all duration-300 ease-out transform ${
-                      isMenuOpen ? '-rotate-45 translate-y-0 absolute' : 'relative translate-y-1.5'
-                    }`}></div>
+                    <div
+                      className={`w-5 h-0.5 bg-current transition-all duration-300 ease-out transform ${
+                        isMenuOpen
+                          ? 'rotate-45 translate-y-0 absolute'
+                          : 'relative -translate-y-1.5'
+                      }`}
+                    ></div>
+                    <div
+                      className={`w-5 h-0.5 bg-current transition-all duration-200 ease-out ${
+                        isMenuOpen
+                          ? 'opacity-0 scale-0'
+                          : 'opacity-100 scale-100'
+                      }`}
+                    ></div>
+                    <div
+                      className={`w-5 h-0.5 bg-current transition-all duration-300 ease-out transform ${
+                        isMenuOpen
+                          ? '-rotate-45 translate-y-0 absolute'
+                          : 'relative translate-y-1.5'
+                      }`}
+                    ></div>
 
                     {/* Touch feedback ripple */}
                     <div className="absolute inset-0 rounded-xl opacity-0 group-active:opacity-20 group-active:bg-white transition-all duration-150 ease-out scale-75 group-active:scale-100"></div>
@@ -291,7 +328,10 @@ export default function Layout({ children }) {
               </button>
 
               <div className="relative">
-                <Link href="/wishlist" className="text-white hover:text-blue-400 transition-colors">
+                <Link
+                  href="/wishlist"
+                  className="text-white hover:text-blue-400 transition-colors"
+                >
                   <Heart size={24} />
                   {getWishlistCount() > 0 && (
                     <span className="absolute -top-2 -right-2 bg-pink-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
@@ -329,7 +369,7 @@ export default function Layout({ children }) {
                 minHeight: 'calc(100vh - 64px)',
                 maxHeight: 'calc(100vh - 64px)',
                 overflowY: 'auto',
-                WebkitOverflowScrolling: 'touch'
+                WebkitOverflowScrolling: 'touch',
               }}
               onTouchStart={onTouchStart}
               onTouchMove={onTouchMove}
@@ -338,8 +378,14 @@ export default function Layout({ children }) {
               {/* Enhanced background pattern */}
               <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-8 left-10 w-32 h-32 bg-gradient-to-br from-white to-gray-300 rounded-full blur-3xl animate-pulse"></div>
-                <div className="absolute bottom-8 right-10 w-28 h-28 bg-gradient-to-br from-gray-200 to-gray-400 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute top-1/3 right-1/4 w-20 h-20 bg-gradient-to-br from-white/50 to-gray-300/50 rounded-full blur-xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+                <div
+                  className="absolute bottom-8 right-10 w-28 h-28 bg-gradient-to-br from-gray-200 to-gray-400 rounded-full blur-2xl animate-pulse"
+                  style={{ animationDelay: '1s' }}
+                ></div>
+                <div
+                  className="absolute top-1/3 right-1/4 w-20 h-20 bg-gradient-to-br from-white/50 to-gray-300/50 rounded-full blur-xl animate-pulse"
+                  style={{ animationDelay: '2s' }}
+                ></div>
               </div>
 
               {/* Menu content with enhanced spacing */}
@@ -348,9 +394,11 @@ export default function Layout({ children }) {
                 <div
                   className="mb-6 text-center"
                   style={{
-                    animation: isMenuOpen ? `enhancedFadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
+                    animation: isMenuOpen
+                      ? `enhancedFadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`
+                      : 'none',
                     animationDelay: '0.1s',
-                    opacity: 0
+                    opacity: 0,
                   }}
                 >
                   <p className="text-gray-400 text-sm">Добро пожаловать в</p>
@@ -365,10 +413,14 @@ export default function Layout({ children }) {
                       className="mobile-menu-focusable"
                       role="listitem"
                       style={{
-                        animation: isMenuOpen ? `enhancedSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
-                        animationDelay: isMenuOpen ? `${0.2 + idx * 0.08}s` : '0s',
+                        animation: isMenuOpen
+                          ? `enhancedSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`
+                          : 'none',
+                        animationDelay: isMenuOpen
+                          ? `${0.2 + idx * 0.08}s`
+                          : '0s',
                         opacity: 0,
-                        transform: 'translateX(-20px)'
+                        transform: 'translateX(-20px)',
                       }}
                     >
                       <a
@@ -377,15 +429,28 @@ export default function Layout({ children }) {
                         className="flex items-center justify-between text-white text-lg font-medium py-4 px-5 rounded-2xl hover:bg-white/8 active:bg-white/12 transition-all duration-200 group"
                         role="menuitem"
                         style={{
-                          background: 'linear-gradient(135deg, rgba(248, 248, 248, 0.02) 0%, rgba(248, 248, 248, 0.01) 100%)',
-                          border: '1px solid rgba(248, 248, 248, 0.05)'
+                          background:
+                            'linear-gradient(135deg, rgba(248, 248, 248, 0.02) 0%, rgba(248, 248, 248, 0.01) 100%)',
+                          border: '1px solid rgba(248, 248, 248, 0.05)',
                         }}
                       >
-                        <span className="group-hover:text-blue-400 transition-colors duration-200">{item.name}</span>
+                        <span className="group-hover:text-blue-400 transition-colors duration-200">
+                          {item.name}
+                        </span>
                         <div className="flex items-center space-x-2">
                           <div className="w-2 h-2 bg-white/20 rounded-full group-hover:bg-blue-400/50 transition-all duration-200"></div>
-                          <svg className="w-4 h-4 text-white/40 group-hover:text-blue-400/70 group-hover:translate-x-1 transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          <svg
+                            className="w-4 h-4 text-white/40 group-hover:text-blue-400/70 group-hover:translate-x-1 transition-all duration-200"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 5l7 7-7 7"
+                            />
                           </svg>
                         </div>
                       </a>
@@ -397,16 +462,25 @@ export default function Layout({ children }) {
                 <div
                   className="border-t border-white/10 pt-6"
                   style={{
-                    animation: isMenuOpen ? `enhancedSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards` : 'none',
-                    animationDelay: isMenuOpen ? `${0.2 + navigation.length * 0.08 + 0.1}s` : '0s',
+                    animation: isMenuOpen
+                      ? `enhancedSlideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`
+                      : 'none',
+                    animationDelay: isMenuOpen
+                      ? `${0.2 + navigation.length * 0.08 + 0.1}s`
+                      : '0s',
                     opacity: 0,
-                    transform: 'translateY(20px)'
+                    transform: 'translateY(20px)',
                   }}
                 >
-                  <p className="text-gray-400 text-sm mb-4 text-center">Быстрые действия</p>
+                  <p className="text-gray-400 text-sm mb-4 text-center">
+                    Быстрые действия
+                  </p>
                   <div className="grid grid-cols-2 gap-3">
-                    <button 
-                      onClick={() => { setIsSearchOpen(true); setIsMenuOpen(false); }} 
+                    <button
+                      onClick={() => {
+                        setIsSearchOpen(true)
+                        setIsMenuOpen(false)
+                      }}
                       className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all duration-200 border border-white/5 group"
                     >
                       <div className="w-10 h-10 bg-white/8 rounded-xl flex items-center justify-center mb-2 group-hover:bg-white/15 transition-all duration-200">
@@ -414,8 +488,11 @@ export default function Layout({ children }) {
                       </div>
                       <span className="text-sm font-medium">Поиск</span>
                     </button>
-                    <button 
-                      onClick={() => { setIsProfileOpen(true); setIsMenuOpen(false); }} 
+                    <button
+                      onClick={() => {
+                        setIsProfileOpen(true)
+                        setIsMenuOpen(false)
+                      }}
                       className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all duration-200 border border-white/5 group"
                     >
                       <div className="w-10 h-10 bg-white/8 rounded-xl flex items-center justify-center mb-2 group-hover:bg-white/15 transition-all duration-200">
@@ -423,9 +500,9 @@ export default function Layout({ children }) {
                       </div>
                       <span className="text-sm font-medium">Профиль</span>
                     </button>
-                    <Link 
-                      href="/wishlist" 
-                      onClick={() => setIsMenuOpen(false)} 
+                    <Link
+                      href="/wishlist"
+                      onClick={() => setIsMenuOpen(false)}
                       className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all duration-200 border border-white/5 group"
                     >
                       <div className="w-10 h-10 bg-white/8 rounded-xl flex items-center justify-center mb-2 group-hover:bg-white/15 transition-all duration-200">
@@ -433,8 +510,11 @@ export default function Layout({ children }) {
                       </div>
                       <span className="text-sm font-medium">Избранное</span>
                     </Link>
-                    <button 
-                      onClick={() => { setIsCartOpen(true); setIsMenuOpen(false); }} 
+                    <button
+                      onClick={() => {
+                        setIsCartOpen(true)
+                        setIsMenuOpen(false)
+                      }}
                       className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all duration-200 border border-white/5 group relative"
                     >
                       <div className="w-10 h-10 bg-white/8 rounded-xl flex items-center justify-center mb-2 group-hover:bg-white/15 transition-all duration-200">
@@ -455,21 +535,18 @@ export default function Layout({ children }) {
         </div>
       </nav>
 
-      <main className="transition-all duration-300" style={{ paddingTop: promoBarVisible ? '104px' : '64px' }}>
+      <main
+        className="transition-all duration-300"
+        style={{ paddingTop: promoBarVisible ? '104px' : '64px' }}
+      >
         {children}
       </main>
 
       <Footer />
 
-      <CartDrawer
-        open={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-      />
+      <CartDrawer open={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
-      <SearchBar
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-      />
+      <SearchBar isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
 
       <UserProfile
         isOpen={isProfileOpen}

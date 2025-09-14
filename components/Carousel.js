@@ -2,7 +2,13 @@ import { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 
-export default function Carousel({ images = [], currentIndex, onPrev, onNext, onJump }){
+export default function Carousel({
+  images = [],
+  currentIndex,
+  onPrev,
+  onNext,
+  onJump,
+}) {
   const [loadedImages, setLoadedImages] = useState(new Set())
 
   useEffect(() => {
@@ -11,7 +17,7 @@ export default function Carousel({ images = [], currentIndex, onPrev, onNext, on
       const img = new Image()
       img.src = src
       img.onload = () => {
-        setLoadedImages(prev => new Set([...prev, idx]))
+        setLoadedImages((prev) => new Set([...prev, idx]))
       }
     })
   }, [images])
@@ -29,17 +35,20 @@ export default function Carousel({ images = [], currentIndex, onPrev, onNext, on
 
       {/* preload other images so transitions are smooth (use Next.js Image) */}
       <div style={{ display: 'none' }} aria-hidden>
-        {images.map((src, idx) => idx !== currentIndex && (
-          <Image
-            key={idx}
-            src={src}
-            alt={`preload-${idx}`}
-            width={1}
-            height={1}
-            loading="lazy"
-            unoptimized
-          />
-        ))}
+        {images.map(
+          (src, idx) =>
+            idx !== currentIndex && (
+              <Image
+                key={idx}
+                src={src}
+                alt={`preload-${idx}`}
+                width={1}
+                height={1}
+                loading="lazy"
+                unoptimized
+              />
+            )
+        )}
       </div>
 
       <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex items-center justify-between z-10">
@@ -63,7 +72,9 @@ export default function Carousel({ images = [], currentIndex, onPrev, onNext, on
             key={idx}
             onClick={() => onJump(idx)}
             className={`w-2.5 h-2.5 rounded-full transition-colors ${
-              idx === currentIndex ? 'bg-yellow-500' : 'bg-gray-600 hover:bg-gray-500'
+              idx === currentIndex
+                ? 'bg-yellow-500'
+                : 'bg-gray-600 hover:bg-gray-500'
             }`}
           />
         ))}

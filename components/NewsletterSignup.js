@@ -21,10 +21,12 @@ export default function NewsletterSignup({ variant = 'inline' }) {
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
 
       // Store email in localStorage for demo
-      const subscribers = JSON.parse(localStorage.getItem('arpofan-newsletter') || '[]')
+      const subscribers = JSON.parse(
+        localStorage.getItem('arpofan-newsletter') || '[]'
+      )
       if (!subscribers.includes(email)) {
         subscribers.push(email)
         localStorage.setItem('arpofan-newsletter', JSON.stringify(subscribers))
@@ -62,9 +64,12 @@ export default function NewsletterSignup({ variant = 'inline' }) {
               <div className="w-16 h-16 bg-yellow-500 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Mail size={32} className="text-black" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2">Подпишитесь на новости</h3>
+              <h3 className="text-2xl font-bold text-white mb-2">
+                Подпишитесь на новости
+              </h3>
               <p className="text-gray-400">
-                Получайте эксклюзивные скидки, новые продукты и полезные советы по мужскому здоровью
+                Получайте эксклюзивные скидки, новые продукты и полезные советы
+                по мужскому здоровью
               </p>
             </div>
 
@@ -96,15 +101,23 @@ export default function NewsletterSignup({ variant = 'inline' }) {
     <div className="bg-gradient-to-r from-gray-900 to-gray-800 rounded-lg p-6 border border-gray-700">
       <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6">
         <div className="flex-1">
-          <h3 className="text-xl font-bold text-white mb-2">Подпишитесь на новости</h3>
+          <h3 className="text-xl font-bold text-white mb-2">
+            Подпишитесь на новости
+          </h3>
           <p className="text-gray-400">
             Получайте эксклюзивные скидки и полезные советы по мужскому здоровью
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex w-full md:w-auto space-x-2">
+        <form
+          onSubmit={handleSubmit}
+          className="flex w-full md:w-auto space-x-2"
+        >
           <div className="relative flex-1 md:w-64">
-            <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <Mail
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              size={18}
+            />
             <input
               type="email"
               value={email}
@@ -123,7 +136,7 @@ export default function NewsletterSignup({ variant = 'inline' }) {
               <>
                 <motion.div
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                  transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                   className="w-4 h-4 border-2 border-black border-t-transparent rounded-full"
                 />
                 <span>Подписка...</span>

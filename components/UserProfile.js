@@ -1,5 +1,14 @@
 import { useState } from 'react'
-import { User, Settings, ShoppingBag, Heart, LogOut, X, ShoppingCart, Star } from 'lucide-react'
+import {
+  User,
+  Settings,
+  ShoppingBag,
+  Heart,
+  LogOut,
+  X,
+  ShoppingCart,
+  Star,
+} from 'lucide-react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useAuth } from '../lib/AuthContext'
@@ -31,7 +40,7 @@ export default function UserProfile({ isOpen, onClose }) {
     { id: 'profile', label: 'Профиль', icon: User },
     { id: 'orders', label: 'Заказы', icon: ShoppingBag },
     { id: 'wishlist', label: 'Избранное', icon: Heart },
-    { id: 'settings', label: 'Настройки', icon: Settings }
+    { id: 'settings', label: 'Настройки', icon: Settings },
   ]
 
   return (
@@ -60,7 +69,9 @@ export default function UserProfile({ isOpen, onClose }) {
               <p className="text-gray-400 text-sm">{user.email}</p>
               <div className="flex items-center space-x-2 mt-1">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-xs text-green-400 font-medium">Онлайн</span>
+                <span className="text-xs text-green-400 font-medium">
+                  Онлайн
+                </span>
               </div>
             </div>
           </div>
@@ -119,7 +130,9 @@ export default function UserProfile({ isOpen, onClose }) {
                     <User size={32} className="text-black" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white">{user.name}</h3>
+                    <h3 className="text-xl font-bold text-white">
+                      {user.name}
+                    </h3>
                     <p className="text-gray-400">{user.email}</p>
                     <div className="flex items-center space-x-2 mt-1">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -131,15 +144,21 @@ export default function UserProfile({ isOpen, onClose }) {
                 {/* Quick Stats */}
                 <div className="grid grid-cols-3 gap-4 pt-4 border-t border-gray-700/50">
                   <div className="text-center">
-                    <div className="text-lg font-bold text-yellow-500">{wishlist.length}</div>
+                    <div className="text-lg font-bold text-yellow-500">
+                      {wishlist.length}
+                    </div>
                     <div className="text-xs text-gray-400">Избранное</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-lg font-bold text-blue-500">{cart.length}</div>
+                    <div className="text-lg font-bold text-blue-500">
+                      {cart.length}
+                    </div>
                     <div className="text-xs text-gray-400">В корзине</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-lg font-bold text-green-500">{user.orders?.length || 0}</div>
+                    <div className="text-lg font-bold text-green-500">
+                      {user.orders?.length || 0}
+                    </div>
                     <div className="text-xs text-gray-400">Заказов</div>
                   </div>
                 </div>
@@ -153,21 +172,37 @@ export default function UserProfile({ isOpen, onClose }) {
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm text-gray-400 mb-1">Имя</label>
-                    <p className="text-white bg-gray-800/50 px-3 py-2 rounded-lg border border-gray-700/50">{user.name}</p>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-gray-400 mb-1">Email</label>
-                    <p className="text-white bg-gray-800/50 px-3 py-2 rounded-lg border border-gray-700/50">{user.email}</p>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-gray-400 mb-1">Телефон</label>
-                    <p className="text-white bg-gray-800/50 px-3 py-2 rounded-lg border border-gray-700/50">{user.phone || 'Не указан'}</p>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-gray-400 mb-1">Дата регистрации</label>
+                    <label className="block text-sm text-gray-400 mb-1">
+                      Имя
+                    </label>
                     <p className="text-white bg-gray-800/50 px-3 py-2 rounded-lg border border-gray-700/50">
-                      {new Date(user.createdAt || Date.now()).toLocaleDateString('ru-RU')}
+                      {user.name}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">
+                      Email
+                    </label>
+                    <p className="text-white bg-gray-800/50 px-3 py-2 rounded-lg border border-gray-700/50">
+                      {user.email}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">
+                      Телефон
+                    </label>
+                    <p className="text-white bg-gray-800/50 px-3 py-2 rounded-lg border border-gray-700/50">
+                      {user.phone || 'Не указан'}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-400 mb-1">
+                      Дата регистрации
+                    </label>
+                    <p className="text-white bg-gray-800/50 px-3 py-2 rounded-lg border border-gray-700/50">
+                      {new Date(
+                        user.createdAt || Date.now()
+                      ).toLocaleDateString('ru-RU')}
                     </p>
                   </div>
                 </div>
@@ -175,14 +210,18 @@ export default function UserProfile({ isOpen, onClose }) {
 
               {/* Recent Activity */}
               <div>
-                <h3 className="text-lg font-semibold text-white mb-4">Недавняя активность</h3>
+                <h3 className="text-lg font-semibold text-white mb-4">
+                  Недавняя активность
+                </h3>
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3 bg-gray-800/30 rounded-lg p-3">
                     <div className="w-8 h-8 bg-yellow-500/20 rounded-full flex items-center justify-center">
                       <Heart size={16} className="text-yellow-500" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-white text-sm">Добавлено в избранное</p>
+                      <p className="text-white text-sm">
+                        Добавлено в избранное
+                      </p>
                       <p className="text-gray-400 text-xs">2 часа назад</p>
                     </div>
                   </div>
@@ -223,20 +262,35 @@ export default function UserProfile({ isOpen, onClose }) {
                     >
                       <div className="flex justify-between items-start mb-3">
                         <div>
-                          <span className="text-white font-medium">Заказ #{order.id}</span>
+                          <span className="text-white font-medium">
+                            Заказ #{order.id}
+                          </span>
                           <p className="text-gray-400 text-sm">
-                            {new Date(order.date).toLocaleDateString('ru-RU')} в {new Date(order.date).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}
+                            {new Date(order.date).toLocaleDateString('ru-RU')} в{' '}
+                            {new Date(order.date).toLocaleTimeString('ru-RU', {
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })}
                           </p>
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          order.status === 'completed' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
-                          order.status === 'processing' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
-                          order.status === 'shipped' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30' :
-                          'bg-gray-500/20 text-gray-400 border border-gray-500/30'
-                        }`}>
-                          {order.status === 'completed' ? 'Выполнен' :
-                           order.status === 'processing' ? 'В обработке' :
-                           order.status === 'shipped' ? 'Отправлен' : 'Ожидает'}
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-medium ${
+                            order.status === 'completed'
+                              ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                              : order.status === 'processing'
+                                ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                                : order.status === 'shipped'
+                                  ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                                  : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+                          }`}
+                        >
+                          {order.status === 'completed'
+                            ? 'Выполнен'
+                            : order.status === 'processing'
+                              ? 'В обработке'
+                              : order.status === 'shipped'
+                                ? 'Отправлен'
+                                : 'Ожидает'}
                         </span>
                       </div>
 
@@ -252,7 +306,9 @@ export default function UserProfile({ isOpen, onClose }) {
                       {order.items && (
                         <div className="mt-3 pt-3 border-t border-gray-700/50">
                           <p className="text-gray-400 text-sm">
-                            {order.items.length} товар{order.items.length !== 1 ? 'а' : ''} • Доставка: {order.delivery || 'Стандартная'}
+                            {order.items.length} товар
+                            {order.items.length !== 1 ? 'а' : ''} • Доставка:{' '}
+                            {order.delivery || 'Стандартная'}
                           </p>
                         </div>
                       )}
@@ -264,7 +320,9 @@ export default function UserProfile({ isOpen, onClose }) {
                   <div className="w-20 h-20 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                     <ShoppingBag size={32} className="text-blue-500/60" />
                   </div>
-                  <h4 className="text-white font-medium text-lg mb-2">У вас пока нет заказов</h4>
+                  <h4 className="text-white font-medium text-lg mb-2">
+                    У вас пока нет заказов
+                  </h4>
                   <p className="text-gray-400 mb-6 max-w-sm mx-auto">
                     Ваши будущие заказы будут отображаться здесь
                   </p>
@@ -283,7 +341,9 @@ export default function UserProfile({ isOpen, onClose }) {
           {activeTab === 'wishlist' && (
             <div className="space-y-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-white">Избранные товары</h3>
+                <h3 className="text-lg font-semibold text-white">
+                  Избранные товары
+                </h3>
                 <span className="text-sm text-gray-400 bg-gray-800/50 px-3 py-1 rounded-full">
                   {wishlist.length} товаров
                 </span>
@@ -302,7 +362,9 @@ export default function UserProfile({ isOpen, onClose }) {
                       <div className="flex items-start space-x-4">
                         {/* Product Image */}
                         <div className="w-16 h-16 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <span className="text-2xl">{product.icon || '💊'}</span>
+                          <span className="text-2xl">
+                            {product.icon || '💊'}
+                          </span>
                         </div>
 
                         {/* Product Info */}
@@ -357,7 +419,9 @@ export default function UserProfile({ isOpen, onClose }) {
                             </button>
 
                             <button
-                              onClick={() => handleRemoveFromWishlist(product.id)}
+                              onClick={() =>
+                                handleRemoveFromWishlist(product.id)
+                              }
                               className="p-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 hover:text-red-300 rounded-lg transition-all duration-200"
                               title="Удалить из избранного"
                             >
@@ -374,9 +438,12 @@ export default function UserProfile({ isOpen, onClose }) {
                   <div className="w-20 h-20 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Heart size={32} className="text-yellow-500/60" />
                   </div>
-                  <h4 className="text-white font-medium text-lg mb-2">Ваш список избранного пуст</h4>
+                  <h4 className="text-white font-medium text-lg mb-2">
+                    Ваш список избранного пуст
+                  </h4>
                   <p className="text-gray-400 mb-6 max-w-sm mx-auto">
-                    Добавляйте товары в избранное, чтобы быстро находить их позже
+                    Добавляйте товары в избранное, чтобы быстро находить их
+                    позже
                   </p>
                   <Link
                     href="/#catalog"
@@ -391,17 +458,27 @@ export default function UserProfile({ isOpen, onClose }) {
               {/* Wishlist Stats */}
               {wishlist.length > 0 && (
                 <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700/30">
-                  <h4 className="text-white font-medium mb-3">Статистика избранного</h4>
+                  <h4 className="text-white font-medium mb-3">
+                    Статистика избранного
+                  </h4>
                   <div className="grid grid-cols-2 gap-4 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-yellow-500">{wishlist.length}</div>
+                      <div className="text-2xl font-bold text-yellow-500">
+                        {wishlist.length}
+                      </div>
                       <div className="text-xs text-gray-400">Всего товаров</div>
                     </div>
                     <div>
                       <div className="text-2xl font-bold text-green-500">
-                        {wishlist.reduce((sum, item) => sum + (item.price || 0), 0)}₽
+                        {wishlist.reduce(
+                          (sum, item) => sum + (item.price || 0),
+                          0
+                        )}
+                        ₽
                       </div>
-                      <div className="text-xs text-gray-400">Общая стоимость</div>
+                      <div className="text-xs text-gray-400">
+                        Общая стоимость
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -413,7 +490,9 @@ export default function UserProfile({ isOpen, onClose }) {
             <div className="space-y-6">
               <div className="flex items-center space-x-2 mb-6">
                 <Settings size={20} />
-                <h3 className="text-lg font-semibold text-white">Настройки аккаунта</h3>
+                <h3 className="text-lg font-semibold text-white">
+                  Настройки аккаунта
+                </h3>
               </div>
 
               {/* Notification Settings */}
@@ -425,30 +504,53 @@ export default function UserProfile({ isOpen, onClose }) {
                 <div className="space-y-4">
                   <label className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                     <div className="flex items-center space-x-3">
-                      <input type="checkbox" className="rounded border-gray-600" defaultChecked />
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-600"
+                        defaultChecked
+                      />
                       <div>
-                        <span className="text-white text-sm font-medium">Email уведомления о заказах</span>
-                        <p className="text-gray-400 text-xs">Получайте информацию о статусе ваших заказов</p>
+                        <span className="text-white text-sm font-medium">
+                          Email уведомления о заказах
+                        </span>
+                        <p className="text-gray-400 text-xs">
+                          Получайте информацию о статусе ваших заказов
+                        </p>
                       </div>
                     </div>
                   </label>
 
                   <label className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                     <div className="flex items-center space-x-3">
-                      <input type="checkbox" className="rounded border-gray-600" defaultChecked />
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-600"
+                        defaultChecked
+                      />
                       <div>
-                        <span className="text-white text-sm font-medium">Уведомления о скидках</span>
-                        <p className="text-gray-400 text-xs">Будьте в курсе специальных предложений</p>
+                        <span className="text-white text-sm font-medium">
+                          Уведомления о скидках
+                        </span>
+                        <p className="text-gray-400 text-xs">
+                          Будьте в курсе специальных предложений
+                        </p>
                       </div>
                     </div>
                   </label>
 
                   <label className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                     <div className="flex items-center space-x-3">
-                      <input type="checkbox" className="rounded border-gray-600" />
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-600"
+                      />
                       <div>
-                        <span className="text-white text-sm font-medium">Push уведомления</span>
-                        <p className="text-gray-400 text-xs">Получайте уведомления в браузере</p>
+                        <span className="text-white text-sm font-medium">
+                          Push уведомления
+                        </span>
+                        <p className="text-gray-400 text-xs">
+                          Получайте уведомления в браузере
+                        </p>
                       </div>
                     </div>
                   </label>
@@ -464,20 +566,35 @@ export default function UserProfile({ isOpen, onClose }) {
                 <div className="space-y-4">
                   <label className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                     <div className="flex items-center space-x-3">
-                      <input type="checkbox" className="rounded border-gray-600" defaultChecked />
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-600"
+                        defaultChecked
+                      />
                       <div>
-                        <span className="text-white text-sm font-medium">Показывать профиль</span>
-                        <p className="text-gray-400 text-xs">Разрешить другим видеть ваш профиль</p>
+                        <span className="text-white text-sm font-medium">
+                          Показывать профиль
+                        </span>
+                        <p className="text-gray-400 text-xs">
+                          Разрешить другим видеть ваш профиль
+                        </p>
                       </div>
                     </div>
                   </label>
 
                   <label className="flex items-center justify-between p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800/70 transition-colors">
                     <div className="flex items-center space-x-3">
-                      <input type="checkbox" className="rounded border-gray-600" />
+                      <input
+                        type="checkbox"
+                        className="rounded border-gray-600"
+                      />
                       <div>
-                        <span className="text-white text-sm font-medium">Аналитика использования</span>
-                        <p className="text-gray-400 text-xs">Помогите улучшить сервис</p>
+                        <span className="text-white text-sm font-medium">
+                          Аналитика использования
+                        </span>
+                        <p className="text-gray-400 text-xs">
+                          Помогите улучшить сервис
+                        </p>
                       </div>
                     </div>
                   </label>
