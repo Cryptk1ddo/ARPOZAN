@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react'
+import PaymentIcons from './PaymentIcons'
 
 export default function Footer() {
   return (
@@ -119,6 +120,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 mt-8 pt-8">
+          <PaymentIcons size="small" className="mb-6" />
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
               © 2025 ARPOZAN. Все права защищены.

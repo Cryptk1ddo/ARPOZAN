@@ -5,10 +5,13 @@ import Layout from '../components/Layout'
 import Carousel from '../components/Carousel'
 import StickyCTA from '../components/StickyCTA'
 import PaymentIcons from '../components/PaymentIcons'
+import LuxuryFAQ from '../components/LuxuryFAQ'
 import { useCart } from '../lib/CartContext'
+import { useWishlist } from '../lib/WishlistContext'
 import { useToast } from '../lib/ToastContext'
 import { animations } from '../lib/gsapUtils'
 import { utils } from '../lib/lodashUtils'
+import { Heart } from 'lucide-react'
 import gsap from 'gsap'
 
 export default function YohimbinNew() {
@@ -23,6 +26,7 @@ export default function YohimbinNew() {
   const benefitsRef = useRef([])
   const componentsRef = useRef([])
   const { addToCart } = useCart()
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist()
   const { push } = useToast()
 
   const images = [
@@ -61,6 +65,33 @@ export default function YohimbinNew() {
         'Улучшенный кровоток обеспечивает лучшее питание тканей и более эффективное выведение продуктов метаболизма. Это создает оптимальные условия для процессов жиросжигания и восстановления.',
     },
   }
+
+  const faqData = [
+    {
+      question: 'Как йохимбин помогает сжигать жир?',
+      answer: 'Йохимбин блокирует альфа-2 адренорецепторы и стимулирует выработку норадреналина, что ускоряет метаболизм и способствует активному жиросжиганию, особенно в "упорных" зонах как живот и бедра.'
+    },
+    {
+      question: 'Безопасен ли йохимбин для здоровья?',
+      answer: 'При соблюдении рекомендуемых дозировок йохимбин безопасен. Однако не рекомендуется людям с заболеваниями сердца, повышенным давлением или тревожными расстройствами. Обязательно проконсультируйтесь с врачом.'
+    },
+    {
+      question: 'Когда лучше принимать йохимбин?',
+      answer: 'Йохимбин лучше всего принимать утром натощак, за 15-30 минут до кардиотренировки. Избегайте приема поздно вечером, так как это может нарушить сон из-за стимулирующего эффекта.'
+    },
+    {
+      question: 'Можно ли совмещать йохимбин с кофеином?',
+      answer: 'Совмещение с кофеином возможно, но требует осторожности. Начинайте с меньших доз, так как оба вещества стимулируют нервную систему. Не превышайте общую суточную дозу стимуляторов.'
+    },
+    {
+      question: 'Есть ли побочные эффекты у йохимбина?',
+      answer: 'Возможны тревожность, учащенное сердцебиение, повышение давления, потливость. Эти эффекты обычно проходят при снижении дозы. При серьезных побочных эффектах прекратите прием.'
+    },
+    {
+      question: 'Через сколько заметен эффект жиросжигания?',
+      answer: 'Эффект жиросжигания становится заметен через 2-4 недели регулярного приема в сочетании с правильным питанием и тренировками. Максимальный эффект достигается через 6-8 недель.'
+    }
+  ]
 
   // Particles animation
   useEffect(() => {
@@ -190,6 +221,33 @@ export default function YohimbinNew() {
         duration: 0.3,
         ease: 'back.out(1.7)',
       })
+    }
+  }
+
+  const handleWishlistToggle = () => {
+    const product = {
+      id: 'yohimbin-new',
+      name: 'Йохимбин Premium',
+      price: 2990,
+      image: '/assets/imgs/Yohimbin 1.png',
+      href: '/Yohimbin'
+    }
+
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id)
+      push('💔 Товар удален из избранного')
+    } else {
+      addToWishlist(product)
+      push('❤️ Товар добавлен в избранное!')
+    }
+
+    // GSAP animation for wishlist button
+    const wishlistBtn = document.querySelector('.wishlist-btn')
+    if (wishlistBtn) {
+      const tl = gsap.timeline()
+      tl.to(wishlistBtn, { scale: 0.8, duration: 0.1 })
+        .to(wishlistBtn, { scale: 1.1, duration: 0.2 })
+        .to(wishlistBtn, { scale: 1, duration: 0.1 })
     }
   }
 
@@ -612,15 +670,32 @@ export default function YohimbinNew() {
                       </div>
                     </fieldset>
 
-                    <div className="flex flex-col sm:flex-row sm:items-end gap-4">
+                    <div className="flex items-center gap-3">
                       <button
                         type="button"
                         onClick={handleAddToCart}
-                        className="w-full glow-button font-bold px-4 sm:px-6 py-3 sm:py-0 rounded-lg text-base sm:text-lg shadow-lg h-10 sm:h-12 flex-grow flex items-center justify-center"
+                        className="flex-1 glow-button font-bold px-4 sm:px-6 py-3 sm:py-0 rounded-lg text-base sm:text-lg shadow-lg h-10 sm:h-12 flex items-center justify-center"
                       >
                         <span className="whitespace-nowrap">
                           Добавить в корзину
                         </span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleWishlistToggle}
+                        className={`wishlist-btn w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 ${
+                          isInWishlist('yohimbin-new')
+                            ? 'bg-red-500/20 border-red-500 text-red-500 hover:bg-red-500/30'
+                            : 'bg-white/10 border-white/30 text-gray-400 hover:border-white/50 hover:text-white'
+                        }`}
+                        title={isInWishlist('yohimbin-new') ? 'Удалить из избранного' : 'Добавить в избранное'}
+                      >
+                        <Heart 
+                          size={20} 
+                          className={`transition-all duration-300 ${
+                            isInWishlist('yohimbin-new') ? 'fill-current' : ''
+                          }`}
+                        />
                       </button>
                     </div>
                   </form>
@@ -922,81 +997,12 @@ export default function YohimbinNew() {
               </div>
             </section>
 
-            <section
-              id="faq"
-              className="grid grid-cols-12 gap-x-6 py-16 md:py-24"
-            >
-              <div className="col-span-12 md:col-span-4">
-                <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">
-                  Частые
-                  <br />
-                  вопросы
-                </h2>
-              </div>
-              <div className="col-span-12 md:col-span-8 mt-8 md:mt-0">
-                <div className="space-y-4">
-                  <details className="glass-card rounded-lg p-4">
-                    <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
-                      Есть ли противопоказания?
-                      <span className="text-2xl font-normal text-amber-400">
-                        +
-                      </span>
-                    </summary>
-                    <div className="mt-3 text-gray-400">
-                      <p>
-                        Не рекомендуется принимать при индивидуальной
-                        непереносимости компонентов. Перед применением
-                        рекомендуется проконсультироваться с врачом.
-                      </p>
-                    </div>
-                  </details>
-                  <details className="glass-card rounded-lg p-4">
-                    <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
-                      Как долго длится курс?
-                      <span className="text-2xl font-normal text-amber-400">
-                        +
-                      </span>
-                    </summary>
-                    <div className="mt-3 text-gray-400">
-                      <p>
-                        Рекомендуемый курс - 2-3 месяца. Можно принимать на
-                        постоянной основе с небольшими перерывами.
-                      </p>
-                    </div>
-                  </details>
-                  <details className="glass-card rounded-lg p-4">
-                    <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
-                      Можно ли совмещать с другими жиросжигателями?
-                      <span className="text-2xl font-normal text-amber-400">
-                        +
-                      </span>
-                    </summary>
-                    <div className="mt-3 text-gray-400">
-                      <p>
-                        Да, йохимбин хорошо сочетается с кофеином, зеленым чаем
-                        и L-карнитином. Однако, для составления индивидуальной
-                        схемы лучше проконсультироваться со специалистом.
-                      </p>
-                    </div>
-                  </details>
-                  <details className="glass-card rounded-lg p-4">
-                    <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
-                      Когда я увижу эффект?
-                      <span className="text-2xl font-normal text-amber-400">
-                        +
-                      </span>
-                    </summary>
-                    <div className="mt-3 text-gray-400">
-                      <p>
-                        Первые результаты обычно заметны через 2-4 недели
-                        регулярного приёма. Максимальный эффект достигается
-                        через 8-12 недель.
-                      </p>
-                    </div>
-                  </details>
-                </div>
-              </div>
-            </section>
+            <LuxuryFAQ 
+              faqs={faqData}
+              title="Частые вопросы"
+              variant="split"
+              theme="dark"
+            />
           </div>
         </main>
 

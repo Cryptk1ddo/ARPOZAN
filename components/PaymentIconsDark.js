@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-export default function PaymentIcons({ size = 'default', className = '', theme = 'dark' }) {
+export default function PaymentIconsDark({ size = 'default', className = '' }) {
   const iconSize = size === 'small' 
     ? { width: 40, height: 26 } 
     : size === 'large' 
@@ -35,12 +35,6 @@ export default function PaymentIcons({ size = 'default', className = '', theme =
     }
   ]
 
-  const containerClass = theme === 'dark' 
-    ? "flex items-center justify-center rounded-lg p-1 hover:scale-105 transition-all duration-200"
-    : "flex items-center justify-center rounded-lg p-1 hover:scale-105 transition-all duration-200"
-
-  const iconContainerClass = theme === 'dark' ? "bg-white rounded p-0.5" : ""
-
   return (
     <div className={`flex items-center justify-center space-x-3 mt-4 ${className}`}>
       <div className="flex items-center space-x-2 text-gray-400 text-sm">
@@ -50,9 +44,9 @@ export default function PaymentIcons({ size = 'default', className = '', theme =
         {paymentMethods.map((method) => (
           <div
             key={method.name}
-            className={containerClass}
+            className="flex items-center justify-center rounded-lg p-1 hover:scale-105 transition-all duration-200"
           >
-            <div className={iconContainerClass}>
+            <div className="bg-white rounded p-0.5">
               <Image
                 src={method.src}
                 alt={method.alt}

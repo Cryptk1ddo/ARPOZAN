@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Layout from '../components/Layout'
+import LuxuryFAQ from '../components/LuxuryFAQ'
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -12,13 +13,13 @@ import { ArrowLeft, X, ChevronRight, RotateCcw } from 'lucide-react'
 import NewsletterSignup from '../components/NewsletterSignup'
 import LoadingSpinner from '../components/LoadingSpinner'
 import TestimonialsCarousel from '../components/TestimonialsCarousel'
+import PaymentIcons from '../components/PaymentIcons'
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLeadModalOpen, setIsLeadModalOpen] = useState(false)
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false)
   const [isSubscription, setIsSubscription] = useState(false)
-  const [openFaqs, setOpenFaqs] = useState(new Set())
   const [quizStep, setQuizStep] = useState(1)
   const [quizAnswers, setQuizAnswers] = useState({})
   const [quizRecommendation, setQuizRecommendation] = useState(null)
@@ -152,16 +153,6 @@ export default function Home() {
     return () => clearTimeout(timer)
   }, [])
 
-  const toggleFaq = (index) => {
-    const newOpenFaqs = new Set(openFaqs)
-    if (newOpenFaqs.has(index)) {
-      newOpenFaqs.delete(index)
-    } else {
-      newOpenFaqs.add(index)
-    }
-    setOpenFaqs(newOpenFaqs)
-  }
-
   const handleOrderClick = () => {
     // Smooth scroll to catalog section
     const catalogSection = document.getElementById('catalog')
@@ -216,22 +207,22 @@ export default function Home() {
         {
           id: 'energy',
           text: '💪 Повысить энергию и выносливость',
-          points: { yohimbe: 3, maca: 2, tongkat: 2, zinc: 1 },
+          points: { yohimbe: 3, maca: 2, tongkat: 2, zinc: 1, ultimate: 3 },
         },
         {
           id: 'testosterone',
           text: '🔥 Увеличить тестостерон',
-          points: { tongkat: 3, zinc: 3, yohimbe: 1, maca: 1 },
+          points: { tongkat: 3, zinc: 3, yohimbe: 1, maca: 1, ultimate: 3 },
         },
         {
           id: 'libido',
           text: '❤️ Улучшить либидо и сексуальное здоровье',
-          points: { maca: 3, tongkat: 2, zinc: 2, yohimbe: 1 },
+          points: { maca: 3, tongkat: 2, zinc: 2, yohimbe: 1, ultimate: 3 },
         },
         {
           id: 'focus',
           text: '🧠 Повысить концентрацию и фокус',
-          points: { yohimbe: 3, zinc: 2, tongkat: 1, maca: 1 },
+          points: { yohimbe: 3, zinc: 2, tongkat: 1, maca: 1, ultimate: 2 },
         },
       ],
     },
@@ -242,22 +233,22 @@ export default function Home() {
         {
           id: 'young',
           text: '18-25 лет',
-          points: { zinc: 3, maca: 2, yohimbe: 2, tongkat: 1 },
+          points: { zinc: 3, maca: 2, yohimbe: 2, tongkat: 1, ultimate: 2 },
         },
         {
           id: 'adult',
           text: '26-35 лет',
-          points: { tongkat: 2, zinc: 2, maca: 2, yohimbe: 2 },
+          points: { tongkat: 2, zinc: 2, maca: 2, yohimbe: 2, ultimate: 3 },
         },
         {
           id: 'mature',
           text: '36-45 лет',
-          points: { tongkat: 3, zinc: 3, maca: 2, yohimbe: 1 },
+          points: { tongkat: 3, zinc: 3, maca: 2, yohimbe: 1, ultimate: 4 },
         },
         {
           id: 'senior',
           text: '45+ лет',
-          points: { tongkat: 3, zinc: 3, maca: 3, yohimbe: 1 },
+          points: { tongkat: 3, zinc: 3, maca: 3, yohimbe: 1, ultimate: 5 },
         },
       ],
     },
@@ -268,22 +259,22 @@ export default function Home() {
         {
           id: 'low',
           text: '🪑 Низкий (сидячий образ жизни)',
-          points: { zinc: 3, maca: 2, tongkat: 2, yohimbe: 1 },
+          points: { zinc: 3, maca: 2, tongkat: 2, yohimbe: 1, ultimate: 3 },
         },
         {
           id: 'moderate',
           text: '🚶 Умеренный (2-3 раза в неделю)',
-          points: { tongkat: 2, zinc: 2, maca: 2, yohimbe: 2 },
+          points: { tongkat: 2, zinc: 2, maca: 2, yohimbe: 2, ultimate: 3 },
         },
         {
           id: 'high',
           text: '🏃 Высокий (4-5 раз в неделю)',
-          points: { yohimbe: 3, tongkat: 3, zinc: 2, maca: 1 },
+          points: { yohimbe: 3, tongkat: 3, zinc: 2, maca: 1, ultimate: 4 },
         },
         {
           id: 'athlete',
           text: '💪 Профессиональный спорт',
-          points: { yohimbe: 3, tongkat: 3, zinc: 3, maca: 2 },
+          points: { yohimbe: 3, tongkat: 3, zinc: 3, maca: 2, ultimate: 5 },
         },
       ],
     },
@@ -294,22 +285,22 @@ export default function Home() {
         {
           id: 'fatigue',
           text: '😴 Усталость и низкая энергия',
-          points: { yohimbe: 3, maca: 2, tongkat: 2, zinc: 2 },
+          points: { yohimbe: 3, maca: 2, tongkat: 2, zinc: 2, ultimate: 4 },
         },
         {
           id: 'stress',
           text: '😰 Стресс и тревожность',
-          points: { zinc: 3, maca: 2, tongkat: 2, yohimbe: 1 },
+          points: { zinc: 3, maca: 2, tongkat: 2, yohimbe: 1, ultimate: 3 },
         },
         {
           id: 'performance',
           text: '📉 Снижение физической работоспособности',
-          points: { tongkat: 3, yohimbe: 3, zinc: 2, maca: 1 },
+          points: { tongkat: 3, yohimbe: 3, zinc: 2, maca: 1, ultimate: 4 },
         },
         {
           id: 'recovery',
           text: '🔄 Медленное восстановление',
-          points: { zinc: 3, tongkat: 2, maca: 2, yohimbe: 2 },
+          points: { zinc: 3, tongkat: 2, maca: 2, yohimbe: 2, ultimate: 4 },
         },
       ],
     },
@@ -320,17 +311,17 @@ export default function Home() {
         {
           id: 'budget',
           text: '💰 До 2000₽',
-          points: { zinc: 3, maca: 3, tongkat: 0, yohimbe: 0 },
+          points: { zinc: 3, maca: 3, tongkat: 0, yohimbe: 0, ultimate: 0 },
         },
         {
           id: 'mid',
           text: '💳 2000-3000₽',
-          points: { zinc: 2, maca: 2, tongkat: 3, yohimbe: 3 },
+          points: { zinc: 2, maca: 2, tongkat: 3, yohimbe: 3, ultimate: 1 },
         },
         {
           id: 'premium',
           text: '💎 Без ограничений (хочу лучшее)',
-          points: { tongkat: 3, yohimbe: 3, zinc: 2, maca: 2 },
+          points: { tongkat: 3, yohimbe: 3, zinc: 2, maca: 2, ultimate: 6 },
         },
       ],
     },
@@ -397,6 +388,21 @@ export default function Home() {
       href: '/Yohimbin',
       bgGradient: 'from-green-600/20 to-emerald-600/20',
     },
+    ultimate: {
+      id: 'ultimate',
+      name: 'ULTIMATE MEN\'S PACK',
+      price: 7990,
+      description: 'Комплексное решение для максимального результата во всех сферах мужского здоровья',
+      benefits: [
+        'Все продукты в одном пакете',
+        'Синергетический эффект',
+        'Максимальная эффективность',
+        'Экономия до 2000₽',
+      ],
+      image: '/assets/imgs/Ultimate Pack.png',
+      href: '#ultimate-pack',
+      bgGradient: 'from-white/30 to-white/10',
+    },
   }
 
   const handleQuizAnswer = (questionId, optionId) => {
@@ -458,7 +464,7 @@ export default function Home() {
   }
 
   const calculateRecommendation = (answers) => {
-    const scores = { zinc: 0, maca: 0, tongkat: 0, yohimbe: 0 }
+    const scores = { zinc: 0, maca: 0, tongkat: 0, yohimbe: 0, ultimate: 0 }
 
     Object.values(answers).forEach((answer) => {
       Object.entries(answer.points).forEach(([product, points]) => {
@@ -466,10 +472,10 @@ export default function Home() {
       })
     })
 
-    // Find top 2 products
-    const sortedProducts = Object.entries(scores)
+    // Find top 3 products including Ultimate Pack
+    let sortedProducts = Object.entries(scores)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 2)
+      .slice(0, 3)
       .map(([productId]) => products[productId])
 
     setQuizRecommendation(sortedProducts)
@@ -484,20 +490,29 @@ export default function Home() {
 
   const faqs = [
     {
-      question: "Чем ULTIMATE MEN'S PACK лучше?",
-      answer:
-        'Комплекс обеспечивает синергетический эффект — компоненты усиливают действие друг друга.',
+      question: "Чем ULTIMATE MEN'S PACK лучше отдельных добавок?",
+      answer: 'Комплекс обеспечивает синергетический эффект — компоненты усиливают действие друг друга. Йохимбин улучшает кровообращение, тонгкат али повышает тестостерон, мака увеличивает энергию, а цинк поддерживает все системы организма.'
     },
     {
       question: 'Нужно ли делать перерыв в приеме?',
-      answer:
-        'Мы рекомендуем принимать продукты курсами по 2-3 месяца с перерывом в 1 месяц.',
+      answer: 'Мы рекомендуем принимать продукты курсами по 2-3 месяца с перерывом в 1 месяц. Это позволяет избежать привыкания и поддерживать максимальную эффективность добавок.'
     },
     {
       question: 'Есть ли противопоказания?',
-      answer:
-        'Не рекомендуется лицам до 18 лет. Перед применением проконсультируйтесь со специалистом.',
+      answer: 'Не рекомендуется лицам до 18 лет, при заболеваниях сердца, повышенном давлении, тревожных расстройствах. Перед применением обязательно проконсультируйтесь со специалистом.'
     },
+    {
+      question: 'Можно ли принимать добавки по отдельности?',
+      answer: 'Да, каждый продукт эффективен и по отдельности. Однако максимальный результат достигается при комплексном приеме, когда компоненты работают синергично и усиливают эффект друг друга.'
+    },
+    {
+      question: 'Через сколько времени будет заметен результат?',
+      answer: 'Первые изменения в энергии и самочувствии заметны через 1-2 недели. Полный эффект на либидо, тестостерон и физическую форму проявляется через 4-6 недель регулярного приема.'
+    },
+    {
+      question: 'Безопасно ли принимать все добавки одновременно?',
+      answer: 'При соблюдении рекомендуемых дозировок комплексный прием безопасен. Все наши продукты протестированы и соответствуют международным стандартам качества. Начинайте с минимальных доз.'
+    }
   ]
 
   return (
@@ -604,7 +619,7 @@ export default function Home() {
                   handleOrderClick()
                   setIsMenuOpen(false)
                 }}
-                className="mobile-link glow-button text-black font-bold uppercase px-8 py-3 rounded-lg text-lg tracking-wider order-btn"
+                className="mobile-link glow-button text-black font-bold uppercase px-8 py-3 rounded-lg text-base sm:text-lg tracking-wider order-btn min-h-[48px] touch-manipulation"
               >
                 Заказать
               </button>
@@ -639,18 +654,18 @@ export default function Home() {
                       Более 10,000+ довольных клиентов
                     </p>
                   </div>
-                  <h1 className="text-4xl md:text-7xl font-black uppercase tracking-tighter text-white mb-6">
+                  <h1 className="text-3xl sm:text-4xl md:text-7xl font-black uppercase tracking-tighter text-white mb-4 sm:mb-6 leading-tight">
                     Твоя энергия —{' '}
                     <span className="gradient-text">твой капитал</span>
                   </h1>
-                  <p className="text-lg text-gray-400 max-w-lg mb-8">
+                  <p className="text-base sm:text-lg text-gray-400 max-w-lg mb-6 sm:mb-8 leading-relaxed">
                     Разработано экспертами-нутрициологами для обеспечения вас
                     всеми необходимыми питательными веществами в течение дня.
                   </p>
-                  <div className="flex flex-col sm:flex-row items-start gap-4">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-4">
                     <button
                       onClick={handleOrderClick}
-                      className="glow-button w-full sm:w-auto text-black font-bold text-base uppercase px-10 py-4 rounded-lg tracking-wider order-btn"
+                      className="glow-button w-full sm:w-auto text-black font-bold text-sm sm:text-base uppercase px-8 sm:px-10 py-4 rounded-lg tracking-wider order-btn min-h-[48px] touch-manipulation"
                     >
                       Купить ARPOZAN
                     </button>
@@ -659,20 +674,20 @@ export default function Home() {
                         resetQuiz()
                         setIsQuizModalOpen(true)
                       }}
-                      className="w-full sm:w-auto bg-transparent border border-white/30 text-white font-bold text-base uppercase px-10 py-4 rounded-lg tracking-wider hover:bg-white/10 transition-colors"
+                      className="w-full sm:w-auto bg-transparent border border-white/30 text-white font-bold text-sm sm:text-base uppercase px-8 sm:px-10 py-4 rounded-lg tracking-wider hover:bg-white/10 transition-colors min-h-[48px] touch-manipulation"
                     >
                       Подобрать продукт
                     </button>
                   </div>
                 </div>
-                <div className="col-span-12 md:col-span-6 product-image-container flex items-center justify-center mt-12 md:mt-0">
+                <div className="col-span-12 md:col-span-6 product-image-container flex items-center justify-center mt-8 md:mt-0 px-4 md:px-0">
                   <Image
                     id="productImage"
                     src="/assets/imgs/Maka peruvian.png"
                     alt="ARPOZAN Maca - Natural Energy Supplement"
                     width={300}
                     height={600}
-                    className="h-[450px] md:h-[600px] object-contain drop-shadow-2xl"
+                    className="h-[350px] sm:h-[450px] md:h-[600px] object-contain drop-shadow-2xl max-w-full"
                     priority
                     placeholder="blur"
                     blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
@@ -683,50 +698,144 @@ export default function Home() {
               {/* Science Section */}
               <section
                 id="science"
-                className="grid grid-cols-12 gap-x-6 py-16 md:py-24"
+                className="py-16 sm:py-20 md:py-32 reveal px-4 md:px-0"
               >
-                <div className="col-span-12">
-                  <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">
+                {/* Section Header */}
+                <div className="text-center mb-12 sm:mb-16">
+                  <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white font-heading mb-4 tracking-tight">
                     Научный подход{' '}
                     <span className="gradient-text">ARPOZAN</span>
                   </h2>
-                  <p className="text-gray-400 mt-6 max-w-3xl">
+                  <div className="w-24 h-1 bg-gradient-to-r from-white/20 via-white/60 to-white/20 mx-auto mb-6"></div>
+                  <p className="text-lg sm:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
                     Мы отказались от компромиссов. ARPOZAN — это чистые, мощные
                     экстракты в дозировках, подтвержденных исследованиями, для
                     тех, кто требует от жизни большего.
                   </p>
                 </div>
-                <div className="col-span-12 grid grid-cols-12 gap-6 mt-12">
-                  <div className="col-span-12 md:col-span-4">
-                    <div className="glass-card rounded-2xl p-6 h-full">
-                      <h3 className="font-bold text-white text-lg">
+
+                {/* Main Content Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+                  
+                  {/* Lab Tested */}
+                  <div className="glass-card rounded-3xl p-6 sm:p-8 h-full border border-white/10 backdrop-blur-xl group hover:border-white/20 transition-all duration-500">
+                    <div className="flex flex-col h-full">
+                      {/* Icon */}
+                      <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-6 group-hover:bg-white/15 transition-colors duration-300">
+                        <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M9 11H7v8a2 2 0 002 2h2v-2H9v-8zm4-4h2a2 2 0 002-2V3a2 2 0 00-2-2h-2v2h2v2h-2v2zm0 4h2v8a2 2 0 002 2h2v-2h-2v-8h2a2 2 0 002-2V7a2 2 0 00-2-2h-2v2h2v2h-2v2zm-8 0h2V9H5a2 2 0 00-2 2v2a2 2 0 002 2z"/>
+                        </svg>
+                      </div>
+                      
+                      {/* Content */}
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 font-heading">
                         Проверено в лаборатории
                       </h3>
-                      <p className="text-gray-400 mt-2 text-sm">
+                      <p className="text-gray-300 leading-relaxed flex-grow">
                         Каждая партия проходит строгий контроль качества и
-                        чистоты.
+                        чистоты в независимых лабораториях Европы.
                       </p>
+                      
+                      {/* Stats */}
+                      <div className="mt-6 pt-6 border-t border-white/10">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-400">Чистота</span>
+                          <span className="text-white font-bold">99.9%</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-span-12 md:col-span-4">
-                    <div className="glass-card rounded-2xl p-6 h-full">
-                      <h3 className="font-bold text-white text-lg">
+
+                  {/* Natural Ingredients */}
+                  <div className="glass-card rounded-3xl p-6 sm:p-8 h-full border border-white/10 backdrop-blur-xl group hover:border-white/20 transition-all duration-500">
+                    <div className="flex flex-col h-full">
+                      {/* Icon */}
+                      <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-6 group-hover:bg-white/15 transition-colors duration-300">
+                        <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2L6 8v10c0 2.21 1.79 4 4 4h4c2.21 0 4-1.79 4-4V8l-6-6zm0 3.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5S9.5 9.38 9.5 8s1.12-2.5 2.5-2.5zm0 10.5c-2.5 0-4.5-1.5-4.5-3v-1.5c0-.83.67-1.5 1.5-1.5h6c.83 0 1.5.67 1.5 1.5V13c0 1.5-2 3-4.5 3z"/>
+                        </svg>
+                      </div>
+                      
+                      {/* Content */}
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 font-heading">
                         Натуральные ингредиенты
                       </h3>
-                      <p className="text-gray-400 mt-2 text-sm">
+                      <p className="text-gray-300 leading-relaxed flex-grow">
                         Мы используем только силу природы, без синтетических
-                        добавок.
+                        добавок и искусственных наполнителей.
                       </p>
+                      
+                      {/* Stats */}
+                      <div className="mt-6 pt-6 border-t border-white/10">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-400">Природность</span>
+                          <span className="text-white font-bold">100%</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-span-12 md:col-span-4">
-                    <div className="glass-card rounded-2xl p-6 h-full">
-                      <h3 className="font-bold text-white text-lg">
+
+                  {/* Effective Dosages */}
+                  <div className="glass-card rounded-3xl p-6 sm:p-8 h-full border border-white/10 backdrop-blur-xl group hover:border-white/20 transition-all duration-500">
+                    <div className="flex flex-col h-full">
+                      {/* Icon */}
+                      <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-6 group-hover:bg-white/15 transition-colors duration-300">
+                        <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16a6.5 6.5 0 010-13zm0 2C7.01 5 5 7.01 5 9.5S7.01 14 9.5 14 14 11.99 14 9.5 11.99 5 9.5 5z"/>
+                        </svg>
+                      </div>
+                      
+                      {/* Content */}
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 font-heading">
                         Эффективные дозировки
                       </h3>
-                      <p className="text-gray-400 mt-2 text-sm">
-                        Только рабочие дозы для реального результата.
+                      <p className="text-gray-300 leading-relaxed flex-grow">
+                        Только рабочие дозы, подтвержденные клиническими
+                        исследованиями для реального результата.
                       </p>
+                      
+                      {/* Stats */}
+                      <div className="mt-6 pt-6 border-t border-white/10">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-gray-400">Эффективность</span>
+                          <span className="text-white font-bold">Научно доказана</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Section - Research Credentials */}
+                <div className="mt-12 sm:mt-16">
+                  <div className="glass-card rounded-3xl p-6 sm:p-8 border border-white/10 backdrop-blur-xl">
+                    <div className="text-center mb-8">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
+                        Подтверждено исследованиями
+                      </h3>
+                      <p className="text-gray-300 max-w-2xl mx-auto">
+                        Каждый ингредиент в составе ARPOZAN имеет научное обоснование 
+                        и подтвержден клиническими испытаниями.
+                      </p>
+                    </div>
+                    
+                    {/* Research Stats */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                      <div>
+                        <div className="text-2xl sm:text-3xl font-black text-white mb-2">50+</div>
+                        <div className="text-sm text-gray-400">Научных исследований</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl sm:text-3xl font-black text-white mb-2">15</div>
+                        <div className="text-sm text-gray-400">Лет разработки</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl sm:text-3xl font-black text-white mb-2">GMP</div>
+                        <div className="text-sm text-gray-400">Стандарт качества</div>
+                      </div>
+                      <div>
+                        <div className="text-2xl sm:text-3xl font-black text-white mb-2">EU</div>
+                        <div className="text-sm text-gray-400">Сертификация</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -735,119 +844,119 @@ export default function Home() {
               {/* Catalog Section */}
               <section
                 id="catalog"
-                className="grid grid-cols-12 gap-6 py-16 md:py-24 reveal"
+                className="grid grid-cols-12 gap-4 sm:gap-6 py-12 sm:py-16 md:py-24 reveal px-4 md:px-0"
               >
                 <div className="col-span-12">
-                  <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading">
+                  <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-white font-heading">
                     Наша линейка продуктов
                   </h2>
                 </div>
-                <div className="col-span-12 md:col-span-3">
-                  <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
+                <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+                  <div className="glass-card rounded-2xl p-4 sm:p-6 flex flex-col text-center items-center h-full">
                     <Image
                       src="/assets/imgs/Yohimbin 1.png"
                       alt="ARPOZAN Yohimbe - Natural Energy and Focus Supplement"
                       width={160}
                       height={160}
-                      className="h-40 w-40 object-contain mb-4"
+                      className="h-32 sm:h-40 w-32 sm:w-40 object-contain mb-3 sm:mb-4"
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                     />
-                    <h3 className="font-bold text-xl text-white font-heading">
+                    <h3 className="font-bold text-lg sm:text-xl text-white font-heading">
                       ARPOZAN Yohimbe
                     </h3>
-                    <p className="text-gray-400 text-sm my-2 flex-grow">
+                    <p className="text-gray-400 text-xs sm:text-sm my-2 flex-grow leading-relaxed">
                       Адреналиновый заряд для ваших самых амбициозных целей.
                     </p>
-                    <p className="text-2xl font-bold text-white my-4">2990₽</p>
+                    <p className="text-xl sm:text-2xl font-bold text-white my-3 sm:my-4">2990₽</p>
                     <div className="w-full mt-auto">
                       <Link
                         href="/Yohimbin"
-                        className="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1"
+                        className="w-full inline-block text-center bg-white/10 text-white font-bold py-3 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1 text-sm sm:text-base min-h-[44px] touch-manipulation"
                       >
                         Подробнее
                       </Link>
                     </div>
                   </div>
                 </div>
-                <div className="col-span-12 md:col-span-3">
-                  <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
+                <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+                  <div className="glass-card rounded-2xl p-4 sm:p-6 flex flex-col text-center items-center h-full">
                     <Image
                       src="/assets/imgs/Maka peruvian.png"
                       alt="ARPOZAN Maca - Natural Libido and Energy Booster"
                       width={160}
                       height={160}
-                      className="h-40 w-40 object-contain mb-4"
+                      className="h-32 sm:h-40 w-32 sm:w-40 object-contain mb-3 sm:mb-4"
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                     />
-                    <h3 className="font-bold text-xl text-white font-heading">
+                    <h3 className="font-bold text-lg sm:text-xl text-white font-heading">
                       ARPOZAN Maca
                     </h3>
-                    <p className="text-gray-400 text-sm my-2 flex-grow">
+                    <p className="text-gray-400 text-xs sm:text-sm my-2 flex-grow leading-relaxed">
                       Природный бустер либидо и сексуальной энергии.
                     </p>
-                    <p className="text-2xl font-bold text-white my-4">1990₽</p>
+                    <p className="text-xl sm:text-2xl font-bold text-white my-3 sm:my-4">1990₽</p>
                     <div className="w-full mt-auto">
                       <Link
                         href="/maca"
-                        className="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1"
+                        className="w-full inline-block text-center bg-white/10 text-white font-bold py-3 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1 text-sm sm:text-base min-h-[44px] touch-manipulation"
                       >
                         Подробнее
                       </Link>
                     </div>
                   </div>
                 </div>
-                <div className="col-span-12 md:col-span-3">
-                  <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
+                <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+                  <div className="glass-card rounded-2xl p-4 sm:p-6 flex flex-col text-center items-center h-full">
                     <Image
                       src="/assets/imgs/Zink.png"
                       alt="ARPOZAN Zinc - Essential Men's Health Supplement"
                       width={160}
                       height={160}
-                      className="h-40 w-40 object-contain mb-4"
+                      className="h-32 sm:h-40 w-32 sm:w-40 object-contain mb-3 sm:mb-4"
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                     />
-                    <h3 className="font-bold text-xl text-white font-heading">
+                    <h3 className="font-bold text-lg sm:text-xl text-white font-heading">
                       ARPOZAN Zinc
                     </h3>
-                    <p className="text-gray-400 text-sm my-2 flex-grow">
+                    <p className="text-gray-400 text-xs sm:text-sm my-2 flex-grow leading-relaxed">
                       Базовый элемент мужского здоровья и тестостерона.
                     </p>
-                    <p className="text-2xl font-bold text-white my-4">1990₽</p>
+                    <p className="text-xl sm:text-2xl font-bold text-white my-3 sm:my-4">1990₽</p>
                     <div className="w-full mt-auto">
                       <Link
                         href="/zinc"
-                        className="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1"
+                        className="w-full inline-block text-center bg-white/10 text-white font-bold py-3 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1 text-sm sm:text-base min-h-[44px] touch-manipulation"
                       >
                         Подробнее
                       </Link>
                     </div>
                   </div>
                 </div>
-                <div className="col-span-12 md:col-span-3">
-                  <div className="glass-card rounded-2xl p-6 flex flex-col text-center items-center h-full">
+                <div className="col-span-12 sm:col-span-6 lg:col-span-3">
+                  <div className="glass-card rounded-2xl p-4 sm:p-6 flex flex-col text-center items-center h-full">
                     <Image
                       src="/assets/imgs/Tongkat Ali.png"
                       alt="ARPOZAN Tongkat Ali - Natural Testosterone Booster"
                       width={160}
                       height={160}
-                      className="h-40 w-40 object-contain mb-4"
+                      className="h-32 sm:h-40 w-32 sm:w-40 object-contain mb-3 sm:mb-4"
                       placeholder="blur"
                       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
                     />
-                    <h3 className="font-bold text-xl text-white font-heading">
+                    <h3 className="font-bold text-lg sm:text-xl text-white font-heading">
                       ARPOZAN Tongkat Ali
                     </h3>
-                    <p className="text-gray-400 text-sm my-2 flex-grow">
+                    <p className="text-gray-400 text-xs sm:text-sm my-2 flex-grow leading-relaxed">
                       Природный стимулятор тестостерона и мышечного роста.
                     </p>
-                    <p className="text-2xl font-bold text-white my-4">2990₽</p>
+                    <p className="text-xl sm:text-2xl font-bold text-white my-3 sm:my-4">2990₽</p>
                     <div className="w-full mt-auto">
                       <Link
                         href="/Long-jack"
-                        className="w-full inline-block text-center bg-white/10 text-white font-bold py-2 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1"
+                        className="w-full inline-block text-center bg-white/10 text-white font-bold py-3 rounded-lg hover:bg-white/20 transition-transform hover:-translate-y-1 text-sm sm:text-base min-h-[44px] touch-manipulation"
                       >
                         Подробнее
                       </Link>
@@ -856,67 +965,160 @@ export default function Home() {
                 </div>
               </section>
 
-              {/* Pricing Section */}
+              {/* Ultimate Men's Pack Section */}
               <section
                 id="pricing"
-                className="grid grid-cols-12 gap-x-6 py-16 md:py-24 items-center reveal"
+                className="py-16 sm:py-20 md:py-32 reveal px-4 md:px-0"
               >
-                <div className="col-span-12 md:col-span-6">
-                  <Image
-                    src="/assets/imgs/Ultimate Pack.png"
-                    alt="ARPOZAN Ultimate Men's Pack - Complete Natural Health Solution"
-                    width={500}
-                    height={500}
-                    className="rounded-2xl w-full"
-                    placeholder="blur"
-                    blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
-                  />
-                </div>
-                <div className="col-span-12 md:col-span-6 md:pl-12 mt-8 md:mt-0">
-                  <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">
-                    ULTIMATE MEN&apos;S PACK
+                {/* Section Header */}
+                <div className="text-center mb-12 sm:mb-16">
+                  <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white font-heading mb-4 tracking-tight">
+                    ULTIMATE <span className="gradient-text">MEN&apos;S PACK</span>
                   </h2>
-                  <p className="text-gray-400 mt-4 max-w-lg">
-                    Полный набор для максимального синергетического эффекта.
-                    Поддержите гормональную систему, энергию, интимную жизнь и
-                    восстановление.
+                  <div className="w-24 h-1 bg-gradient-to-r from-white/20 via-white/60 to-white/20 mx-auto mb-6"></div>
+                  <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    Премиальный комплекс для мужчин, которые не идут на компромиссы
                   </p>
-                  <div className="flex items-center justify-start space-x-4 my-6">
-                    <span className="text-gray-400 text-sm">
-                      Разовая покупка
-                    </span>
-                    <label className="relative inline-flex items-center cursor-pointer w-16 h-8">
-                      <input
-                        type="checkbox"
-                        checked={isSubscription}
-                        onChange={(e) => setIsSubscription(e.target.checked)}
-                        className="sr-only peer"
-                      />
-                      <div className="w-full h-full bg-gray-600 rounded-full peer-checked:bg-amber-500 transition-colors duration-300"></div>
-                      <div className="absolute top-1 left-1 bg-white w-6 h-6 rounded-full shadow-md transform peer-checked:translate-x-8 toggle-handle"></div>
-                    </label>
-                    <span className="font-semibold gradient-text text-sm">
-                      Подписка (-10%)
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between bg-black/30 rounded-lg p-4">
-                    <div>
-                      <p className="text-gray-500 line-through text-lg">
-                        {originalPrice.toLocaleString('ru-RU')} ₽
-                      </p>
-                      <p className="text-4xl font-bold text-white">
-                        {currentPrice.toLocaleString('ru-RU')} ₽
-                      </p>
-                      <p className="gradient-text font-semibold">
-                        Экономия {savings.toLocaleString('ru-RU')} ₽
-                      </p>
+                </div>
+
+                {/* Main Content */}
+                <div className="glass-card rounded-3xl p-6 sm:p-8 lg:p-12 border border-white/10 backdrop-blur-xl">
+                  <div className="grid grid-cols-12 gap-8 lg:gap-12 items-center">
+                    
+                    {/* Product Image */}
+                    <div className="col-span-12 lg:col-span-5 order-2 lg:order-1">
+                      <div className="relative group">
+                        {/* Decorative elements */}
+                        <div className="absolute -inset-4 bg-gradient-to-r from-white/5 to-white/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="relative">
+                          <Image
+                            src="/assets/imgs/Ultimate Pack.png"
+                            alt="ARPOZAN Ultimate Men's Pack - Complete Natural Health Solution"
+                            width={600}
+                            height={600}
+                            className="w-full max-w-md mx-auto drop-shadow-2xl"
+                            placeholder="blur"
+                            blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+IRjWjBqO6O2mhP//Z"
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <button
-                      onClick={handleOrderClick}
-                      className="glow-button text-black font-bold uppercase px-8 py-4 rounded-lg tracking-wider order-btn"
-                    >
-                      Заказать
-                    </button>
+
+                    {/* Content */}
+                    <div className="col-span-12 lg:col-span-7 order-1 lg:order-2">
+                      
+                      {/* Premium Badge */}
+                      <div className="inline-flex items-center gap-2 bg-white/5 border border-white/20 rounded-full px-4 py-2 mb-6">
+                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                        <span className="text-sm font-medium text-white uppercase tracking-wider">Premium Collection</span>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-base sm:text-lg text-gray-300 mb-8 leading-relaxed">
+                        Синергетическая формула из четырех мощнейших природных адаптогенов. 
+                        Максимальная концентрация активных веществ для достижения пиковой формы.
+                      </p>
+
+                      {/* Benefits Grid */}
+                      <div className="grid grid-cols-2 gap-4 mb-8">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                          <span className="text-sm text-gray-300">Максимальный тестостерон</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                          <span className="text-sm text-gray-300">Взрывная энергия</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                          <span className="text-sm text-gray-300">Мощное либидо</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                            <div className="w-2 h-2 bg-white rounded-full"></div>
+                          </div>
+                          <span className="text-sm text-gray-300">Быстрое восстановление</span>
+                        </div>
+                      </div>
+
+                      {/* Subscription Toggle */}
+                      <div className="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8">
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-4">
+                            <span className="text-gray-400 text-sm">Разовая покупка</span>
+                            <label className="relative inline-flex items-center cursor-pointer w-14 h-7 touch-manipulation">
+                              <input
+                                type="checkbox"
+                                checked={isSubscription}
+                                onChange={(e) => setIsSubscription(e.target.checked)}
+                                className="sr-only peer"
+                              />
+                              <div className="w-full h-full bg-white/20 rounded-full peer-checked:bg-white transition-colors duration-300"></div>
+                              <div className="absolute top-1 left-1 bg-black w-5 h-5 rounded-full shadow-md transform peer-checked:translate-x-7 transition-transform duration-300"></div>
+                            </label>
+                            <span className="font-semibold text-white text-sm">
+                              Подписка <span className="text-gray-400">(-10%)</span>
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Pricing */}
+                        <div className="flex items-end justify-between">
+                          <div>
+                            {isSubscription && (
+                              <p className="text-gray-500 line-through text-lg mb-1">
+                                {originalPrice.toLocaleString('ru-RU')} ₽
+                              </p>
+                            )}
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-4xl sm:text-5xl font-black text-white">
+                                {currentPrice.toLocaleString('ru-RU')}
+                              </span>
+                              <span className="text-xl text-gray-400">₽</span>
+                            </div>
+                            {isSubscription && (
+                              <p className="text-white/80 font-medium text-sm mt-1">
+                                Экономия {savings.toLocaleString('ru-RU')} ₽
+                              </p>
+                            )}
+                          </div>
+                          
+                          <button
+                            onClick={handleOrderClick}
+                            className="glow-button text-black font-bold uppercase px-8 py-4 rounded-xl tracking-wider text-sm min-h-[48px] touch-manipulation hover:scale-105 transition-transform duration-200"
+                          >
+                            Заказать сейчас
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Payment Icons */}
+                      <div className="flex items-center justify-center lg:justify-start">
+                        <PaymentIcons size="default" className="opacity-60" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Trust Indicators */}
+                <div className="grid grid-cols-3 gap-8 mt-12 text-center">
+                  <div>
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-2">10K+</div>
+                    <div className="text-sm text-gray-400">Довольных клиентов</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-2">100%</div>
+                    <div className="text-sm text-gray-400">Натуральные компоненты</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl sm:text-3xl font-bold text-white mb-2">30</div>
+                    <div className="text-sm text-gray-400">Дней гарантии</div>
                   </div>
                 </div>
               </section>
@@ -925,63 +1127,25 @@ export default function Home() {
               <TestimonialsCarousel autoPlay={true} interval={6000} />
 
               {/* FAQ Section */}
-              <section id="faq" className="py-16 md:py-24 col-span-12 reveal">
-                <div className="grid grid-cols-12 gap-x-6">
-                  <div className="col-span-12">
-                    <h2 className="text-3xl md:text-5xl font-bold text-center mb-12 text-white font-heading">
-                      Часто задаваемые вопросы
-                    </h2>
-                  </div>
-                  <div className="col-span-12 max-w-4xl mx-auto">
-                    {faqs.map((faq, index) => (
-                      <div
-                        key={index}
-                        className="glass-card rounded-2xl p-6 mb-4"
-                      >
-                        <button
-                          onClick={() => toggleFaq(index)}
-                          className="w-full text-left flex justify-between items-center"
-                        >
-                          <h3 className="font-bold text-white text-lg">
-                            {faq.question}
-                          </h3>
-                          <svg
-                            className={`w-6 h-6 text-amber-400 transform transition-transform ${openFaqs.has(index) ? 'rotate-180' : ''}`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth="2"
-                              d="M19 9l-7 7-7-7"
-                            ></path>
-                          </svg>
-                        </button>
-                        <div
-                          className={`faq-answer pt-4 ${openFaqs.has(index) ? 'max-h-20' : 'max-h-0'} overflow-hidden transition-max-height duration-500 ease-in-out`}
-                        >
-                          <p className="text-gray-400">{faq.answer}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </section>
+              <LuxuryFAQ 
+                faqs={faqs}
+                title="Часто задаваемые вопросы"
+                variant="default"
+                theme="dark"
+              />
             </div>
           </main>
 
           {/* Lead Modal */}
           {isLeadModalOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4">
-              <div className="glass-card rounded-2xl shadow-2xl p-8 max-w-md w-full text-center relative">
+              <div className="glass-card rounded-xl sm:rounded-2xl shadow-2xl p-6 sm:p-8 max-w-md w-full text-center relative">
                 <button
                   onClick={() => setIsLeadModalOpen(false)}
-                  className="absolute top-4 right-4 text-gray-500 hover:text-white"
+                  className="absolute top-4 right-4 text-gray-500 hover:text-white min-h-[44px] min-w-[44px] flex items-center justify-center touch-manipulation"
                 >
                   <svg
-                    className="w-6 h-6"
+                    className="w-5 h-5 sm:w-6 sm:h-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -989,10 +1153,10 @@ export default function Home() {
                     <path d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
-                <h3 className="text-2xl font-bold gradient-text mb-2">
+                <h3 className="text-xl sm:text-2xl font-bold gradient-text mb-2">
                   Добро пожаловать!
                 </h3>
-                <p className="text-gray-300 mb-4">
+                <p className="text-gray-300 mb-4 text-sm sm:text-base">
                   Получите{' '}
                   <span className="text-amber-400 font-bold">скидку 10%</span>{' '}
                   на первый заказ.
@@ -1002,11 +1166,11 @@ export default function Home() {
                     type="email"
                     placeholder="Ваш E-mail"
                     required
-                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400"
+                    className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-gray-400 min-h-[44px] touch-manipulation"
                   />
                   <button
                     type="submit"
-                    className="glow-button w-full text-black font-bold py-3 rounded-lg"
+                    className="glow-button w-full text-black font-bold py-3 rounded-lg min-h-[44px] touch-manipulation"
                   >
                     Получить скидку
                   </button>
@@ -1015,33 +1179,44 @@ export default function Home() {
             </div>
           )}
 
-          {/* Enhanced Quiz Modal */}
+          {/* Premium Quiz Modal */}
           {isQuizModalOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
-              <div className="glass-card rounded-3xl shadow-2xl max-w-2xl w-full relative max-h-[90vh] overflow-y-auto">
+            <div className="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 flex items-center justify-center p-4">
+              <div className="glass-card rounded-3xl shadow-2xl max-w-4xl w-full relative max-h-[90vh] overflow-y-auto border border-white/10 backdrop-blur-xl">
                 <button
                   onClick={() => {
                     setIsQuizModalOpen(false)
                     resetQuiz()
                   }}
-                  className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-10"
+                  className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-10 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 border border-white/10 touch-manipulation"
                 >
-                  <X size={24} />
+                  <X size={20} />
                 </button>
 
                 {quizStep !== 'result' ? (
-                  <div className="p-8 quiz-content">
+                  <div className="p-8 lg:p-12 quiz-content">
+                    {/* Quiz Header */}
+                    <div className="text-center mb-8">
+                      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white font-heading mb-4">
+                        Подбор <span className="gradient-text">идеального продукта</span>
+                      </h2>
+                      <div className="w-24 h-1 bg-gradient-to-r from-white/20 via-white/60 to-white/20 mx-auto mb-4"></div>
+                      <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+                        Ответьте на несколько вопросов, и мы подберем продукты именно для ваших целей
+                      </p>
+                    </div>
+
                     {/* Progress Bar */}
                     <div className="mb-8">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm text-gray-400">Прогресс</span>
-                        <span className="text-sm text-gray-400">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-sm text-gray-400 font-medium">Прогресс</span>
+                        <span className="text-sm text-white font-bold">
                           {quizStep}/{quizQuestions.length}
                         </span>
                       </div>
-                      <div className="w-full bg-white/10 rounded-full h-2">
+                      <div className="w-full bg-white/10 rounded-full h-3 overflow-hidden">
                         <div
-                          className="bg-gradient-to-r from-amber-400 to-orange-500 h-2 rounded-full transition-all duration-500"
+                          className="bg-gradient-to-r from-white via-white/80 to-white/60 h-3 rounded-full transition-all duration-500 shadow-lg"
                           style={{
                             width: `${(quizStep / quizQuestions.length) * 100}%`,
                           }}
@@ -1052,22 +1227,35 @@ export default function Home() {
                     {/* Question */}
                     {quizQuestions[quizStep - 1] && (
                       <div>
-                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center leading-tight">
-                          {quizQuestions[quizStep - 1].question}
-                        </h3>
+                        <div className="glass-card rounded-2xl p-6 lg:p-8 mb-8 border border-white/10 backdrop-blur-xl">
+                          <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white text-center leading-tight font-heading">
+                            {quizQuestions[quizStep - 1].question}
+                          </h3>
+                        </div>
 
                         <div className="space-y-4">
-                          {quizQuestions[quizStep - 1].options.map((option) => (
+                          {quizQuestions[quizStep - 1].options.map((option, index) => (
                             <button
                               key={option.id}
                               onClick={() =>
                                 handleQuizAnswer(quizStep, option.id)
                               }
-                              className="w-full p-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 rounded-xl text-left transition-all duration-300 group hover:scale-[1.02] active:scale-[0.98]"
+                              className="w-full p-5 lg:p-6 glass-card border border-white/10 hover:border-white/30 rounded-2xl text-left transition-all duration-300 group hover:scale-[1.02] active:scale-[0.98] min-h-[60px] touch-manipulation backdrop-blur-xl"
+                              style={{ animationDelay: `${index * 0.1}s` }}
                             >
-                              <span className="text-white text-lg font-medium group-hover:text-amber-400 transition-colors">
-                                {option.text}
-                              </span>
+                              <div className="flex items-center gap-4">
+                                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors duration-300">
+                                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                                </div>
+                                <span className="text-white text-base sm:text-lg font-medium group-hover:text-white transition-colors flex-1">
+                                  {option.text}
+                                </span>
+                                <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                  <svg className="w-5 h-5 text-white/60" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                                  </svg>
+                                </div>
+                              </div>
                             </button>
                           ))}
                         </div>
@@ -1075,12 +1263,12 @@ export default function Home() {
                     )}
                   </div>
                 ) : (
-                  /* Results */
-                  <div className="p-8">
-                    <div className="text-center mb-8">
-                      <div className="w-16 h-16 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  /* Premium Results */
+                  <div className="p-8 lg:p-12">
+                    <div className="text-center mb-10">
+                      <div className="w-20 h-20 bg-gradient-to-r from-white to-white/80 rounded-full flex items-center justify-center mx-auto mb-6">
                         <svg
-                          className="w-8 h-8 text-black"
+                          className="w-10 h-10 text-black"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                         >
@@ -1091,12 +1279,13 @@ export default function Home() {
                           />
                         </svg>
                       </div>
-                      <h3 className="text-3xl font-bold gradient-text mb-4">
-                        Ваши рекомендации готовы!
+                      <h3 className="text-3xl sm:text-4xl font-black text-white font-heading mb-4">
+                        Ваши рекомендации <span className="gradient-text">готовы!</span>
                       </h3>
-                      <p className="text-gray-300 text-lg">
+                      <div className="w-24 h-1 bg-gradient-to-r from-white/20 via-white/60 to-white/20 mx-auto mb-6"></div>
+                      <p className="text-gray-300 text-lg max-w-2xl mx-auto">
                         На основе ваших ответов мы подобрали идеальные продукты
-                        для достижения ваших целей.
+                        для достижения ваших целей
                       </p>
                     </div>
 
@@ -1105,16 +1294,16 @@ export default function Home() {
                         {quizRecommendation.map((product, index) => (
                           <div
                             key={product.id}
-                            className={`relative p-6 rounded-2xl bg-gradient-to-r ${product.bgGradient} border border-white/20 group hover:scale-[1.02] transition-all duration-300`}
+                            className={`relative glass-card p-6 lg:p-8 rounded-3xl bg-gradient-to-r ${product.bgGradient} border border-white/20 group hover:scale-[1.02] transition-all duration-300 backdrop-blur-xl`}
                           >
                             {index === 0 && (
-                              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-amber-400 to-orange-500 text-black text-xs font-bold px-3 py-1 rounded-full">
-                                #1 ВЫБОР
+                              <div className="absolute -top-3 -right-3 bg-gradient-to-r from-white to-white/80 text-black text-sm font-bold px-4 py-2 rounded-full shadow-lg">
+                                #1 РЕКОМЕНДАЦИЯ
                               </div>
                             )}
 
-                            <div className="flex items-start gap-4">
-                              <div className="w-20 h-20 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                            <div className="flex flex-col lg:flex-row items-center gap-6">
+                              <div className="w-24 h-24 bg-white/10 rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:bg-white/15 transition-colors duration-300">
                                 <Image
                                   src={product.image}
                                   alt={product.name}
@@ -1124,36 +1313,36 @@ export default function Home() {
                                 />
                               </div>
 
-                              <div className="flex-1">
-                                <h4 className="text-xl font-bold text-white mb-2">
+                              <div className="flex-1 text-center lg:text-left">
+                                <h4 className="text-xl sm:text-2xl font-bold text-white mb-3 font-heading">
                                   {product.name}
                                 </h4>
-                                <p className="text-gray-300 text-sm mb-3">
+                                <p className="text-gray-300 text-base mb-6 leading-relaxed">
                                   {product.description}
                                 </p>
 
-                                <div className="grid grid-cols-2 gap-2 mb-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
                                   {product.benefits.map((benefit, idx) => (
                                     <div
                                       key={idx}
-                                      className="flex items-center text-xs text-gray-400"
+                                      className="flex items-center justify-center lg:justify-start text-sm text-gray-300"
                                     >
-                                      <div className="w-1.5 h-1.5 bg-amber-400 rounded-full mr-2"></div>
+                                      <div className="w-2 h-2 bg-white rounded-full mr-3"></div>
                                       {benefit}
                                     </div>
                                   ))}
                                 </div>
 
-                                <div className="flex items-center justify-between">
-                                  <div className="text-2xl font-bold text-white">
+                                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                                  <div className="text-2xl sm:text-3xl font-black text-white">
                                     {product.price.toLocaleString()} ₽
                                   </div>
                                   <Link
                                     href={product.href}
                                     onClick={() => setIsQuizModalOpen(false)}
-                                    className="bg-white/20 hover:bg-white/30 text-white font-bold px-6 py-2 rounded-lg transition-all duration-200 hover:scale-105"
+                                    className="glow-button text-black font-bold px-8 py-3 rounded-xl transition-all duration-200 hover:scale-105 text-center min-h-[48px] touch-manipulation uppercase tracking-wider"
                                   >
-                                    Заказать
+                                    Заказать сейчас
                                   </Link>
                                 </div>
                               </div>
@@ -1161,21 +1350,21 @@ export default function Home() {
                           </div>
                         ))}
 
-                        <div className="flex gap-4 pt-6">
+                        <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-white/10">
                           <button
                             onClick={resetQuiz}
-                            className="flex-1 bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-xl transition-all duration-200"
+                            className="flex-1 glass-card border border-white/20 text-white font-bold py-4 rounded-2xl transition-all duration-200 hover:border-white/40 min-h-[48px] touch-manipulation backdrop-blur-xl"
                           >
-                            Пройти заново
+                            Пройти тест заново
                           </button>
                           <button
                             onClick={() => {
                               setIsQuizModalOpen(false)
                               handleOrderClick()
                             }}
-                            className="flex-1 glow-button text-black font-bold py-3 rounded-xl"
+                            className="flex-1 glow-button text-black font-bold py-4 rounded-2xl min-h-[48px] touch-manipulation uppercase tracking-wider"
                           >
-                            Все продукты
+                            Посмотреть все продукты
                           </button>
                         </div>
                       </div>

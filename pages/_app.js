@@ -1,4 +1,5 @@
 import '../styles/globals.css'
+import '../styles/admin.css'
 import { CartProvider } from '../lib/CartContext'
 import { ToastProvider } from '../lib/ToastContext'
 import { WishlistProvider } from '../lib/WishlistContext'

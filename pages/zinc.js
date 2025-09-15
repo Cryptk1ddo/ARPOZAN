@@ -4,10 +4,13 @@ import Layout from '../components/Layout'
 import Carousel from '../components/Carousel'
 import StickyCTA from '../components/StickyCTA'
 import PaymentIcons from '../components/PaymentIcons'
+import LuxuryFAQ from '../components/LuxuryFAQ'
 import { useCart } from '../lib/CartContext'
+import { useWishlist } from '../lib/WishlistContext'
 import { useToast } from '../lib/ToastContext'
 import { animations } from '../lib/gsapUtils'
 import { utils } from '../lib/lodashUtils'
+import { Heart } from 'lucide-react'
 import gsap from 'gsap'
 import Image from 'next/image' // Add import
 
@@ -23,6 +26,7 @@ export default function Zinc() {
   const benefitsRef = useRef([])
   const componentsRef = useRef([])
   const { addToCart } = useCart()
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist()
   const { push } = useToast()
 
   const images = [
@@ -60,6 +64,33 @@ export default function Zinc() {
         'Клинические исследования подтверждают, что цинк в форме пиколината быстрее и эффективнее восполняет дефицит в организме, что напрямую сказывается на уровне тестостерона и общем самочувствии.',
     },
   }
+
+  const faqData = [
+    {
+      question: 'Есть ли противопоказания у цинка пиколината?',
+      answer: 'Не рекомендуется принимать при индивидуальной непереносимости компонентов. Перед применением рекомендуется проконсультироваться с врачом, особенно если вы принимаете другие лекарственные препараты.'
+    },
+    {
+      question: 'Как долго длится курс приема цинка?',
+      answer: 'Рекомендуемый курс составляет 2-3 месяца. Цинк можно принимать на постоянной основе с небольшими перерывами для поддержания оптимального уровня в организме.'
+    },
+    {
+      question: 'Можно ли совмещать цинк с другими добавками?',
+      answer: 'Да, цинк пиколинат хорошо сочетается с витамином D, магнием и другими минералами. Однако для составления индивидуальной схемы приема лучше проконсультироваться со специалистом.'
+    },
+    {
+      question: 'Когда я увижу первые результаты от приема?',
+      answer: 'Первые результаты обычно заметны через 2-4 недели регулярного приема. Эффект накопительный - максимальная польза достигается при длительном курсе.'
+    },
+    {
+      question: 'В какое время лучше принимать цинк?',
+      answer: 'Цинк пиколинат лучше принимать за 1-2 часа до еды или через 2 часа после еды для максимального усвоения. Избегайте одновременного приема с кофе, чаем и молочными продуктами.'
+    },
+    {
+      question: 'Чем цинк пиколинат отличается от других форм цинка?',
+      answer: 'Цинк пиколинат имеет максимальную биодоступность среди всех форм цинка - до 95% усвоения. Он не вызывает раздражения ЖКТ и побочных эффектов, в отличие от оксида или сульфата цинка.'
+    }
+  ]
 
   // Particles animation
   useEffect(() => {
@@ -189,6 +220,33 @@ export default function Zinc() {
         duration: 0.3,
         ease: 'back.out(1.7)',
       })
+    }
+  }
+
+  const handleWishlistToggle = () => {
+    const product = {
+      id: 'zinc',
+      name: 'Цинк пиколинат',
+      price: 1990,
+      image: '/assets/imgs/Zink.png',
+      href: '/zinc'
+    }
+
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id)
+      push('💔 Товар удален из избранного')
+    } else {
+      addToWishlist(product)
+      push('❤️ Товар добавлен в избранное!')
+    }
+
+    // GSAP animation for wishlist button
+    const wishlistBtn = document.querySelector('.wishlist-btn')
+    if (wishlistBtn) {
+      const tl = gsap.timeline()
+      tl.to(wishlistBtn, { scale: 0.8, duration: 0.1 })
+        .to(wishlistBtn, { scale: 1.1, duration: 0.2 })
+        .to(wishlistBtn, { scale: 1, duration: 0.1 })
     }
   }
 
@@ -609,15 +667,32 @@ export default function Zinc() {
                       </div>
                     </fieldset>
 
-                    <div className="flex flex-col sm:flex-row sm:items-end gap-4">
+                    <div className="flex items-center gap-3">
                       <button
                         type="button"
                         onClick={handleAddToCart}
-                        className="w-full glow-button font-bold px-4 sm:px-6 py-3 sm:py-0 rounded-lg text-base sm:text-lg shadow-lg h-10 sm:h-12 flex-grow flex items-center justify-center"
+                        className="flex-1 glow-button font-bold px-4 sm:px-6 py-3 sm:py-0 rounded-lg text-base sm:text-lg shadow-lg h-10 sm:h-12 flex items-center justify-center"
                       >
                         <span className="whitespace-nowrap">
                           Добавить в корзину
                         </span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleWishlistToggle}
+                        className={`wishlist-btn w-12 h-12 rounded-full border-2 flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 ${
+                          isInWishlist('zinc')
+                            ? 'bg-red-500/20 border-red-500 text-red-500 hover:bg-red-500/30'
+                            : 'bg-white/10 border-white/30 text-gray-400 hover:border-white/50 hover:text-white'
+                        }`}
+                        title={isInWishlist('zinc') ? 'Удалить из избранного' : 'Добавить в избранное'}
+                      >
+                        <Heart 
+                          size={20} 
+                          className={`transition-all duration-300 ${
+                            isInWishlist('zinc') ? 'fill-current' : ''
+                          }`}
+                        />
                       </button>
                     </div>
                   </form>
@@ -948,81 +1023,12 @@ export default function Zinc() {
               </div>
             </section>
 
-            <section
-              id="faq"
-              className="grid grid-cols-12 gap-x-6 py-16 md:py-24"
-            >
-              <div className="col-span-12 md:col-span-4">
-                <h2 className="text-3xl md:text-5xl font-bold text-white font-heading">
-                  Частые
-                  <br />
-                  вопросы
-                </h2>
-              </div>
-              <div className="col-span-12 md:col-span-8 mt-8 md:mt-0">
-                <div className="space-y-4">
-                  <details className="glass-card rounded-lg p-4">
-                    <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
-                      Есть ли противопоказания?
-                      <span className="text-2xl font-normal text-amber-400">
-                        +
-                      </span>
-                    </summary>
-                    <div className="mt-3 text-gray-400">
-                      <p>
-                        Не рекомендуется принимать при индивидуальной
-                        непереносимости компонентов. Перед применением
-                        рекомендуется проконсультироваться с врачом.
-                      </p>
-                    </div>
-                  </details>
-                  <details className="glass-card rounded-lg p-4">
-                    <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
-                      Как долго длится курс?
-                      <span className="text-2xl font-normal text-amber-400">
-                        +
-                      </span>
-                    </summary>
-                    <div className="mt-3 text-gray-400">
-                      <p>
-                        Рекомендуемый курс - 2-3 месяца. Можно принимать на
-                        постоянной основе с небольшими перерывами.
-                      </p>
-                    </div>
-                  </details>
-                  <details className="glass-card rounded-lg p-4">
-                    <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
-                      Можно ли совмещать с другими добавками?
-                      <span className="text-2xl font-normal text-amber-400">
-                        +
-                      </span>
-                    </summary>
-                    <div className="mt-3 text-gray-400">
-                      <p>
-                        Да, цинк хорошо сочетается с витамином D, магнием и
-                        другими минералами. Однако, для составления
-                        индивидуальной схемы лучше проконсультироваться со
-                        специалистом.
-                      </p>
-                    </div>
-                  </details>
-                  <details className="glass-card rounded-lg p-4">
-                    <summary className="flex justify-between items-center cursor-pointer font-semibold text-lg">
-                      Когда я увижу эффект?
-                      <span className="text-2xl font-normal text-amber-400">
-                        +
-                      </span>
-                    </summary>
-                    <div className="mt-3 text-gray-400">
-                      <p>
-                        Первые результаты обычно заметны через 2-4 недели
-                        регулярного приёма. Эффект накопительный.
-                      </p>
-                    </div>
-                  </details>
-                </div>
-              </div>
-            </section>
+            <LuxuryFAQ 
+              faqs={faqData}
+              title="Частые вопросы"
+              variant="split"
+              theme="dark"
+            />
           </div>
         </main>
 

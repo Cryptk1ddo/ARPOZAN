@@ -4,8 +4,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Layout from '../components/Layout'
+import LuxuryFAQ from '../components/LuxuryFAQ'
 import { useCart } from '../lib/CartContext'
 import { useToast } from '../lib/ToastContext'
+import PaymentIcons from '../components/PaymentIcons'
 import {
   validateEmail,
   validatePhone,
@@ -639,7 +641,8 @@ const PaymentForm = ({ formData, setFormData, errors, setErrors }) => {
 
   return (
     <div className="glass-card p-6 lg:p-8 rounded-lg border border-white/5">
-      <h2 className="text-2xl font-bold mb-8 text-white">Оплата</h2>
+      <h2 className="text-2xl font-bold mb-6 text-white">Оплата</h2>
+      <PaymentIcons size="small" theme="light" className="mb-6" />
       <form className="space-y-6">
         <div>
           <label
@@ -978,6 +981,29 @@ function OrderSummary({
 }
 
 export default function CheckoutPage() {
+  const checkoutFaqs = [
+    {
+      question: 'Какие способы оплаты вы принимаете?',
+      answer: 'Мы принимаем все основные банковские карты (Visa, MasterCard, МИР), а также YandexPay и UnionPay. Все платежи защищены современными системами шифрования.'
+    },
+    {
+      question: 'Безопасна ли оплата на сайте?',
+      answer: 'Да, все платежи обрабатываются через защищенные шлюзы с использованием SSL-шифрования. Данные вашей карты не сохраняются на наших серверах и передаются напрямую в банк.'
+    },
+    {
+      question: 'Как быстро происходит доставка?',
+      answer: 'Доставка по России занимает 1-3 рабочих дня после подтверждения заказа. В крупные города доставка может осуществляться на следующий день.'
+    },
+    {
+      question: 'Можно ли изменить или отменить заказ?',
+      answer: 'Заказ можно отменить или изменить в течение 1 часа после оформления. Для этого свяжитесь с нашей службой поддержки по указанным контактам.'
+    },
+    {
+      question: 'Что делать, если товар не подошел?',
+      answer: 'У нас действует 30-дневная гарантия возврата. Если товар не подошел, вы можете вернуть его в оригинальной упаковке и получить полный возврат средств.'
+    }
+  ]
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -1405,6 +1431,14 @@ export default function CheckoutPage() {
               </div>
             </div>
           </div>
+
+          {/* FAQ Section */}
+          <LuxuryFAQ 
+            faqs={checkoutFaqs}
+            title="Вопросы по заказу"
+            variant="minimal"
+            theme="dark"
+          />
         </div>
       </main>
     </Layout>

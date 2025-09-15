@@ -6,7 +6,6 @@ import { useWishlist } from '../lib/WishlistContext'
 import { useAuth } from '../lib/AuthContext'
 import CartDrawer from './CartDrawer'
 import SearchBar from './SearchBar'
-import UserProfile from './UserProfile'
 import ToastContainer from './ToastContainer'
 import Footer from './Footer'
 import PromoBar from './PromoBar'
@@ -16,7 +15,6 @@ export default function Layout({ children }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
-  const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [isSearchFocused, setIsSearchFocused] = useState(false)
   const [menuLoading, setMenuLoading] = useState(false)
@@ -188,7 +186,6 @@ export default function Layout({ children }) {
   // }, [isMenuOpen])
 
   const navigation = [
-    { name: 'Главная', href: '/' },
     { name: 'Maca', href: '/maca' },
     { name: 'Yohimbin', href: '/Yohimbin' },
     { name: 'Zinc', href: '/zinc' },
@@ -320,12 +317,12 @@ export default function Layout({ children }) {
                 <Search size={24} />
               </button>
 
-              <button
-                onClick={() => setIsProfileOpen(true)}
+              <Link
+                href="/profile"
                 className="relative text-white hover:text-blue-400 transition-colors"
               >
                 <User size={24} />
-              </button>
+              </Link>
 
               <div className="relative">
                 <Link
@@ -488,18 +485,16 @@ export default function Layout({ children }) {
                       </div>
                       <span className="text-sm font-medium">Поиск</span>
                     </button>
-                    <button
-                      onClick={() => {
-                        setIsProfileOpen(true)
-                        setIsMenuOpen(false)
-                      }}
+                    <Link
+                      href="/profile"
+                      onClick={() => setIsMenuOpen(false)}
                       className="mobile-menu-focusable flex flex-col items-center text-white/90 py-4 rounded-2xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-all duration-200 border border-white/5 group"
                     >
                       <div className="w-10 h-10 bg-white/8 rounded-xl flex items-center justify-center mb-2 group-hover:bg-white/15 transition-all duration-200">
                         <User size={18} />
                       </div>
                       <span className="text-sm font-medium">Профиль</span>
-                    </button>
+                    </Link>
                     <Link
                       href="/wishlist"
                       onClick={() => setIsMenuOpen(false)}
@@ -547,11 +542,6 @@ export default function Layout({ children }) {
       <CartDrawer open={isCartOpen} onClose={() => setIsCartOpen(false)} />
 
       <SearchBar isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
-
-      <UserProfile
-        isOpen={isProfileOpen}
-        onClose={() => setIsProfileOpen(false)}
-      />
 
       <ToastContainer />
     </div>
