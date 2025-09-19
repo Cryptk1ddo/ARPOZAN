@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Icon from '../shared/Icon';
+import { SupabaseApiClient } from '../../../lib/apiClient';
 
 // Products View
 const ProductsView = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -13,126 +15,145 @@ const ProductsView = () => {
   const [viewMode, setViewMode] = useState('grid'); // grid or table
   const [sortBy, setSortBy] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
-  
-  // Mock product data
-  useEffect(() => {
-    const mockProducts = [
-      {
-        id: 1,
-        name: 'TONGKAT ALI Premium',
-        sku: 'TA-001',
-        category: 'supplements',
-        price: 2980,
-        stock: 45,
-        lowStockThreshold: 10,
-        status: 'active',
-        image: '/api/placeholder/200/200',
-        description: 'Премиум экстракт Тонгкат Али для мужского здоровья',
-        sales: 234,
-        rating: 4.8,
-        lastUpdated: new Date('2024-01-15'),
-        tags: ['bestseller', 'premium', 'male-health']
-      },
-      {
-        id: 2,
-        name: 'YOHIMBINE HCL',
-        sku: 'YH-002',
-        category: 'supplements',
-        price: 1980,
-        stock: 8,
-        lowStockThreshold: 15,
-        status: 'active',
-        image: '/api/placeholder/200/200',
-        description: 'Чистый йохимбин гидрохлорид высокого качества',
-        sales: 156,
-        rating: 4.6,
-        lastUpdated: new Date('2024-01-12'),
-        tags: ['low-stock', 'performance']
-      },
-      {
-        id: 3,
-        name: 'MACA ROOT Organic',
-        sku: 'MR-003',
-        category: 'supplements',
-        price: 1580,
-        stock: 67,
-        lowStockThreshold: 20,
-        status: 'active',
-        image: '/api/placeholder/200/200',
-        description: 'Органический корень маки из Перу',
-        sales: 89,
-        rating: 4.4,
-        lastUpdated: new Date('2024-01-10'),
-        tags: ['organic', 'energy']
-      },
-      {
-        id: 4,
-        name: 'ZINC Chelate',
-        sku: 'ZN-004',
-        category: 'minerals',
-        price: 890,
-        stock: 23,
-        lowStockThreshold: 25,
-        status: 'draft',
-        image: '/api/placeholder/200/200',
-        description: 'Хелатированный цинк для лучшего усвоения',
-        sales: 45,
-        rating: 4.2,
-        lastUpdated: new Date('2024-01-08'),
-        tags: ['minerals', 'immunity']
-      },
-      {
-        id: 5,
-        name: 'ULTIMATE PACK',
-        sku: 'UP-005',
-        category: 'bundles',
-        price: 5980,
-        stock: 12,
-        lowStockThreshold: 5,
-        status: 'active',
-        image: '/api/placeholder/200/200',
-        description: 'Комплексный набор для мужского здоровья',
-        sales: 78,
-        rating: 4.9,
-        lastUpdated: new Date('2024-01-14'),
-        tags: ['bundle', 'bestseller', 'premium']
-      }
-    ];
-    
-    setTimeout(() => {
-      setProducts(mockProducts);
-      setLoading(false);
-    }, 800);
-  }, []);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 20,
+    total: 0,
+    totalPages: 0
+  });
 
-  // Filter and sort products
-  const filteredProducts = products
-    .filter(product => {
-      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           product.sku.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
-      return matchesSearch && matchesCategory;
-    })
-    .sort((a, b) => {
-      let comparison = 0;
-      switch (sortBy) {
-        case 'name':
-          comparison = a.name.localeCompare(b.name);
-          break;
-        case 'price':
-          comparison = a.price - b.price;
-          break;
-        case 'stock':
-          comparison = a.stock - b.stock;
-          break;
-        case 'sales':
-          comparison = a.sales - b.sales;
-          break;
-        default:
-          comparison = 0;
+  // Initialize Supabase API client
+  const apiClient = new SupabaseApiClient();
+  
+  // Fetch products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const params = {
+          page: pagination.page,
+          limit: pagination.limit,
+          search: searchTerm,
+          category: selectedCategory !== 'all' ? selectedCategory : undefined,
+          sortBy,
+          sortOrder
+        };
+        
+        const response = await apiClient.getAdminProducts(params);
+        
+        if (response.success) {
+          setProducts(response.data.products);
+          setPagination({
+            page: response.data.pagination.page,
+            limit: response.data.pagination.limit,
+            total: response.data.pagination.total,
+            totalPages: response.data.pagination.totalPages
+          });
+        }
+      } catch (err) {
+        console.error('Failed to fetch products:', err);
+        setError(err.message || 'Failed to fetch products');
+      } finally {
+        setLoading(false);
       }
-      return sortOrder === 'asc' ? comparison : -comparison;
-    });
+    };
+
+    fetchProducts();
+  }, [pagination.page, pagination.limit, searchTerm, selectedCategory, sortBy, sortOrder]);
+
+  // Handle product creation
+  const handleCreateProduct = async (productData) => {
+    try {
+      setError(null);
+      const response = await apiClient.createProduct(productData);
+      
+      if (response.success) {
+        // Refresh products list
+        const refreshResponse = await apiClient.getAdminProducts({
+          page: pagination.page,
+          limit: pagination.limit,
+          search: searchTerm,
+          category: selectedCategory !== 'all' ? selectedCategory : undefined,
+          sortBy,
+          sortOrder
+        });
+        
+        if (refreshResponse.success) {
+          setProducts(refreshResponse.data.products);
+          setPagination(prev => ({
+            ...prev,
+            total: refreshResponse.data.pagination.total,
+            totalPages: refreshResponse.data.pagination.totalPages
+          }));
+        }
+        
+        setShowAddModal(false);
+        return response;
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to create product');
+      throw err;
+    }
+  };
+
+  // Handle product update
+  const handleUpdateProduct = async (productId, productData) => {
+    try {
+      setError(null);
+      const response = await apiClient.updateProduct(productId, productData);
+      
+      if (response.success) {
+        // Update local state
+        setProducts(prev => prev.map(product => 
+          product._id === productId ? { ...product, ...productData } : product
+        ));
+        return response;
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to update product');
+      throw err;
+    }
+  };
+
+  // Handle product deletion
+  const handleDeleteProduct = async (productId) => {
+    try {
+      setError(null);
+      const response = await apiClient.deleteProduct(productId);
+      
+      if (response.success) {
+        // Remove from local state
+        setProducts(prev => prev.filter(product => product._id !== productId));
+        setPagination(prev => ({
+          ...prev,
+          total: prev.total - 1
+        }));
+        return response;
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to delete product');
+      throw err;
+    }
+  };
+
+  // Handle search and filters (data already filtered on server side)
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    setPagination(prev => ({ ...prev, page: 1 })); // Reset to first page
+  };
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setPagination(prev => ({ ...prev, page: 1 })); // Reset to first page
+  };
+
+  const handleSortChange = (newSortBy, newSortOrder) => {
+    setSortBy(newSortBy);
+    setSortOrder(newSortOrder);
+    setPagination(prev => ({ ...prev, page: 1 })); // Reset to first page
+  };
 
   const categories = [
     { value: 'all', label: 'Все категории' },
@@ -155,11 +176,40 @@ const ProductsView = () => {
     );
   };
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          className="w-8 h-8 border-4 border-gray-300 border-t-black rounded-full"
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="text-red-500 mb-2">⚠️ Ошибка загрузки</div>
+          <p className="text-gray-600">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="mt-4 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800"
+          >
+            Обновить
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   const handleSelectAll = () => {
     setSelectedProducts(
-      selectedProducts.length === filteredProducts.length 
+      selectedProducts.length === products.length 
         ? [] 
-        : filteredProducts.map(p => p.id)
+        : products.map(p => p._id)
     );
   };
 
@@ -172,14 +222,14 @@ const ProductsView = () => {
       >
         <div className="flex items-center justify-between mb-6">
           <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-64 animate-pulse"></div>
-          <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded w-32 animate-pulse"></div>
+          <div className="h-10 bg-gray-700 rounded w-32 animate-pulse"></div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="bg-white dark:bg-gray-900 p-6 rounded-xl animate-pulse">
-              <div className="h-40 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-2"></div>
-              <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+            <div key={i} className="bg-gray-900 p-6 rounded-xl animate-pulse">
+              <div className="h-40 bg-gray-700 rounded mb-4"></div>
+              <div className="h-4 bg-gray-700 rounded w-3/4 mb-2"></div>
+              <div className="h-3 bg-gray-700 rounded w-1/2"></div>
             </div>
           ))}
         </div>
@@ -191,7 +241,7 @@ const ProductsView = () => {
     <motion.div 
       initial={{ opacity: 0, y: 20 }} 
       animate={{ opacity: 1, y: 0 }} 
-      className="p-4 md:p-6"
+      className="p-4 md:p-6 bg-white dark:bg-gray-900 min-h-screen"
     >
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-6">
@@ -226,7 +276,7 @@ const ProductsView = () => {
                 type="text"
                 placeholder="Поиск по названию или SKU..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => handleSearch(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
               />
             </div>
@@ -235,7 +285,7 @@ const ProductsView = () => {
           {/* Category Filter */}
           <select
             value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            onChange={(e) => handleCategoryChange(e.target.value)}
             className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
           >
             {categories.map(cat => (
@@ -248,8 +298,7 @@ const ProductsView = () => {
             value={`${sortBy}-${sortOrder}`}
             onChange={(e) => {
               const [field, order] = e.target.value.split('-');
-              setSortBy(field);
-              setSortOrder(order);
+              handleSortChange(field, order);
             }}
             className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
           >
@@ -259,17 +308,18 @@ const ProductsView = () => {
             <option value="price-desc">Цена ↓</option>
             <option value="stock-asc">Остаток ↑</option>
             <option value="stock-desc">Остаток ↓</option>
-            <option value="sales-desc">Продажи ↓</option>
+            <option value="createdAt-desc">Новые</option>
+            <option value="createdAt-asc">Старые</option>
           </select>
 
           {/* View Mode Toggle */}
-          <div className="flex border border-gray-300 dark:border-gray-600 rounded-lg">
+          <div className="flex border border-gray-600 rounded-lg">
             <button
               onClick={() => setViewMode('grid')}
               className={`p-2 rounded-l-lg transition-colors ${
                 viewMode === 'grid' 
                   ? 'bg-blue-600 text-white' 
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+                  : 'bg-gray-800 text-gray-400'
               }`}
             >
               <Icon path="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" className="w-4 h-4" />
@@ -279,7 +329,7 @@ const ProductsView = () => {
               className={`p-2 rounded-r-lg transition-colors ${
                 viewMode === 'table' 
                   ? 'bg-blue-600 text-white' 
-                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+                  : 'bg-gray-800 text-gray-400'
               }`}
             >
               <Icon path="M4 6h16M4 10h16M4 14h16M4 18h16" className="w-4 h-4" />
@@ -292,16 +342,16 @@ const ProductsView = () => {
           <motion.div 
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700"
+            className="mt-4 pt-4 border-t border-gray-700"
           >
             <div className="flex items-center space-x-3">
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-sm text-gray-400">
                 {selectedProducts.length} товар(ов) выбрано
               </span>
-              <button className="px-3 py-1 text-sm bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded">
+              <button className="px-3 py-1 text-sm bg-green-900/30 text-green-400 rounded">
                 Активировать
               </button>
-              <button className="px-3 py-1 text-sm bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400 rounded">
+              <button className="px-3 py-1 text-sm bg-gray-800 text-gray-400 rounded">
                 Деактивировать
               </button>
               <button className="px-3 py-1 text-sm bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded">
@@ -315,29 +365,37 @@ const ProductsView = () => {
       {/* Products Grid/Table */}
       {viewMode === 'grid' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map((product, index) => {
+          {products.map((product, index) => {
             const stockStatus = getStockStatus(product.stock, product.lowStockThreshold);
             return (
               <motion.div
-                key={product.id}
+                key={product._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden hover:shadow-lg transition-shadow"
+                className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hover:shadow-lg transition-shadow"
               >
                 {/* Product Image */}
                 <div className="relative">
-                  <div className="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-200 dark:to-gray-700 flex items-center justify-center">
-                    <span className="text-4xl">📦</span>
+                  <div className="aspect-square bg-gradient-to-br from-gray-200 to-gray-700 flex items-center justify-center">
+                    {product.images && product.images.length > 0 ? (
+                      <img 
+                        src={product.images[0]} 
+                        alt={product.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-4xl">📦</span>
+                    )}
                   </div>
                   
                   {/* Selection checkbox */}
                   <div className="absolute top-3 left-3">
                     <input
                       type="checkbox"
-                      checked={selectedProducts.includes(product.id)}
-                      onChange={() => handleSelectProduct(product.id)}
-                      className="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500"
+                      checked={selectedProducts.includes(product._id)}
+                      onChange={() => handleSelectProduct(product._id)}
+                      className="w-4 h-4 text-blue-600 bg-gray-800 border-gray-600 rounded focus:ring-blue-500"
                     />
                   </div>
                   
@@ -361,51 +419,51 @@ const ProductsView = () => {
                 {/* Product Info */}
                 <div className="p-4">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900 dark:text-white text-sm leading-tight">
+                    <h3 className="font-semibold text-white text-sm leading-tight">
                       {product.name}
                     </h3>
                     <span className={`px-2 py-1 text-xs rounded-full ${
                       product.status === 'active' 
-                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                        : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'
+                        ? 'bg-green-900/30 text-green-400'
+                        : 'bg-gray-800 text-gray-400'
                     }`}>
                       {product.status === 'active' ? 'Активен' : 'Черновик'}
                     </span>
                   </div>
                   
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+                  <p className="text-xs text-gray-400 mb-3">
                     SKU: {product.sku}
                   </p>
                   
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold text-gray-900 dark:text-white">
+                      <span className="text-lg font-bold text-white">
                         ₽{product.price.toLocaleString()}
                       </span>
                       <div className="flex items-center space-x-1">
                         <span className="text-yellow-400">⭐</span>
-                        <span className="text-xs text-gray-600 dark:text-gray-400">
+                        <span className="text-xs text-gray-400">
                           {product.rating}
                         </span>
                       </div>
                     </div>
                     
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600 dark:text-gray-400">
+                      <span className="text-gray-400">
                         Остаток: {product.stock}
                       </span>
-                      <span className="text-gray-600 dark:text-gray-400">
-                        Продано: {product.sales}
+                      <span className="text-gray-400">
+                        Продано: {product.analytics?.sales || 0}
                       </span>
                     </div>
                   </div>
                   
                   {/* Action buttons */}
                   <div className="flex items-center space-x-2 mt-4">
-                    <button className="flex-1 px-3 py-2 text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors">
+                    <button className="flex-1 px-3 py-2 text-xs bg-blue-900/30 text-blue-400 rounded hover:bg-blue-900/50 transition-colors">
                       Редактировать
                     </button>
-                    <button className="px-3 py-2 text-xs bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                    <button className="px-3 py-2 text-xs bg-gray-800 text-gray-400 rounded hover:bg-gray-700 transition-colors">
                       <Icon path="M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" className="w-4 h-4" />
                     </button>
                   </div>
@@ -416,20 +474,20 @@ const ProductsView = () => {
         </div>
       ) : (
         // Table View
-        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 overflow-hidden">
+        <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 dark:bg-gray-800">
+              <thead className="bg-gray-800">
                 <tr>
                   <th className="w-8 px-4 py-3">
                     <input
                       type="checkbox"
-                      checked={selectedProducts.length === filteredProducts.length && filteredProducts.length > 0}
+                      checked={selectedProducts.length === products.length && products.length > 0}
                       onChange={handleSelectAll}
-                      className="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500"
+                      className="w-4 h-4 text-blue-600 bg-gray-800 border-gray-600 rounded focus:ring-blue-500"
                     />
                   </th>
-                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <th className="text-left px-4 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                     Товар
                   </th>
                   <th className="text-left px-4 py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
@@ -453,48 +511,56 @@ const ProductsView = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {filteredProducts.map((product, index) => {
+                {products.map((product, index) => {
                   const stockStatus = getStockStatus(product.stock, product.lowStockThreshold);
                   return (
                     <motion.tr
-                      key={product.id}
+                      key={product._id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ delay: index * 0.02 }}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-800"
+                      className="hover:bg-gray-800"
                     >
                       <td className="px-4 py-4">
                         <input
                           type="checkbox"
-                          checked={selectedProducts.includes(product.id)}
-                          onChange={() => handleSelectProduct(product.id)}
-                          className="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500"
+                          checked={selectedProducts.includes(product._id)}
+                          onChange={() => handleSelectProduct(product._id)}
+                          className="w-4 h-4 text-blue-600 bg-gray-800 border-gray-600 rounded focus:ring-blue-500"
                         />
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-200 dark:to-gray-700 rounded-lg flex items-center justify-center">
-                            <span className="text-lg">📦</span>
+                          <div className="w-10 h-10 bg-gradient-to-br from-gray-200 to-gray-700 rounded-lg flex items-center justify-center overflow-hidden">
+                            {product.images && product.images.length > 0 ? (
+                              <img 
+                                src={product.images[0]} 
+                                alt={product.name}
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <span className="text-lg">📦</span>
+                            )}
                           </div>
                           <div>
-                            <div className="font-medium text-gray-900 dark:text-white">
+                            <div className="font-medium text-white">
                               {product.name}
                             </div>
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
+                            <div className="text-sm text-gray-400">
                               {product.category}
                             </div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
+                      <td className="px-4 py-4 text-sm text-white">
                         {product.sku}
                       </td>
-                      <td className="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white">
+                      <td className="px-4 py-4 text-sm font-medium text-white">
                         ₽{product.price.toLocaleString()}
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center space-x-2">
-                          <span className="text-sm text-gray-900 dark:text-white">
+                          <span className="text-sm text-white">
                             {product.stock}
                           </span>
                           <span className={`px-2 py-1 text-xs font-medium rounded-full ${stockStatus.color}`}>
@@ -503,7 +569,7 @@ const ProductsView = () => {
                         </div>
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-900 dark:text-white">
-                        {product.sales}
+                        {product.analytics?.sales || 0}
                       </td>
                       <td className="px-4 py-4">
                         <span className={`px-2 py-1 text-xs font-medium rounded-full ${
@@ -529,6 +595,62 @@ const ProductsView = () => {
                 })}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Pagination */}
+      {pagination.totalPages > 1 && (
+        <div className="flex items-center justify-between mt-8">
+          <div className="text-sm text-gray-500">
+            Показано {((pagination.page - 1) * pagination.limit) + 1}-{Math.min(pagination.page * pagination.limit, pagination.total)} из {pagination.total} товаров
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
+              disabled={pagination.page === 1}
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Назад
+            </button>
+            
+            {[...Array(pagination.totalPages)].map((_, index) => {
+              const pageNum = index + 1;
+              if (
+                pageNum === 1 ||
+                pageNum === pagination.totalPages ||
+                (pageNum >= pagination.page - 2 && pageNum <= pagination.page + 2)
+              ) {
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setPagination(prev => ({ ...prev, page: pageNum }))}
+                    className={`px-3 py-2 text-sm border rounded-lg ${
+                      pagination.page === pageNum
+                        ? 'bg-black text-white border-black'
+                        : 'border-gray-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              } else if (
+                pageNum === pagination.page - 3 ||
+                pageNum === pagination.page + 3
+              ) {
+                return <span key={pageNum} className="px-2">...</span>;
+              }
+              return null;
+            })}
+            
+            <button
+              onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
+              disabled={pagination.page === pagination.totalPages}
+              className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Далее
+            </button>
           </div>
         </div>
       )}

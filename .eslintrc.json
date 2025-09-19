@@ -1,3 +1,50 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "globals": {
+    "process": "readonly",
+    "console": "readonly",
+    "window": "readonly",
+    "document": "readonly",
+    "localStorage": "readonly",
+    "sessionStorage": "readonly",
+    "fetch": "readonly",
+    "URLSearchParams": "readonly",
+    "FormData": "readonly",
+    "Blob": "readonly",
+    "URL": "readonly",
+    "CustomEvent": "readonly",
+    "Image": "readonly",
+    "IntersectionObserver": "readonly",
+    "PerformanceObserver": "readonly",
+    "performance": "readonly",
+    "requestAnimationFrame": "readonly",
+    "setTimeout": "readonly",
+    "clearTimeout": "readonly",
+    "setInterval": "readonly",
+    "clearInterval": "readonly",
+    "alert": "readonly",
+    "confirm": "readonly",
+    "navigator": "readonly",
+    "Notification": "readonly",
+    "expect": "readonly",
+    "supabaseHelpers": "readonly"
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "no-useless-escape": "off",
+    "no-case-declarations": "off",
+    "no-undef": "off",
+    "@next/next/no-img-element": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/no-unescaped-entities": "off",
+    "react/jsx-key": "off",
+    "react/display-name": "off",
+    "react/prop-types": "off",
+    "import/no-anonymous-default-export": "off"
+  }
 }

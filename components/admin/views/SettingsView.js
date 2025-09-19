@@ -49,38 +49,38 @@ const SettingsView = () => {
       className="p-4 md:p-6"
     >
       <div className="mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
           Настройки системы
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-gray-400">
           Управление конфигурацией и предпочтениями
         </p>
       </div>
 
       <div className="space-y-6">
         {/* General Settings */}
-        <div className="bg-white dark:bg-gray-900 p-6 rounded-xl border border-gray-200 dark:border-gray-800">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Общие настройки</h3>
+        <div className="bg-gray-900 p-6 rounded-xl border border-gray-800">
+          <h3 className="text-lg font-semibold text-white mb-4">Общие настройки</h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Название сайта
               </label>
               <input
                 type="text"
                 value={settings.siteName}
                 onChange={(e) => setSettings(prev => ({ ...prev, siteName: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full px-3 py-2 border border-gray-600 rounded-lg bg-gray-800 text-white"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Описание
               </label>
               <textarea
                 value={settings.siteDescription}
                 onChange={(e) => setSettings(prev => ({ ...prev, siteDescription: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full px-3 py-2 border border-gray-600 rounded-lg bg-gray-800 text-white"
                 rows="3"
               />
             </div>

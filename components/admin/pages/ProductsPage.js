@@ -452,7 +452,7 @@ const ProductsPage = ({ user, isMobile, onNavigate }) => {
               key={product.id}
               product={product}
               onEdit={handleEdit}
-              onDelete={onRequestDelete}
+              onDelete={handleRequestDelete}
               onView={() => console.log('View product:', product)}
             />
           ))}

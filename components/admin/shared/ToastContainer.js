@@ -29,15 +29,15 @@ const ToastNotification = ({ notification, onRemove }) => {
   const getToastBackground = (type) => {
     switch (type) {
       case 'success':
-        return 'bg-white border-green-500 shadow-green-100';
+        return 'bg-white dark:bg-gray-800 border-green-500 shadow-green-100 dark:shadow-green-900/20';
       case 'error':
-        return 'bg-white border-red-500 shadow-red-100';
+        return 'bg-white dark:bg-gray-800 border-red-500 shadow-red-100 dark:shadow-red-900/20';
       case 'warning':
-        return 'bg-white border-yellow-500 shadow-yellow-100';
+        return 'bg-white dark:bg-gray-800 border-yellow-500 shadow-yellow-100 dark:shadow-yellow-900/20';
       case 'info':
-        return 'bg-white border-blue-500 shadow-blue-100';
+        return 'bg-white dark:bg-gray-800 border-blue-500 shadow-blue-100 dark:shadow-blue-900/20';
       default:
-        return 'bg-white border-gray-300 shadow-gray-100';
+        return 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 shadow-gray-100 dark:shadow-gray-900/20';
     }
   };
 
@@ -55,17 +55,17 @@ const ToastNotification = ({ notification, onRemove }) => {
       </div>
       <div className="ml-3 flex-1">
         {notification.title && (
-          <p className="text-sm font-medium text-gray-900">
+          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
             {notification.title}
           </p>
         )}
-        <p className="text-sm text-gray-600 mt-1">
+        <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
           {notification.message}
         </p>
         {notification.action && (
           <button
             onClick={notification.action.callback}
-            className="mt-2 text-sm bg-black text-white px-3 py-1 rounded hover:bg-gray-800 transition-colors"
+            className="mt-2 text-sm bg-blue-600 dark:bg-black text-white px-3 py-1 rounded hover:bg-blue-700 dark:hover:bg-gray-800 transition-colors"
           >
             {notification.action.label}
           </button>
@@ -74,7 +74,7 @@ const ToastNotification = ({ notification, onRemove }) => {
       <div className="ml-4 flex-shrink-0 flex">
         <button
           onClick={() => onRemove(notification.id)}
-          className="rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none"
+          className="rounded-md inline-flex text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 focus:outline-none"
         >
           <Icon path="M6 18L18 6M6 6l12 12" className="w-5 h-5" />
         </button>

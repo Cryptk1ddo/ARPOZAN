@@ -20,7 +20,7 @@ const Sidebar = ({ currentView, setCurrentView, isCollapsed, setIsCollapsed }) =
     <motion.aside 
       animate={{ width: isCollapsed ? '5rem' : '16rem' }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="fixed top-0 left-0 h-full bg-black border-r border-gray-800 z-20 pt-20 flex flex-col shadow-2xl"
+      className="fixed top-0 left-0 h-full bg-white dark:bg-black border-r border-gray-200 dark:border-gray-800 z-20 pt-20 flex flex-col shadow-2xl"
     >
       <nav className="flex-1 p-4 space-y-2">
         {navItems.map((item, index) => (
@@ -32,8 +32,8 @@ const Sidebar = ({ currentView, setCurrentView, isCollapsed, setIsCollapsed }) =
             transition={{ delay: index * 0.1 }}
             className={`w-full flex items-center gap-3 p-3 rounded-xl text-sm font-medium transition-all duration-300 group relative overflow-hidden ${
               currentView === item.name 
-                ? `bg-white text-black shadow-lg transform scale-105 ${item.accentColor}` 
-                : 'hover:bg-gray-900 text-gray-300 hover:text-white border border-gray-800 hover:border-gray-700'
+                ? `bg-blue-600 dark:bg-white text-white dark:text-black shadow-lg transform scale-105 ${item.accentColor}` 
+                : 'hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
             }`}
           >
             <Icon path={item.icon} className="w-5 h-5 flex-shrink-0"/>
@@ -52,7 +52,7 @@ const Sidebar = ({ currentView, setCurrentView, isCollapsed, setIsCollapsed }) =
             {currentView === item.name && (
               <motion.div
                 layoutId="activeIndicator"
-                className="absolute right-0 w-1 h-8 bg-black rounded-l-full"
+                className="absolute right-0 w-1 h-8 bg-white rounded-l-full"
               />
             )}
           </motion.button>

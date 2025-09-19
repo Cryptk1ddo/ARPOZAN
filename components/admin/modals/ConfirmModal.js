@@ -15,7 +15,7 @@ const ConfirmModal = ({
 
   const variants = {
     default: {
-      buttonClass: "glow-button text-black font-semibold",
+      buttonClass: "bg-blue-600 hover:bg-blue-700 dark:bg-white dark:hover:bg-gray-100 text-white dark:text-black font-semibold",
       iconColor: "text-blue-400",
       bgColor: "bg-blue-500/20"
     },
@@ -45,7 +45,7 @@ const ConfirmModal = ({
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
-        className="glass-card bg-white/10 border border-white/20 rounded-xl max-w-md w-full p-6"
+        className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl max-w-md w-full p-6 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -54,24 +54,24 @@ const ConfirmModal = ({
             <div className={`w-10 h-10 ${currentVariant.bgColor} rounded-lg flex items-center justify-center`}>
               <AlertTriangle className={`h-5 w-5 ${currentVariant.iconColor}`} />
             </div>
-            <h3 className="text-lg font-semibold text-white">{title}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{title}</h3>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Message */}
-        <p className="text-gray-300 mb-6">{message}</p>
+        <p className="text-gray-600 dark:text-gray-300 mb-6">{message}</p>
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white hover:bg-white/10 transition-colors"
+            className="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
           >
             {cancelText}
           </button>

@@ -1,31 +1,32 @@
-/* Admin Panel Styles */
+/* Admin Panel Styles - Dark Theme */
 
-/* Glassmorphism Effect */
+/* Glassmorphism Effect - Dark Theme */
 .glass-card {
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
-/* Glow Button Effect */
+/* Glow Button Effect - Dark Theme */
 .glow-button {
   background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
   box-shadow: 
     0 0 20px rgba(255, 255, 255, 0.3),
-    0 4px 15px rgba(0, 0, 0, 0.2),
+    0 4px 15px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
   transition: all 0.3s ease;
   border: none;
   outline: none;
+  color: #000;
 }
 
 .glow-button:hover {
   transform: translateY(-2px);
   box-shadow: 
     0 0 30px rgba(255, 255, 255, 0.4),
-    0 8px 25px rgba(0, 0, 0, 0.3),
+    0 8px 25px rgba(0, 0, 0, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
@@ -33,7 +34,7 @@
   transform: translateY(0);
   box-shadow: 
     0 0 15px rgba(255, 255, 255, 0.2),
-    0 2px 10px rgba(0, 0, 0, 0.2),
+    0 2px 10px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
@@ -43,20 +44,42 @@
   transform: none;
   box-shadow: 
     0 0 10px rgba(255, 255, 255, 0.1),
-    0 2px 8px rgba(0, 0, 0, 0.1);
+    0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Hover Effects */
+/* Dark Button Style */
+.dark-button {
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  color: #ffffff;
+  box-shadow: 
+    0 0 20px rgba(0, 0, 0, 0.3),
+    0 4px 15px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  outline: none;
+}
+
+.dark-button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+  box-shadow: 
+    0 0 30px rgba(0, 0, 0, 0.4),
+    0 8px 25px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Hover Effects - Dark Theme */
 .hover-lift {
   transition: all 0.3s ease;
 }
 
 .hover-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
 }
 
-/* Gradient Text */
+/* Gradient Text - Dark Theme */
 .gradient-text {
   background: linear-gradient(135deg, #ffffff 0%, #cccccc 100%);
   -webkit-background-clip: text;

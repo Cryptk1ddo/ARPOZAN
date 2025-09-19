@@ -88,7 +88,7 @@ const AdminPanel = () => {
         <title>ARPOZAN - Административная панель</title>
         <meta name="description" content="Административная панель ARPOZAN" />
       </Head>
-      <div className="min-h-screen bg-gray-50 dark:bg-black font-sans">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans">
         <Header 
           theme={theme}
           toggleTheme={toggleTheme}

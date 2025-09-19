@@ -167,26 +167,26 @@ const NotificationCenter = ({ isOpen, onClose }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+        className="fixed inset-0 bg-black dark:bg-black bg-opacity-50 dark:bg-opacity-50 z-50 flex items-center justify-center p-4"
         onClick={onClose}
       >
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden"
+          className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-hidden"
           onClick={e => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
+          <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="p-2 bg-black rounded-lg">
+                <div className="p-2 bg-blue-600 dark:bg-black rounded-lg">
                   <Icon path="M15 17h5l-5 5v-5z M9 5H4l5-5v5z M11 19h5l-5 5v-5z" className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-black">Центр уведомлений</h2>
-                  <p className="text-sm text-gray-600">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">Центр уведомлений</h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
                     {unreadCount > 0 ? `${unreadCount} непрочитанных` : 'Все уведомления прочитаны'}
                   </p>
                 </div>
@@ -212,8 +212,8 @@ const NotificationCenter = ({ isOpen, onClose }) => {
                   onClick={() => setFilter(filterOption.id)}
                   className={`px-3 py-1.5 rounded-lg text-sm transition-colors ${
                     filter === filterOption.id
-                      ? 'bg-black text-white'
-                      : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-300'
+                      ? 'bg-blue-600 dark:bg-black text-white'
+                      : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-300 dark:border-gray-600'
                   }`}
                 >
                   {filterOption.label} ({filterOption.count})
@@ -286,7 +286,7 @@ const NotificationCenter = ({ isOpen, onClose }) => {
                             </span>
                             <div className="flex items-center space-x-2">
                               {notification.action && (
-                                <button className="text-xs bg-black text-white px-2 py-1 rounded hover:bg-gray-800 transition-colors">
+                                <button className="text-xs bg-blue-600 dark:bg-black text-white px-2 py-1 rounded hover:bg-blue-700 dark:hover:bg-gray-800 transition-colors">
                                   {notification.action}
                                 </button>
                               )}
@@ -322,10 +322,10 @@ const NotificationCenter = ({ isOpen, onClose }) => {
                 Последнее обновление: {new Date().toLocaleTimeString('ru-RU')}
               </p>
               <div className="flex items-center space-x-2">
-                <button className="text-sm text-gray-600 hover:text-gray-800 transition-colors">
+                <button className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors">
                   Настройки уведомлений
                 </button>
-                <button className="text-sm bg-black text-white px-3 py-1.5 rounded-lg hover:bg-gray-800 transition-colors">
+                <button className="text-sm bg-blue-600 dark:bg-black text-white px-3 py-1.5 rounded-lg hover:bg-blue-700 dark:hover:bg-gray-800 transition-colors">
                   Экспорт
                 </button>
               </div>
